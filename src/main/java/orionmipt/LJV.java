@@ -1,3 +1,5 @@
+package orionmipt;
+
 //- LJV.java --- Generate a graph of an object, using Graphviz
 
 //- Author:     John Hamer <J.Hamer@cs.auckland.ac.nz>
