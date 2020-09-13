@@ -517,32 +517,12 @@ class LJV {
      Create a graph of the object rooted at <tt>obj</tt>.
    */
   public static void drawGraph( Context ctx, Object obj, String file ) {
-    try {
-      File        dotfile = ctx.keepDotFile == null ? File.createTempFile( "LJV", "dot" ) : new File( ctx.keepDotFile );
-      PrintWriter out     = new PrintWriter( new FileWriter( dotfile ) );
-      try {
-        generateDOT( ctx, obj, out );
-        out.close( );
-        Runtime.getRuntime( ).exec( new String[]{ DOT_COMMAND,
-                                                  "-T" + ctx.outputFormat,
-                                                  dotfile.toString( ),
-                                                  "-o", file }
-                                    ).waitFor( );
-      } catch( InterruptedException e ) { }
-      finally {
-        if( ctx.keepDotFile == null )
-          dotfile.delete( );
-      }
-    } catch( IOException e ) {
-      //- The Java designers would have us declare that this method
-      //- throws IOException, but that means every caller will need to
-      //- either explicitly throw or catch IOException as well.  Given
-      //- our target audience of not-so-confident novices, we decided it
-      //- was best to simply print the error and carry on.  It should
-      //- only happen if the java.io.tmpdir directory is not properly
-      //- configured (in which case lots of other thing probably won't
-      //- work also).
-      System.err.println( e );
+    try (
+      PrintWriter out = new PrintWriter(new FileWriter(file));
+    ) {
+      generateDOT(ctx, obj, out);
+    } catch (Exception e) {
+      System.err.println(e);
     }
   }
 
