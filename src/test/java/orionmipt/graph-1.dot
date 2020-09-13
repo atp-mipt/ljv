@@ -1,0 +1,7 @@
+digraph Java {
+n532854629[label="<f0>|<f1>",shape=record];
+n532854629:f0 -> n1971851377[label="0",fontsize=12];
+n1971851377[shape=record, label="a|b|c"];
+n532854629:f1 -> n712025048[label="1",fontsize=12];
+n712025048[shape=record, label="1|2|3"];
+}

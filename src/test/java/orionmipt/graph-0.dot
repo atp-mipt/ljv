@@ -1,0 +1,5 @@
+digraph Java {
+n1453128758[label="java.lang.String|{coder: 0|hash: 0|hashIsZero: false}",shape=record];
+n1453128758 -> n1131645570[label="value",fontsize=12];
+n1131645570[shape=record, label="72|101|108|108|111"];
+}
