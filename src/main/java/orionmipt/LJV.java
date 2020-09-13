@@ -70,7 +70,7 @@ class LJV {
        Set the DOT output file format.  E.g., <tt>ps</tt> for
        PostScript, <tt>png</tt> for PNG, etc.
      */
-    public String outputFormat = "png";
+    public String outputFormat = "dot";
 
     /**
        The name of the output file is derived from
