@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 public class LJVTest {
-    
-    static String expected_graph_0 = "digraph Java {\n" +
-        "n550402284[label=\"java.lang.String|{coder: 0|hash: 0}\",shape=record];\n" +
-        "n550402284 -> n1089418272[label=\"value\",fontsize=12];\n" +
-        "n1089418272[shape=record, label=\"72|101|108|108|111\"];\n" +
-        "}\n";
 
-    // static String expected_graph_1 = "digraph Java {\n" + "n532854629[label=\"<f0>|<f1>\",shape=record];\n"
+    static String expected_graph_0 = "digraph Java {\n" +
+            "n550402284[label=\"java.lang.String|{coder: 0|hash: 0}\",shape=record];\n" +
+            "n550402284 -> n1089418272[label=\"value\",fontsize=12];\n" +
+            "n1089418272[shape=record, label=\"72|101|108|108|111\"];\n" +
+            "}\n";
+
+//     static String expected_graph_1 = "digraph Java {\n" + "n532854629[label=\"<f0>|<f1>\",shape=record];\n"
     //         + "n532854629:f0 -> n1971851377[label=\"0\",fontsize=12];\n"
     //         + "n1971851377[shape=record, label=\"a|b|c\"];\n"
     //         + "n532854629:f1 -> n712025048[label=\"1\",fontsize=12];\n" + "n712025048[shape=record, label=\"1|2|3\"];\n"
@@ -101,7 +101,7 @@ public class LJVTest {
             //         System.out.println("|" + actual_graph_0.charAt(i) + "| |" + expected_graph_0.charAt(i) + "| " + i);
             //     }
             // }
-            
+
             // System.out.println(actual_graph_0);
             // System.out.println(expected_graph_0);
 
@@ -109,11 +109,13 @@ public class LJVTest {
         }
 
         // - Object arrays hold references; primitive arrays hold values
-        String actual_graph_1 = LJV.drawGraph(new Object[] { new String[] { "a", "b", "c" }, new int[] { 1, 2, 3 } });
+        String actual_graph_1 = LJV.drawGraph(new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}});
         String expected_graph_1 = "";
         try {
             expected_graph_1 = new String(Files.readAllBytes(Paths.get("graph_1.dot")));
-        } catch (IOException e) {e.printStackTrace();}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         assertEquals(expected_graph_1, actual_graph_1, "Primitive array case failed");
 
@@ -121,11 +123,13 @@ public class LJVTest {
             // - Assignment does not create a new object
             String x = "Hello";
             String y = x;
-            String actual_graph_2 = LJV.drawGraph(showAllCtx, new Object[] { x, y });
+            String actual_graph_2 = LJV.drawGraph(showAllCtx, new Object[]{x, y});
             String expected_graph_2 = "";
             try {
                 expected_graph_2 = new String(Files.readAllBytes(Paths.get("graph_2.dot")));
-            } catch (IOException e) {e.printStackTrace();}
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             assertEquals(expected_graph_2, actual_graph_2, "One link Hello case failed");
         }
@@ -133,11 +137,13 @@ public class LJVTest {
         {
             String x = "Hello";
             String y = new String(x);
-            String actual_graph_3 = LJV.drawGraph(showAllCtx, new Object[] { x, y });
+            String actual_graph_3 = LJV.drawGraph(showAllCtx, new Object[]{x, y});
             String expected_graph_3 = "";
             try {
                 expected_graph_3 = new String(Files.readAllBytes(Paths.get("graph_3.dot")));
-            } catch (IOException e) {e.printStackTrace();}
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             assertEquals(expected_graph_3, actual_graph_3, "Without duplicate hello case failed");
         }
@@ -147,7 +153,9 @@ public class LJVTest {
         String expected_graph_4 = "";
         try {
             expected_graph_4 = new String(Files.readAllBytes(Paths.get("graph_4.dot")));
-        } catch (IOException e) {e.printStackTrace();}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         assertEquals(expected_graph_4, actual_graph_4, "Multiarray case failed");
 
@@ -196,20 +204,24 @@ public class LJVTest {
         int level;
         boolean ok;
         Node left, right;
-        public Node( String n, int l ) {
-        name = n;
-        level = l;
-        ok = l%2 == 0;
-        }
-        public String toString( ) { return ""; }
-    }
 
+        public Node(String n, int l) {
+            name = n;
+            level = l;
+            ok = l % 2 == 0;
+        }
+
+        public String toString() {
+            return "";
+        }
+    }
 
 
     static class Person {
         private String name;
         private boolean isMale;
         private int age;
+
         public Person(String n, boolean m, int a) {
             name = n;
             isMale = m;
