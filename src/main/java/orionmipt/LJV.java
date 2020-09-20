@@ -30,513 +30,512 @@ import java.util.*;
 
 class LJV {
 
-  /* === SETUP BEGINS HERE === */
+    /* === SETUP BEGINS HERE === */
 
-  /**
-     Set this to the path of the DOT executable from the Graphviz
-     package that you downloaded and installed earlier.  You may not
-     need to do this if you updated your PATH with the Graphviz bin
-     directory.
-  */
-  private final static String DOT_COMMAND = "dot";
-
-  //- This is a common location of the DOT executable.  If the
-  //- visualizer does not work, try commenting out the declaration above
-  //- and uncommenting the one below.
-  //private final static String DOT_COMMAND = "c:/Program Files/ATT/Graphviz/bin/dot.exe";
-
-
-  //- You can customise this context for your particular needs.
-  static {
-    defaultContext = new Context( );
-    //defaultContext.ignorePrivateFields = true;
-    //defaultContext.treatAsPrimitive( Package.getPackage( "java.lang" ) );
-  }
-
-  /* === END OF SETUP ===  */
-
-  private static Context defaultContext;
-
-  public static void setDefaultContext( Context ctx ) {
-    defaultContext = ctx;
-  }
-
-  public static Context getDefaultContext( ) {
-    return defaultContext;
-  }
-
-  static class Context {
     /**
-       Set the DOT output file format.  E.g., <tt>ps</tt> for
-       PostScript, <tt>png</tt> for PNG, etc.
+     * Set this to the path of the DOT executable from the Graphviz
+     * package that you downloaded and installed earlier.  You may not
+     * need to do this if you updated your PATH with the Graphviz bin
+     * directory.
      */
-    public String outputFormat = "dot";
+    private final static String DOT_COMMAND = "dot";
 
-    /**
-       The name of the output file is derived from
-       <code>baseFileName</code> by appending successive integers.
-     */
-    public String baseFileName = "graph-";
-    private static int nextGraphNumber = 0;
+    //- This is a common location of the DOT executable.  If the
+    //- visualizer does not work, try commenting out the declaration above
+    //- and uncommenting the one below.
+    //private final static String DOT_COMMAND = "c:/Program Files/ATT/Graphviz/bin/dot.exe";
 
-    private String nextFileName( ) {
-      return baseFileName + nextGraphNumber++ + "." + outputFormat;
+
+    //- You can customise this context for your particular needs.
+    static {
+        defaultContext = new Context();
+        //defaultContext.ignorePrivateFields = true;
+        //defaultContext.treatAsPrimitive( Package.getPackage( "java.lang" ) );
     }
 
+    /* === END OF SETUP ===  */
 
-    /**
-       If null (the default), the DOT file is written to a temporary
-       file which is then deleted.<p/>
+    private static Context defaultContext;
 
-       If non-null, the DOT file is left in this file.  This is only
-       really useful for debugging Graphviz.java.<p/>
-    */
-    public String keepDotFile = null;
-
-    /**
-       Set the DOT attributes for a class.  This allows you to change the
-       appearance of certain nodes in the output, but requires that you
-       know something about dot attributes.  Simple attributes are, e.g.,
-       "color=red".
-    */
-    public void setClassAttribute( Class cz, String attrib ) {
-      classAttributeMap.put( cz, attrib );
+    public static void setDefaultContext(Context ctx) {
+        defaultContext = ctx;
     }
 
-    /**
-       Set the DOT attributes for a specific field. This allows you to
-       change the appearance of certain edges in the output, but requires
-       that you know something about dot attributes.  Simple attributes
-       are, e.g., "color=blue".
-    */
-    public void setFieldAttribute( Field field, String attrib ) {
-      fieldAttributeMap.put( field, attrib );
-    }
-    
-    /**
-       Set the DOT attributes for all fields with this name.
-    */
-    public void setFieldAttribute( String field, String attrib ) {
-      fieldAttributeMap.put( field, attrib );
+    public static Context getDefaultContext() {
+        return defaultContext;
     }
 
-    /**
-       Do not display this field.
-    */
-    public void ignoreField( Field field ) {
-      ignoreSet.add( field );
-    }
+    static class Context {
+        /**
+         * Set the DOT output file format.  E.g., <tt>ps</tt> for
+         * PostScript, <tt>png</tt> for PNG, etc.
+         */
+        public String outputFormat = "dot";
 
-    /**
-       Do not display any fields with this name.
-    */
-    public void ignoreField( String field ) {
-      ignoreSet.add( field );
-    }
-    
-    /**
-       Do not display any fields from this class.
-    */
-    public void ignoreFields( Class cz ) {
-      Field[] fs = cz.getDeclaredFields( );
-      for( int i = 0; i < fs.length; i++ )
-        ignoreField( fs[i] );
-    }
-    
-    /**
-       Do not display any fields with this type.
-    */
-    public void ignoreClass( Class cz ) {
-      ignoreSet.add( cz );
-    }
+        /**
+         * The name of the output file is derived from
+         * <code>baseFileName</code> by appending successive integers.
+         */
+        public String baseFileName = "graph-";
+        private static int nextGraphNumber = 0;
 
-    /**
-       Do not display any fields that have a type from this package.
-    */
-    public void ignorePackage( Package pk ) {
-      ignoreSet.add( pk );
-    }
-
-    /**
-       Treat objects of this class as primitives; i.e., <code>toString</code>
-       is called on the object, and the result displayed in the label like
-       a primitive field.  
-    */
-    public void treatAsPrimitive( Class cz ) {
-      pretendPrimitiveSet.add( cz );
-    }
-    
-    /**
-       Treat objects from this package as primitives; i.e.,
-       <code>toString</code> is called on the object, and the result displayed
-       in the label like a primitive field.
-    */
-    public void treatAsPrimitive( Package pk ) {
-      pretendPrimitiveSet.add( pk );
-    }
-    
-    private Map classAttributeMap   = new HashMap( );
-    private Map fieldAttributeMap   = new HashMap( );
-    private Set pretendPrimitiveSet = new HashSet( );
-    private Set ignoreSet           = new HashSet( );
+        private String nextFileName() {
+            return baseFileName + nextGraphNumber++ + "." + outputFormat;
+        }
 
 
-    /**
-       Allow private, protected and package-access fields to be shown.
-       This is only possible if the security manager allows
-       <code>ReflectPermission("suppressAccessChecks")</code> permission.
-       This is usually the case when running from an application, but
-       not from an applet or servlet.
-    */
-    public boolean ignorePrivateFields = false;
-  
+        /**
+         * If null (the default), the DOT file is written to a temporary
+         * file which is then deleted.<p/>
+         * <p>
+         * If non-null, the DOT file is left in this file.  This is only
+         * really useful for debugging Graphviz.java.<p/>
+         */
+        public String keepDotFile = null;
 
-    /**
-       Toggle whether or not to include the field name in the label for an
-       object.  This is currently all-or-nothing.  TODO: allow this to be
-       set on a per-class basis.
-    */
-    public boolean showFieldNamesInLabels = true;
+        /**
+         * Set the DOT attributes for a class.  This allows you to change the
+         * appearance of certain nodes in the output, but requires that you
+         * know something about dot attributes.  Simple attributes are, e.g.,
+         * "color=red".
+         */
+        public void setClassAttribute(Class cz, String attrib) {
+            classAttributeMap.put(cz, attrib);
+        }
 
-    /**
-       Toggle whether to display the class name in the label for an
-       object (false, the default) or to use the result of calling
-       toString (true).
-     */
-    //public boolean useToStringAsClassName = false;
+        /**
+         * Set the DOT attributes for a specific field. This allows you to
+         * change the appearance of certain edges in the output, but requires
+         * that you know something about dot attributes.  Simple attributes
+         * are, e.g., "color=blue".
+         */
+        public void setFieldAttribute(Field field, String attrib) {
+            fieldAttributeMap.put(field, attrib);
+        }
 
-    /**
-       Toggle whether to display qualified nested class names in the
-       label for an object from the same package as LJV (true) or
-       to display an abbreviated name (false, the default).
-     */
-    public boolean qualifyNestedClassNames = false;
-    public boolean showPackageNamesInClasses = true;
+        /**
+         * Set the DOT attributes for all fields with this name.
+         */
+        public void setFieldAttribute(String field, String attrib) {
+            fieldAttributeMap.put(field, attrib);
+        }
 
-    private boolean canTreatAsPrimitive( Object obj ) {
-      return obj == null || canTreatClassAsPrimitive( obj.getClass( ) );
-    }
+        /**
+         * Do not display this field.
+         */
+        public void ignoreField(Field field) {
+            ignoreSet.add(field);
+        }
+
+        /**
+         * Do not display any fields with this name.
+         */
+        public void ignoreField(String field) {
+            ignoreSet.add(field);
+        }
+
+        /**
+         * Do not display any fields from this class.
+         */
+        public void ignoreFields(Class cz) {
+            Field[] fs = cz.getDeclaredFields();
+            for (int i = 0; i < fs.length; i++)
+                ignoreField(fs[i]);
+        }
+
+        /**
+         * Do not display any fields with this type.
+         */
+        public void ignoreClass(Class cz) {
+            ignoreSet.add(cz);
+        }
+
+        /**
+         * Do not display any fields that have a type from this package.
+         */
+        public void ignorePackage(Package pk) {
+            ignoreSet.add(pk);
+        }
+
+        /**
+         * Treat objects of this class as primitives; i.e., <code>toString</code>
+         * is called on the object, and the result displayed in the label like
+         * a primitive field.
+         */
+        public void treatAsPrimitive(Class cz) {
+            pretendPrimitiveSet.add(cz);
+        }
+
+        /**
+         * Treat objects from this package as primitives; i.e.,
+         * <code>toString</code> is called on the object, and the result displayed
+         * in the label like a primitive field.
+         */
+        public void treatAsPrimitive(Package pk) {
+            pretendPrimitiveSet.add(pk);
+        }
+
+        private Map classAttributeMap = new HashMap();
+        private Map fieldAttributeMap = new HashMap();
+        private Set pretendPrimitiveSet = new HashSet();
+        private Set ignoreSet = new HashSet();
 
 
-    private boolean canTreatClassAsPrimitive( Class cz ) {
-      if( cz == null || cz.isPrimitive( ) )
-        return true;
+        /**
+         * Allow private, protected and package-access fields to be shown.
+         * This is only possible if the security manager allows
+         * <code>ReflectPermission("suppressAccessChecks")</code> permission.
+         * This is usually the case when running from an application, but
+         * not from an applet or servlet.
+         */
+        public boolean ignorePrivateFields = false;
 
-      if( cz.isArray( ) )
-        return false;
 
-      do {
-        if( pretendPrimitiveSet.contains( cz )
-         || pretendPrimitiveSet.contains( cz.getPackage( ) )
-            )
-          return true;
+        /**
+         * Toggle whether or not to include the field name in the label for an
+         * object.  This is currently all-or-nothing.  TODO: allow this to be
+         * set on a per-class basis.
+         */
+        public boolean showFieldNamesInLabels = true;
 
-        if( cz == Object.class )
-          return false;
+        /**
+         Toggle whether to display the class name in the label for an
+         object (false, the default) or to use the result of calling
+         toString (true).
+         */
+        //public boolean useToStringAsClassName = false;
 
-        Class[] ifs = cz.getInterfaces( );
-        for( int i = 0; i < ifs.length; i++ )
-          if( canTreatClassAsPrimitive( ifs[i] ) )
+        /**
+         * Toggle whether to display qualified nested class names in the
+         * label for an object from the same package as LJV (true) or
+         * to display an abbreviated name (false, the default).
+         */
+        public boolean qualifyNestedClassNames = false;
+        public boolean showPackageNamesInClasses = true;
+
+        private boolean canTreatAsPrimitive(Object obj) {
+            return obj == null || canTreatClassAsPrimitive(obj.getClass());
+        }
+
+
+        private boolean canTreatClassAsPrimitive(Class cz) {
+            if (cz == null || cz.isPrimitive())
+                return true;
+
+            if (cz.isArray())
+                return false;
+
+            do {
+                if (pretendPrimitiveSet.contains(cz)
+                        || pretendPrimitiveSet.contains(cz.getPackage())
+                )
+                    return true;
+
+                if (cz == Object.class)
+                    return false;
+
+                Class[] ifs = cz.getInterfaces();
+                for (int i = 0; i < ifs.length; i++)
+                    if (canTreatClassAsPrimitive(ifs[i]))
+                        return true;
+
+                cz = cz.getSuperclass();
+            } while (cz != null);
+            return false;
+        }
+
+
+        private boolean looksLikePrimitiveArray(Object obj) {
+            Class c = obj.getClass();
+            if (c.getComponentType().isPrimitive())
+                return true;
+
+            for (int i = 0, len = Array.getLength(obj); i < len; i++)
+                if (!canTreatAsPrimitive(Array.get(obj, i)))
+                    return false;
             return true;
-
-        cz = cz.getSuperclass( );
-      } while( cz != null );
-      return false;
-    }
-
-
-    private boolean looksLikePrimitiveArray( Object obj ) {
-      Class c = obj.getClass( );
-      if( c.getComponentType( ).isPrimitive( ) )
-        return true;
-
-      for( int i = 0, len = Array.getLength( obj ); i < len; i++ )
-        if( ! canTreatAsPrimitive( Array.get(obj, i) ) )
-          return false;
-      return true;
-    }
-
-
-    private boolean canIgnoreField( Field field ) {
-      return
-        Modifier.isStatic( field.getModifiers( ) )
-        || ignoreSet.contains( field )
-        || ignoreSet.contains( field.getName( ) )
-        || ignoreSet.contains( field.getType( ) )
-        || ignoreSet.contains( field.getType( ).getPackage( ) )
-        ;
-    }
-
-
-    protected String className( Object obj, boolean useToStringAsClassName ) {
-      if( obj == null )
-        return "";
-
-      Class c = obj.getClass( );
-      if( useToStringAsClassName && redefinesToString( obj ) )
-        return quote(obj.toString( ));
-      else {
-        String name = c.getName( );
-        if( ! showPackageNamesInClasses || c.getPackage( ) == LJV.class.getPackage( ) ) {
-          //- Strip away everything before the last .
-          name = name.substring( name.lastIndexOf( '.' )+1 );
-          
-          if( ! qualifyNestedClassNames )
-            name = name.substring( name.lastIndexOf( '$' )+1 );
         }
-        return name;
-      }
-    }
-  }
-
-  //- Wrapper for objects that get visited.
-  private static class VisitedObject {
-    Object obj;
-    VisitedObject( Object obj ) {
-      this.obj = obj;
-    }
-
-    public boolean equals( Object other ) {
-      return obj == ((VisitedObject)other).obj;
-    }
-
-    public int hashCode( ) {
-      return System.identityHashCode( obj );
-    }
-  }
 
 
-  public static Context newContext( ) {
-    return new Context( );
-  }
+        private boolean canIgnoreField(Field field) {
+            return
+                    Modifier.isStatic(field.getModifiers())
+                            || ignoreSet.contains(field)
+                            || ignoreSet.contains(field.getName())
+                            || ignoreSet.contains(field.getType())
+                            || ignoreSet.contains(field.getType().getPackage())
+                    ;
+        }
 
 
-  private static String dotName( Object obj ) {
-    //- System.identityHashCode is a cheap way of generating a unique
-    //- label for an object.  It relies on identityHashCode returning a
-    //- memory address, which is true in at least Java 1.3 and 1.4.  If
-    //- it ceases to be true, VisitedObject will need to be made to
-    //- generate unique numbers.
-    return "n" + System.identityHashCode( obj );
-  }
+        protected String className(Object obj, boolean useToStringAsClassName) {
+            if (obj == null)
+                return "";
 
-  private static boolean redefinesToString( Object obj ) {
-    Method[] ms = obj.getClass( ).getMethods( );
-    for( int i = 0; i < ms.length; i++ )
-      if( ms[i].getName( ).equals( "toString" ) && ms[i].getDeclaringClass( ) != Object.class )
-        return true;
-    return false;
-  }
+            Class c = obj.getClass();
+            if (useToStringAsClassName && redefinesToString(obj))
+                return quote(obj.toString());
+            else {
+                String name = c.getName();
+                if (!showPackageNamesInClasses || c.getPackage() == LJV.class.getPackage()) {
+                    //- Strip away everything before the last .
+                    name = name.substring(name.lastIndexOf('.') + 1);
 
-
-  private static boolean fieldExistsAndIsPrimitive( Context ctx, Field field, Object obj ) {
-    if( ! ctx.canIgnoreField( field ) ) {
-      try {
-        //- The order of these statements matters.  If field is not
-        //- accessible, we want an IllegalAccessException to be raised
-        //- (and caught).  It is not correct to return true if
-        //- field.getType( ).isPrimitive( )
-        Object val = field.get( obj );
-        if( field.getType( ).isPrimitive( ) || ctx.canTreatAsPrimitive( val ) )
-          //- Just calling ctx.canTreatAsPrimitive is not adequate --
-          //- val will be wrapped as a Boolean or Character, etc. if we
-          //- are dealing with a truly primitive type.
-          return true;
-      } catch( IllegalAccessException e ) { }
+                    if (!qualifyNestedClassNames)
+                        name = name.substring(name.lastIndexOf('$') + 1);
+                }
+                return name;
+            }
+        }
     }
 
-    return false;
-  }
+    //- Wrapper for objects that get visited.
+    private static class VisitedObject {
+        Object obj;
 
-  private static boolean hasPrimitiveFields( Context ctx, Field[] fs, Object obj ) {
-    for( int i = 0; i < fs.length; i++ )
-      if( fieldExistsAndIsPrimitive( ctx, fs[i], obj ) )
-        return true;
-    return false;
-  }
+        VisitedObject(Object obj) {
+            this.obj = obj;
+        }
 
+        public boolean equals(Object other) {
+            return obj == ((VisitedObject) other).obj;
+        }
 
-  private static final String canAppearUnquotedInLabelChars = " $&*@#!-+()^%;[],;.=";
-  private static boolean canAppearUnquotedInLabel( char c ) {
-    return canAppearUnquotedInLabelChars.indexOf( c ) != -1
-      || Character.isLetter( c )
-      || Character.isDigit( c )
-      ;
-  }
-
-  private static final String quotable = "\"<>{}|";
-
-  private static String quote( String s ) {
-    StringBuffer sb = new StringBuffer( );
-    for( int i = 0, n = s.length( ); i < n; i++ ) {
-      char c = s.charAt(i);
-      if( quotable.indexOf(c) != -1 )
-        sb.append( '\\' ).append( c );
-      else
-        if( canAppearUnquotedInLabel( c ) )
-          sb.append( c );
-        else
-          sb.append("\\\\0u" ).append( Integer.toHexString( (int)c ) );
+        public int hashCode() {
+            return System.identityHashCode(obj);
+        }
     }
-    return sb.toString( );
-  }
 
 
-  protected static void processPrimitiveArray( Object obj, PrintWriter out ) {
-    out.print( dotName( obj ) + "[shape=record, label=\"" );
-    for( int i = 0, len = Array.getLength( obj ); i < len; i++ ) {
-      if( i != 0 )
-        out.print( "|" );
-      out.print( quote(String.valueOf( Array.get(obj, i) )) );
+    public static Context newContext() {
+        return new Context();
     }
-    out.println( "\"];" );
-  }
 
+    private static final IdGenerator idGenerator = new IdGenerator();
 
-  protected static void processObjectArray( Context ctx, Object obj, PrintWriter out, Set visited ) {
-    out.print( dotName( obj ) + "[label=\"" );
-    int len = Array.getLength( obj );
-    for( int i = 0; i < len; i++ ) {
-      if( i != 0 )
-        out.print( "|" );
-      out.print( "<f" + i + ">" );
+    private static String dotName(Object obj) {
+        return idGenerator.getId(obj);
     }
-    out.println( "\",shape=record];" );
-    for( int i = 0; i < len; i++ ) {
-      Object ref = Array.get( obj, i );
-      if( ref == null )
-        continue;
-      out.println( dotName( obj ) + ":f" + i + " -> " + dotName( ref )
-                   + "[label=\"" + i + "\",fontsize=12];" );
-      generateDotInternal( ctx, ref, out, visited );
+
+    private static boolean redefinesToString(Object obj) {
+        Method[] ms = obj.getClass().getMethods();
+        for (int i = 0; i < ms.length; i++)
+            if (ms[i].getName().equals("toString") && ms[i].getDeclaringClass() != Object.class)
+                return true;
+        return false;
     }
-  }
 
 
-  protected static void labelObjectWithSomePrimitiveFields( Context ctx, Object obj, Field[] fs, PrintWriter out ) {
-    Object cabs  = ctx.classAttributeMap.get( obj.getClass( ) );
-    out.print( dotName( obj ) + "[label=\"" + ctx.className( obj, false ) + "|{" );
-    String sep = "";
-    for( int i = 0; i < fs.length; i++ ) {
-      Field field = fs[i];
-      if( ! ctx.canIgnoreField( field ) )
-        try {
-          Object ref = field.get( obj );
-          if( field.getType( ).isPrimitive( ) || ctx.canTreatAsPrimitive( ref ) ) {
-            if( ctx.showFieldNamesInLabels )
-              out.print( sep + field.getName( ) + ": " + quote(String.valueOf( ref )) );
+    private static boolean fieldExistsAndIsPrimitive(Context ctx, Field field, Object obj) {
+        if (!ctx.canIgnoreField(field)) {
+            try {
+                //- The order of these statements matters.  If field is not
+                //- accessible, we want an IllegalAccessException to be raised
+                //- (and caught).  It is not correct to return true if
+                //- field.getType( ).isPrimitive( )
+                Object val = field.get(obj);
+                if (field.getType().isPrimitive() || ctx.canTreatAsPrimitive(val))
+                    //- Just calling ctx.canTreatAsPrimitive is not adequate --
+                    //- val will be wrapped as a Boolean or Character, etc. if we
+                    //- are dealing with a truly primitive type.
+                    return true;
+            } catch (IllegalAccessException e) {
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean hasPrimitiveFields(Context ctx, Field[] fs, Object obj) {
+        for (int i = 0; i < fs.length; i++)
+            if (fieldExistsAndIsPrimitive(ctx, fs[i], obj))
+                return true;
+        return false;
+    }
+
+
+    private static final String canAppearUnquotedInLabelChars = " $&*@#!-+()^%;[],;.=";
+
+    private static boolean canAppearUnquotedInLabel(char c) {
+        return canAppearUnquotedInLabelChars.indexOf(c) != -1
+                || Character.isLetter(c)
+                || Character.isDigit(c)
+                ;
+    }
+
+    private static final String quotable = "\"<>{}|";
+
+    private static String quote(String s) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0, n = s.length(); i < n; i++) {
+            char c = s.charAt(i);
+            if (quotable.indexOf(c) != -1)
+                sb.append('\\').append(c);
+            else if (canAppearUnquotedInLabel(c))
+                sb.append(c);
             else
-              out.print( sep + quote(String.valueOf( ref )) );
-            sep = "|";
-          }
-        } catch( IllegalAccessException e ) { }
-    }
-
-    out.println( "}\"" + (cabs == null ? "" : "," + cabs) + ",shape=record];" );
-  }
-
-
-  protected static void labelObjectWithNoPrimitiveFields( Context ctx, Object obj, PrintWriter out ) {
-    Object cabs  = ctx.classAttributeMap.get( obj.getClass( ) );
-    out.println( dotName( obj )
-                 + "[label=\"" + ctx.className( obj, true ) + "\""
-                 + (cabs == null ? "" : "," + cabs)
-                 + "];" );
-  }
-
-  protected static void processFields( Context ctx, Object obj, Field[] fs, PrintWriter out, Set visited ) {
-    for( int i = 0; i < fs.length; i++ ) {
-      Field field = fs[i];
-      if( ! ctx.canIgnoreField( field ) ) {
-        try {
-          Object ref = field.get( obj );
-          if( field.getType( ).isPrimitive( ) || ctx.canTreatAsPrimitive( ref ) )
-            //- The field might be declared, say, Object, but the actual
-            //- object may be, say, a String.
-            continue;
-          String name = field.getName( );
-          Object fabs = ctx.fieldAttributeMap.get( field );
-          if( fabs == null )
-            fabs = ctx.fieldAttributeMap.get( name );
-          out.println( dotName( obj ) + " -> " + dotName( ref )
-                       + "[label=\"" + name + "\",fontsize=12"
-                       + (fabs == null ? "" : "," + fabs)
-                       + "];" );
-          generateDotInternal( ctx, ref, out, visited );
-        } catch( IllegalAccessException e ) { }
-      }
-    }
-  }
-
-  protected static void generateDotInternal( Context ctx, Object obj, PrintWriter out, Set visited )
-    throws IllegalArgumentException
-  {
-    if( visited.add( new VisitedObject(obj) ) ) {
-      if( obj == null )
-        out.println( dotName( obj ) + "[label=\"null\"" + ", shape=plaintext];" );
-      else {
-        Class c = obj.getClass( );
-        if( c.isArray( ) ) {
-          if( ctx.looksLikePrimitiveArray( obj ) )
-            processPrimitiveArray( obj, out );
-          else 
-            processObjectArray( ctx, obj, out, visited );
-        } else {
-          Field[] fs = c.getDeclaredFields( );
-          if( ! ctx.ignorePrivateFields )
-            AccessibleObject.setAccessible( fs, true );
-
-          if( hasPrimitiveFields( ctx, fs, obj ) )
-            labelObjectWithSomePrimitiveFields( ctx, obj, fs, out );
-          else
-            labelObjectWithNoPrimitiveFields( ctx, obj, out );
-          
-          processFields( ctx, obj, fs, out, visited );
-
-          //- If we cared, we would take the trouble to check which
-          //- fields were accessible when we started, and carefully
-          //- restore them.  Leaving them accessible does no real harm.
-          // if( ! ctx.ignorePrivateFields )
-          //   AccessibleObject.setAccessible( fs, false );
+                sb.append("\\\\0u").append(Integer.toHexString((int) c));
         }
-      }
+        return sb.toString();
     }
-  }
 
-  /**
-     Write a DOT digraph specification of the graph rooted at
-     <tt>obj</tt> to <tt>out</tt>.
-   */
-  public static void generateDOT( Context ctx, Object obj, PrintWriter out ) {
-    out.println( "digraph Java {" );
-    generateDotInternal( ctx, obj, out, new HashSet( ) );
-    out.println( "}" );
-  }
 
-  /**
-     Create a graph of the object rooted at <tt>obj</tt>.
-   */
-  public static void drawGraph( Context ctx, Object obj, String file ) {
-    try (
-      PrintWriter out = new PrintWriter(new FileWriter(file));
-    ) {
-      generateDOT(ctx, obj, out);
-    } catch (Exception e) {
-      System.err.println(e);
+    protected static void processPrimitiveArray(Object obj, PrintWriter out) {
+        out.print(dotName(obj) + "[shape=record, label=\"");
+        for (int i = 0, len = Array.getLength(obj); i < len; i++) {
+            if (i != 0)
+                out.print("|");
+            out.print(quote(String.valueOf(Array.get(obj, i))));
+        }
+        out.println("\"];");
     }
-  }
 
-  public static void drawGraph( Context ctx, Object obj ) {
-    drawGraph( ctx, obj, ctx.nextFileName( ) );
-  }
 
-  public static void drawGraphToFile( Object obj, String file ) {
-    drawGraph( defaultContext, obj, file );
-  }
+    protected static void processObjectArray(Context ctx, Object obj, PrintWriter out, Set visited) {
+        out.print(dotName(obj) + "[label=\"");
+        int len = Array.getLength(obj);
+        for (int i = 0; i < len; i++) {
+            if (i != 0)
+                out.print("|");
+            out.print("<f" + i + ">");
+        }
+        out.println("\",shape=record];");
+        for (int i = 0; i < len; i++) {
+            Object ref = Array.get(obj, i);
+            if (ref == null)
+                continue;
+            out.println(dotName(obj) + ":f" + i + " -> " + dotName(ref)
+                    + "[label=\"" + i + "\",fontsize=12];");
+            generateDotInternal(ctx, ref, out, visited);
+        }
+    }
 
-  public static void drawGraph( Object obj ) {
-    drawGraph( defaultContext, obj );
-  }
+
+    protected static void labelObjectWithSomePrimitiveFields(Context ctx, Object obj, Field[] fs, PrintWriter out) {
+        Object cabs = ctx.classAttributeMap.get(obj.getClass());
+        out.print(dotName(obj) + "[label=\"" + ctx.className(obj, false) + "|{");
+        String sep = "";
+        for (int i = 0; i < fs.length; i++) {
+            Field field = fs[i];
+            if (!ctx.canIgnoreField(field))
+                try {
+                    Object ref = field.get(obj);
+                    if (field.getType().isPrimitive() || ctx.canTreatAsPrimitive(ref)) {
+                        if (ctx.showFieldNamesInLabels)
+                            out.print(sep + field.getName() + ": " + quote(String.valueOf(ref)));
+                        else
+                            out.print(sep + quote(String.valueOf(ref)));
+                        sep = "|";
+                    }
+                } catch (IllegalAccessException e) {
+                }
+        }
+
+        out.println("}\"" + (cabs == null ? "" : "," + cabs) + ",shape=record];");
+    }
+
+
+    protected static void labelObjectWithNoPrimitiveFields(Context ctx, Object obj, PrintWriter out) {
+        Object cabs = ctx.classAttributeMap.get(obj.getClass());
+        out.println(dotName(obj)
+                + "[label=\"" + ctx.className(obj, true) + "\""
+                + (cabs == null ? "" : "," + cabs)
+                + "];");
+    }
+
+    protected static void processFields(Context ctx, Object obj, Field[] fs, PrintWriter out, Set visited) {
+        for (int i = 0; i < fs.length; i++) {
+            Field field = fs[i];
+            if (!ctx.canIgnoreField(field)) {
+                try {
+                    Object ref = field.get(obj);
+                    if (field.getType().isPrimitive() || ctx.canTreatAsPrimitive(ref))
+                        //- The field might be declared, say, Object, but the actual
+                        //- object may be, say, a String.
+                        continue;
+                    String name = field.getName();
+                    Object fabs = ctx.fieldAttributeMap.get(field);
+                    if (fabs == null)
+                        fabs = ctx.fieldAttributeMap.get(name);
+                    out.println(dotName(obj) + " -> " + dotName(ref)
+                            + "[label=\"" + name + "\",fontsize=12"
+                            + (fabs == null ? "" : "," + fabs)
+                            + "];");
+                    generateDotInternal(ctx, ref, out, visited);
+                } catch (IllegalAccessException e) {
+                }
+            }
+        }
+    }
+
+    protected static void generateDotInternal(Context ctx, Object obj, PrintWriter out, Set visited)
+            throws IllegalArgumentException {
+        if (visited.add(new VisitedObject(obj))) {
+            if (obj == null)
+                out.println(dotName(obj) + "[label=\"null\"" + ", shape=plaintext];");
+            else {
+                Class c = obj.getClass();
+                if (c.isArray()) {
+                    if (ctx.looksLikePrimitiveArray(obj))
+                        processPrimitiveArray(obj, out);
+                    else
+                        processObjectArray(ctx, obj, out, visited);
+                } else {
+                    Field[] fs = c.getDeclaredFields();
+                    if (!ctx.ignorePrivateFields)
+                        AccessibleObject.setAccessible(fs, true);
+
+                    if (hasPrimitiveFields(ctx, fs, obj))
+                        labelObjectWithSomePrimitiveFields(ctx, obj, fs, out);
+                    else
+                        labelObjectWithNoPrimitiveFields(ctx, obj, out);
+
+                    processFields(ctx, obj, fs, out, visited);
+
+                    //- If we cared, we would take the trouble to check which
+                    //- fields were accessible when we started, and carefully
+                    //- restore them.  Leaving them accessible does no real harm.
+                    // if( ! ctx.ignorePrivateFields )
+                    //   AccessibleObject.setAccessible( fs, false );
+                }
+            }
+        }
+    }
+
+    /**
+     * Write a DOT digraph specification of the graph rooted at
+     * <tt>obj</tt> to <tt>out</tt>.
+     */
+    public static void generateDOT(Context ctx, Object obj, PrintWriter out) {
+        out.println("digraph Java {");
+        generateDotInternal(ctx, obj, out, new HashSet());
+        out.println("}");
+    }
+
+    /**
+     * Create a graph of the object rooted at <tt>obj</tt>.
+     */
+    public static void drawGraph(Context ctx, Object obj, String file) {
+        try (
+                PrintWriter out = new PrintWriter(new FileWriter(file));
+        ) {
+            generateDOT(ctx, obj, out);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
+    public static void drawGraph(Context ctx, Object obj) {
+        drawGraph(ctx, obj, ctx.nextFileName());
+    }
+
+    public static void drawGraphToFile(Object obj, String file) {
+        drawGraph(defaultContext, obj, file);
+    }
+
+    public static void drawGraph(Object obj) {
+        drawGraph(defaultContext, obj);
+    }
 
 }
 //- LJV.java ends here
