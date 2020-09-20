@@ -29,27 +29,7 @@ import java.lang.reflect.*;
 import java.util.*;
 
 class LJV {
-
-    private Context context;
-
     private final IdGenerator idGenerator = new IdGenerator();
-
-    LJV(Context context) {
-        this.context = context;
-    }
-
-    LJV() {
-        context = new Context();
-    }
-
-
-    public void setContext(Context ctx) {
-        context = ctx;
-    }
-
-    public Context getContext() {
-        return context;
-    }
 
     private String dotName(Object obj) {
         return idGenerator.getId(obj);

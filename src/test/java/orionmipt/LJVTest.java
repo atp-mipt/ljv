@@ -10,19 +10,17 @@ import org.junit.jupiter.api.Test;
 public class LJVTest {
 
     private static LJV ljv;
-    private static Context context;
 
     @BeforeEach
     void initAll() {
-        context = new Context();
-        ljv = new LJV(new Context());
+        ljv = new LJV();
     }
 
 
     @Test
     void StringIsNotAPrimitiveType() {
 
-        String actual_graph_0 = ljv.drawGraph(context, "Hello");
+        String actual_graph_0 = ljv.drawGraph("Hello");
 
         String expected_graph_0 = "digraph Java {\n" +
                 "n1[label=\"java.lang.String|{coder: 0|hash: 0}\",shape=record];\n" +
@@ -56,7 +54,7 @@ public class LJVTest {
     void AssignmentDoesNotCreateANewObject() {
         String x = "Hello";
         String y = x;
-        String actual_graph_2 = ljv.drawGraph(context, new Object[]{x, y});
+        String actual_graph_2 = ljv.drawGraph(new Object[]{x, y});
 
         String expected_graph_2 = "digraph Java {\n"
                 + "n1[label=\"<f0>|<f1>\",shape=record];\n"
@@ -75,7 +73,7 @@ public class LJVTest {
     void AssignmentWithNewCreateANewObject() {
         String x = "Hello";
         String y = new String(x);
-        String actual_graph_3 = ljv.drawGraph(context, new Object[]{x, y});
+        String actual_graph_3 = ljv.drawGraph(new Object[]{x, y});
 
         String expected_graph_3 = "digraph Java {\n"
                 + "n1[label=\"<f0>|<f1>\",shape=record];\n"
