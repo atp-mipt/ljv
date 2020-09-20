@@ -16,6 +16,10 @@ hs_err_pid*
 
 ####### END OF JAVA #########
 
+#IDEA
+.idea
+ljv.iml
+
 
 
 
