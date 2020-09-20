@@ -1,0 +1,9 @@
+digraph Java {
+n440737101[label="Node|{top}",color=pink,style=filled,shape=record];
+n440737101 -> n369049246[label="left",fontsize=12,color=red,fontcolor=red];
+n369049246[label="Node|{left|null|null}",color=pink,style=filled,shape=record];
+n440737101 -> n1608297024[label="right",fontsize=12,color=blue,fontcolor=blue];
+n1608297024[label="Node|{right}",color=pink,style=filled,shape=record];
+n1608297024 -> n440737101[label="left",fontsize=12,color=red,fontcolor=red];
+n1608297024 -> n440737101[label="right",fontsize=12,color=blue,fontcolor=blue];
+}
