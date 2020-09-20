@@ -9,22 +9,20 @@ import org.junit.jupiter.api.Test;
 
 public class LJVTest {
 
-    private static LJV.Context context;
+    private static LJV ljv;
+    private static Context context;
 
     @BeforeEach
     void initAll() {
-        LJV.Context def = LJV.getDefaultContext();
-        def.treatAsPrimitive(String.class);
-
-        context = new LJV.Context();
-        context.ignorePrivateFields = false;
+        context = new Context();
+        ljv = new LJV(new Context());
     }
 
 
     @Test
     void StringIsNotAPrimitiveType() {
 
-        String actual_graph_0 = LJV.drawGraph(context, "Hello");
+        String actual_graph_0 = ljv.drawGraph(context, "Hello");
 
         String expected_graph_0 = "digraph Java {\n" +
                 "n1[label=\"java.lang.String|{coder: 0|hash: 0}\",shape=record];\n" +
@@ -37,12 +35,19 @@ public class LJVTest {
 
     @Test
     void ObjectArraysHoldReferencesPrimitiveArraysHoldValues() {
-        String actual_graph_1 = LJV.drawGraph(new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}});
-        String expected_graph_1 = "digraph Java {\n" + "n532854629[label=\"<f0>|<f1>\",shape=record];\n"
-                + "n532854629:f0 -> n1971851377[label=\"0\",fontsize=12];\n"
-                + "n1971851377[shape=record, label=\"a|b|c\"];\n"
-                + "n532854629:f1 -> n712025048[label=\"1\",fontsize=12];\n" + "n712025048[shape=record, label=\"1|2|3\"];\n"
+        Context ctx = new Context();
+        ctx.treatAsPrimitive(String.class);
+        ctx.ignorePrivateFields = false;
+
+        String actual_graph_1 = ljv.drawGraph(ctx, new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}});
+        String expected_graph_1 = "digraph Java {\n"
+                + "n1[label=\"<f0>|<f1>\",shape=record];\n"
+                + "n1:f0 -> n2[label=\"0\",fontsize=12];\n"
+                + "n2[shape=record, label=\"a|b|c\"];\n"
+                + "n1:f1 -> n3[label=\"1\",fontsize=12];\n"
+                + "n3[shape=record, label=\"1|2|3\"];\n"
                 + "}\n";
+
 
         assertEquals(expected_graph_1, actual_graph_1, "Primitive array case failed");
     }
@@ -51,7 +56,7 @@ public class LJVTest {
     void AssignmentDoesNotCreateANewObject() {
         String x = "Hello";
         String y = x;
-        String actual_graph_2 = LJV.drawGraph(context, new Object[]{x, y});
+        String actual_graph_2 = ljv.drawGraph(context, new Object[]{x, y});
 
         String expected_graph_2 = "digraph Java {\n"
                 + "n1[label=\"<f0>|<f1>\",shape=record];\n"
@@ -70,7 +75,7 @@ public class LJVTest {
     void AssignmentWithNewCreateANewObject() {
         String x = "Hello";
         String y = new String(x);
-        String actual_graph_3 = LJV.drawGraph(context, new Object[]{x, y});
+        String actual_graph_3 = ljv.drawGraph(context, new Object[]{x, y});
 
         String expected_graph_3 = "digraph Java {\n"
                 + "n1[label=\"<f0>|<f1>\",shape=record];\n"
@@ -89,7 +94,7 @@ public class LJVTest {
 
     @Test
     void MultiDimensionalArrays() {
-        String actual_graph_4 = LJV.drawGraph(new int[4][5]);
+        String actual_graph_4 = ljv.drawGraph(new int[4][5]);
 
         String expected_graph_4 = "digraph Java {\n"
                 + "n1[label=\"<f0>|<f1>|<f2>|<f3>\",shape=record];\n"
@@ -114,7 +119,7 @@ public class LJVTest {
         n.right.left = n;
         n.right.right = n;
 
-        LJV.Context ctx = new LJV.Context();
+        Context ctx = new Context();
         ctx.setFieldAttribute("left", "color=red,fontcolor=red");
         ctx.setFieldAttribute("right", "color=blue,fontcolor=blue");
         ctx.setClassAttribute(Node.class, "color=pink,style=filled");
@@ -123,7 +128,7 @@ public class LJVTest {
         ctx.treatAsPrimitive(String.class);
         ctx.showFieldNamesInLabels = false;
 
-        String actual_graph_5 = LJV.drawGraph(ctx, n);
+        String actual_graph_5 = ljv.drawGraph(ctx, n);
 
         String expected_graph_5 = "digraph Java {\n"
                 + "n1[label=\"Node|{top}\",color=pink,style=filled,shape=record];\n"
@@ -141,7 +146,7 @@ public class LJVTest {
 
     @Test
     void PaulsExample() {
-        LJV.Context ctx = new LJV.Context();
+        Context ctx = new Context();
         ctx.ignoreField("hash");
         ctx.ignoreField("count");
         ctx.ignoreField("offset");
@@ -150,7 +155,7 @@ public class LJVTest {
         a.add(new Person("Albert", true, 35));
         a.add(new Person("Betty", false, 20));
         a.add(new java.awt.Point(100, -100));
-        String actual_graph_6 = LJV.drawGraph(ctx, a);
+        String actual_graph_6 = ljv.drawGraph(ctx, a);
 
         String expected_graph_6 = "digraph Java {\n"
                 + "n1[label=\"java.util.ArrayList|{size: 3}\",shape=record];\n"
