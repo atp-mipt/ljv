@@ -1,0 +1,19 @@
+digraph Java {
+n1076607567[label="<f0>|<f1>",shape=record];
+n1076607567:f0 -> n2036127838[label="0",fontsize=12];
+n2036127838[label="<f0>|<f1>|<f2>",shape=record];
+n2036127838:f0 -> n1509791656[label="0",fontsize=12];
+n1509791656[label="java.lang.String|{coder: 0|hash: 0}",shape=record];
+n1509791656 -> n257608164[label="value",fontsize=12];
+n257608164[shape=record, label="97"];
+n2036127838:f1 -> n306115458[label="1",fontsize=12];
+n306115458[label="java.lang.String|{coder: 0|hash: 0}",shape=record];
+n306115458 -> n230643635[label="value",fontsize=12];
+n230643635[shape=record, label="98"];
+n2036127838:f2 -> n944427387[label="2",fontsize=12];
+n944427387[label="java.lang.String|{coder: 0|hash: 0}",shape=record];
+n944427387 -> n1636182655[label="value",fontsize=12];
+n1636182655[shape=record, label="99"];
+n1076607567:f1 -> n71399214[label="1",fontsize=12];
+n71399214[shape=record, label="1|2|3"];
+}

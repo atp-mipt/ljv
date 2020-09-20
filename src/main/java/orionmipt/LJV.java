@@ -504,34 +504,22 @@ class LJV {
    */
   public static void generateDOT( Context ctx, Object obj, PrintWriter out ) {
     out.println( "digraph Java {" );
-    generateDotInternal( ctx, obj, out, new HashSet( ) );
+    generateDotInternal( ctx, obj, out, new HashSet( ));
     out.println( "}" );
   }
 
   /**
      Create a graph of the object rooted at <tt>obj</tt>.
    */
-  public static void drawGraph( Context ctx, Object obj, String file ) {
-    try (
-      PrintWriter out = new PrintWriter(new FileWriter(file));
-    ) {
-      generateDOT(ctx, obj, out);
-    } catch (Exception e) {
-      System.err.println(e);
-    }
+  public static String drawGraph(Context ctx, Object obj) {
+    StringWriter out = new StringWriter();
+    PrintWriter wrapper = new PrintWriter(out);
+    generateDOT(ctx, obj, wrapper);
+    return out.toString();
   }
 
-  public static void drawGraph( Context ctx, Object obj ) {
-    drawGraph( ctx, obj, ctx.nextFileName( ) );
-  }
-
-  public static void drawGraphToFile( Object obj, String file ) {
-    drawGraph( defaultContext, obj, file );
-  }
-
-  public static void drawGraph( Object obj ) {
-    drawGraph( defaultContext, obj );
+  public static String drawGraph(Object obj ) {
+    return drawGraph(new Context(), obj);
   }
 
 }
-//- LJV.java ends here
