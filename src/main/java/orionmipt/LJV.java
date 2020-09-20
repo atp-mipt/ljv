@@ -306,11 +306,6 @@ class LJV {
   }
 
 
-  public static Context newContext( ) {
-    return new Context( );
-  }
-
-
   private static String dotName( Object obj ) {
     //- System.identityHashCode is a cheap way of generating a unique
     //- label for an object.  It relies on identityHashCode returning a
