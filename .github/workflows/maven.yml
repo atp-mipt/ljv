@@ -18,4 +18,4 @@ jobs:
       with:
         java-version: 11.0.x
     - name: Build with Maven
-      run: mvn -B orionmipt.ljv --file pom.xml
+      run: mvn -B package --file pom.xml
