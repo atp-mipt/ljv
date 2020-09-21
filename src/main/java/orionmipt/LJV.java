@@ -30,7 +30,7 @@ class LJV {
     }
 
 
-    private static boolean fieldExistsAndIsPrimitive(Context ctx, Field field, Object obj) {
+    private boolean fieldExistsAndIsPrimitive(Context ctx, Field field, Object obj) {
         if (!ctx.canIgnoreField(field)) {
             try {
                 //- The order of these statements matters.  If field is not
@@ -38,7 +38,7 @@ class LJV {
                 //- (and caught).  It is not correct to return true if
                 //- field.getType( ).isPrimitive( )
                 Object val = field.get(obj);
-                if (field.getType().isPrimitive() || ctx.canTreatAsPrimitive(val))
+                if (field.getType().isPrimitive() || canTreatAsPrimitive(ctx, val))
                     //- Just calling ctx.canTreatAsPrimitive is not adequate --
                     //- val will be wrapped as a Boolean or Character, etc. if we
                     //- are dealing with a truly primitive type.
@@ -50,7 +50,7 @@ class LJV {
         return false;
     }
 
-    private static boolean hasPrimitiveFields(Context ctx, Field[] fs, Object obj) {
+    private boolean hasPrimitiveFields(Context ctx, Field[] fs, Object obj) {
         for (int i = 0; i < fs.length; i++)
             if (fieldExistsAndIsPrimitive(ctx, fs[i], obj))
                 return true;
@@ -91,14 +91,14 @@ class LJV {
 
     private void labelObjectWithSomePrimitiveFields(Context ctx, IdGenerator idGenerator, Object obj, Field[] fs, StringBuilder out) {
         Object cabs = ctx.getClassAtribute(obj.getClass());
-        out.append(dotName(idGenerator, obj) + "[label=\"" + ctx.className(obj, false) + "|{");
+        out.append(dotName(idGenerator, obj) + "[label=\"" + className(obj, ctx, false) + "|{");
         String sep = "";
         for (int i = 0; i < fs.length; i++) {
             Field field = fs[i];
             if (!ctx.canIgnoreField(field))
                 try {
                     Object ref = field.get(obj);
-                    if (field.getType().isPrimitive() || ctx.canTreatAsPrimitive(ref)) {
+                    if (field.getType().isPrimitive() || canTreatAsPrimitive(ctx, ref)) {
                         if (ctx.isShowFieldNamesInLabels())
                             out.append(sep + field.getName() + ": " + Quote.quote(String.valueOf(ref)));
                         else
@@ -115,7 +115,7 @@ class LJV {
     private void labelObjectWithNoPrimitiveFields(Context ctx, IdGenerator idGenerator, Object obj, StringBuilder out) {
         Object cabs = ctx.getClassAtribute(obj.getClass());
         out.append(dotName(idGenerator, obj)
-                + "[label=\"" + ctx.className(obj, true) + "\""
+                + "[label=\"" + className(obj, ctx, true) + "\""
                 + (cabs == null ? "" : "," + cabs)
                 + "];\n");
     }
@@ -126,7 +126,7 @@ class LJV {
             if (!ctx.canIgnoreField(field)) {
                 try {
                     Object ref = field.get(obj);
-                    if (field.getType().isPrimitive() || ctx.canTreatAsPrimitive(ref))
+                    if (field.getType().isPrimitive() || canTreatAsPrimitive(ctx, ref))
                         //- The field might be declared, say, Object, but the actual
                         //- object may be, say, a String.
                         continue;
@@ -145,6 +145,77 @@ class LJV {
         }
     }
 
+    private static boolean redefinesToString(Object obj) {
+        Method[] ms = obj.getClass().getMethods();
+        for (int i = 0; i < ms.length; i++)
+            if (ms[i].getName().equals("toString") && ms[i].getDeclaringClass() != Object.class)
+                return true;
+        return false;
+    }
+
+
+    protected String className(Object obj, Context context, boolean useToStringAsClassName) {
+        if (obj == null)
+            return "";
+
+        Class<?> c = obj.getClass();
+        if (useToStringAsClassName && redefinesToString(obj))
+            return Quote.quote(obj.toString());
+        else {
+            String name = c.getName();
+            if (!context.isShowPackageNamesInClasses() || c.getPackage() == LJV.class.getPackage()) {
+                //- Strip away everything before the last .
+                name = name.substring(name.lastIndexOf('.') + 1);
+
+                if (!context.isQualifyNestedClassNames())
+                    name = name.substring(name.lastIndexOf('$') + 1);
+            }
+            return name;
+        }
+    }
+
+    boolean canTreatAsPrimitive(Context context, Object obj) {
+        return obj == null || canTreatClassAsPrimitive(context, obj.getClass());
+    }
+
+
+    private boolean canTreatClassAsPrimitive(Context context, Class<?> cz) {
+        if (cz == null || cz.isPrimitive())
+            return true;
+
+        if (cz.isArray())
+            return false;
+
+        do {
+            if (context.isTreatsAsPrimitive(cz)
+                    || context.isTreatsAsPrimitive(cz.getPackage())
+            )
+                return true;
+
+            if (cz == Object.class)
+                return false;
+
+            Class<?>[] ifs = cz.getInterfaces();
+            for (int i = 0; i < ifs.length; i++)
+                if (canTreatClassAsPrimitive(context, ifs[i]))
+                    return true;
+
+            cz = cz.getSuperclass();
+        } while (cz != null);
+        return false;
+    }
+
+    boolean looksLikePrimitiveArray(Object obj, Context context) {
+        Class<?> c = obj.getClass();
+        if (c.getComponentType().isPrimitive())
+            return true;
+
+        for (int i = 0, len = Array.getLength(obj); i < len; i++)
+            if (!canTreatAsPrimitive(context, Array.get(obj, i)))
+                return false;
+        return true;
+    }
+
     private void generateDotInternal(Context ctx, IdGenerator idGenerator, Object obj, StringBuilder out, Set<Object> visited)
             throws IllegalArgumentException {
         if (visited.add(new VisitedObject(obj))) {
@@ -153,7 +224,7 @@ class LJV {
             else {
                 Class<?> c = obj.getClass();
                 if (c.isArray()) {
-                    if (ctx.looksLikePrimitiveArray(obj))
+                    if (looksLikePrimitiveArray(obj, ctx))
                         processPrimitiveArray(idGenerator, obj, out);
                     else
                         processObjectArray(ctx, idGenerator, obj, out, visited);

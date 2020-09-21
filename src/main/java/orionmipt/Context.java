@@ -155,6 +155,16 @@ class Context implements Cloneable {
         ignoreSet.add(pk);
     }
 
+    boolean canIgnoreField(Field field) {
+        return
+                Modifier.isStatic(field.getModifiers())
+                        || ignoreSet.contains(field)
+                        || ignoreSet.contains(field.getName())
+                        || ignoreSet.contains(field.getType())
+                        || ignoreSet.contains(field.getType().getPackage())
+                ;
+    }
+
 
     /**
      * Treat objects of this class as primitives; i.e., <code>toString</code>
@@ -165,6 +175,10 @@ class Context implements Cloneable {
         pretendPrimitiveSet.add(cz);
     }
 
+    public boolean isTreatsAsPrimitive(Class<?> cz) {
+        return pretendPrimitiveSet.contains(cz);
+    }
+
     /**
      * Treat objects from this package as primitives; i.e.,
      * <code>toString</code> is called on the object, and the result displayed
@@ -172,6 +186,10 @@ class Context implements Cloneable {
      */
     public void treatAsPrimitive(Package pk) {
         pretendPrimitiveSet.add(pk);
+    }
+
+    public boolean isTreatsAsPrimitive(Package pk) {
+        return pretendPrimitiveSet.contains(pk);
     }
 
 
@@ -192,103 +210,21 @@ class Context implements Cloneable {
         return showFieldNamesInLabels;
     }
 
-    public boolean isQualifyNestedClassNames() {
-        return qualifyNestedClassNames;
-    }
 
     public void qualifyNestedClassNames(boolean qualifyNestedClassNames) {
         this.qualifyNestedClassNames = qualifyNestedClassNames;
     }
 
-    public boolean isShowPackageNamesInClasses() {
-        return showPackageNamesInClasses;
+    public boolean isQualifyNestedClassNames() {
+        return qualifyNestedClassNames;
     }
+
 
     public void showPackageNamesInClasses(boolean showPackageNamesInClasses) {
         this.showPackageNamesInClasses = showPackageNamesInClasses;
     }
 
-
-    boolean canTreatAsPrimitive(Object obj) {
-        return obj == null || canTreatClassAsPrimitive(obj.getClass());
-    }
-
-
-    private boolean canTreatClassAsPrimitive(Class<?> cz) {
-        if (cz == null || cz.isPrimitive())
-            return true;
-
-        if (cz.isArray())
-            return false;
-
-        do {
-            if (pretendPrimitiveSet.contains(cz)
-                    || pretendPrimitiveSet.contains(cz.getPackage())
-            )
-                return true;
-
-            if (cz == Object.class)
-                return false;
-
-            Class<?>[] ifs = cz.getInterfaces();
-            for (int i = 0; i < ifs.length; i++)
-                if (canTreatClassAsPrimitive(ifs[i]))
-                    return true;
-
-            cz = cz.getSuperclass();
-        } while (cz != null);
-        return false;
-    }
-
-
-    boolean looksLikePrimitiveArray(Object obj) {
-        Class<?> c = obj.getClass();
-        if (c.getComponentType().isPrimitive())
-            return true;
-
-        for (int i = 0, len = Array.getLength(obj); i < len; i++)
-            if (!canTreatAsPrimitive(Array.get(obj, i)))
-                return false;
-        return true;
-    }
-
-
-    boolean canIgnoreField(Field field) {
-        return
-                Modifier.isStatic(field.getModifiers())
-                        || ignoreSet.contains(field)
-                        || ignoreSet.contains(field.getName())
-                        || ignoreSet.contains(field.getType())
-                        || ignoreSet.contains(field.getType().getPackage())
-                ;
-    }
-
-    private static boolean redefinesToString(Object obj) {
-        Method[] ms = obj.getClass().getMethods();
-        for (int i = 0; i < ms.length; i++)
-            if (ms[i].getName().equals("toString") && ms[i].getDeclaringClass() != Object.class)
-                return true;
-        return false;
-    }
-
-
-    protected String className(Object obj, boolean useToStringAsClassName) {
-        if (obj == null)
-            return "";
-
-        Class<?> c = obj.getClass();
-        if (useToStringAsClassName && redefinesToString(obj))
-            return Quote.quote(obj.toString());
-        else {
-            String name = c.getName();
-            if (!showPackageNamesInClasses || c.getPackage() == LJV.class.getPackage()) {
-                //- Strip away everything before the last .
-                name = name.substring(name.lastIndexOf('.') + 1);
-
-                if (!qualifyNestedClassNames)
-                    name = name.substring(name.lastIndexOf('$') + 1);
-            }
-            return name;
-        }
+    public boolean isShowPackageNamesInClasses() {
+        return showPackageNamesInClasses;
     }
 }
