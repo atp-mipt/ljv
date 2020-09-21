@@ -1,7 +1,5 @@
 package orionmipt;
 
-//- LJV.java --- Generate a graph of an object, using Graphviz
-
 //- Author:     John Hamer <J.Hamer@cs.auckland.ac.nz>
 //- Created:    Sat May 10 15:27:48 2003
 //- Time-stamp: <2004-08-23 12:47:06 jham005>
@@ -22,14 +20,82 @@ package orionmipt;
 //-   with this program; if not, write to the Free Software Foundation, Inc.,
 //-   59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
-//- $Id: LJV.java,v 1.1 2004/07/14 02:03:45 jham005 Exp $
-
-import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
 
 class LJV {
+    private Context context;
     private final IdGenerator idGenerator = new IdGenerator();
+
+    public LJV() {
+        context = new Context();
+    }
+
+    public LJV(Context context) {
+        this.context = context;
+    }
+
+    public LJV setClassAttribute(Class<?> cz, String attrib) {
+        context.setClassAttribute(cz, attrib);
+        return this;
+    }
+
+    public LJV setFieldAttribute(Field field, String attrib) {
+        context.setFieldAttribute(field, attrib);
+        return this;
+    }
+
+    public LJV setFieldAttribute(String field, String attrib) {
+        context.setFieldAttribute(field, attrib);
+        return this;
+    }
+
+    public LJV ignoreField(Field field) {
+        context.ignoreField(field);
+        return this;
+    }
+
+    public LJV ignoreField(String field) {
+        context.ignoreField(field);
+        return this;
+    }
+
+    public LJV ignoreFields(Class<Object> cz) {
+        Field[] fs = cz.getDeclaredFields();
+        for (int i = 0; i < fs.length; i++)
+            context.ignoreField(fs[i]);
+        return this;
+    }
+
+    public LJV ignoreClass(Class<Object> cz) {
+        context.ignoreClass(cz);
+        return this;
+    }
+
+    public LJV ignorePackage(Package pk) {
+        context.ignorePackage(pk);
+        return this;
+    }
+
+    public LJV treatAsPrimitive(Class<?> cz) {
+        context.treatAsPrimitive(cz);
+        return this;
+    }
+
+    public LJV treatAsPrimitive(Package pk) {
+        context.treatAsPrimitive(pk);
+        return this;
+    }
+
+    public LJV setIgnorePrivateFields(boolean ignorePrivateFields) {
+        context.setIgnorePrivateFields(ignorePrivateFields);
+        return this;
+    }
+
+    public LJV setShowFieldNamesInLabels(boolean showFieldNamesInLabels) {
+        context.setShowFieldNamesInLabels(showFieldNamesInLabels);
+        return this;
+    }
 
     private String dotName(Object obj) {
         return idGenerator.getId(obj);
@@ -64,7 +130,7 @@ class LJV {
     }
 
 
-    protected void processPrimitiveArray(Object obj, StringBuilder out) {
+    private void processPrimitiveArray(Object obj, StringBuilder out) {
         out.append(dotName(obj) + "[shape=record, label=\"");
         for (int i = 0, len = Array.getLength(obj); i < len; i++) {
             if (i != 0)
@@ -75,7 +141,7 @@ class LJV {
     }
 
 
-    protected void processObjectArray(Context ctx, Object obj, StringBuilder out, Set visited) {
+    private void processObjectArray(Context ctx, Object obj, StringBuilder out, Set visited) {
         out.append(dotName(obj) + "[label=\"");
         int len = Array.getLength(obj);
         for (int i = 0; i < len; i++) {
@@ -95,7 +161,7 @@ class LJV {
     }
 
 
-    protected void labelObjectWithSomePrimitiveFields(Context ctx, Object obj, Field[] fs, StringBuilder out) {
+    private void labelObjectWithSomePrimitiveFields(Context ctx, Object obj, Field[] fs, StringBuilder out) {
         Object cabs = ctx.getClassAtribute(obj.getClass());
         out.append(dotName(obj) + "[label=\"" + ctx.className(obj, false) + "|{");
         String sep = "";
@@ -105,7 +171,7 @@ class LJV {
                 try {
                     Object ref = field.get(obj);
                     if (field.getType().isPrimitive() || ctx.canTreatAsPrimitive(ref)) {
-                        if (ctx.showFieldNamesInLabels)
+                        if (ctx.isShowFieldNamesInLabels())
                             out.append(sep + field.getName() + ": " + Quote.quote(String.valueOf(ref)));
                         else
                             out.append(sep + Quote.quote(String.valueOf(ref)));
@@ -114,12 +180,11 @@ class LJV {
                 } catch (IllegalAccessException e) {
                 }
         }
-
         out.append("}\"" + (cabs == null ? "" : "," + cabs) + ",shape=record];\n");
     }
 
 
-    protected void labelObjectWithNoPrimitiveFields(Context ctx, Object obj, StringBuilder out) {
+    private void labelObjectWithNoPrimitiveFields(Context ctx, Object obj, StringBuilder out) {
         Object cabs = ctx.getClassAtribute(obj.getClass());
         out.append(dotName(obj)
                 + "[label=\"" + ctx.className(obj, true) + "\""
@@ -127,7 +192,7 @@ class LJV {
                 + "];\n");
     }
 
-    protected void processFields(Context ctx, Object obj, Field[] fs, StringBuilder out, Set visited) {
+    private void processFields(Context ctx, Object obj, Field[] fs, StringBuilder out, Set visited) {
         for (int i = 0; i < fs.length; i++) {
             Field field = fs[i];
             if (!ctx.canIgnoreField(field)) {
@@ -152,13 +217,13 @@ class LJV {
         }
     }
 
-    protected void generateDotInternal(Context ctx, Object obj, StringBuilder out, Set visited)
+    private void generateDotInternal(Context ctx, Object obj, StringBuilder out, Set<Object> visited)
             throws IllegalArgumentException {
         if (visited.add(new VisitedObject(obj))) {
             if (obj == null)
                 out.append(dotName(obj) + "[label=\"null\"" + ", shape=plaintext];\n");
             else {
-                Class c = obj.getClass();
+                Class<?> c = obj.getClass();
                 if (c.isArray()) {
                     if (ctx.looksLikePrimitiveArray(obj))
                         processPrimitiveArray(obj, out);
@@ -166,7 +231,7 @@ class LJV {
                         processObjectArray(ctx, obj, out, visited);
                 } else {
                     Field[] fs = c.getDeclaredFields();
-                    if (!ctx.ignorePrivateFields)
+                    if (!ctx.isIgnorePrivateFields())
                         AccessibleObject.setAccessible(fs, true);
 
                     if (hasPrimitiveFields(ctx, fs, obj))
@@ -180,20 +245,19 @@ class LJV {
                     //- fields were accessible when we started, and carefully
                     //- restore them.  Leaving them accessible does no real harm.
                     // if( ! ctx.ignorePrivateFields )
-                    //   AccessibleObject.setAccessible( fs, false );
+                    //     AccessibleObject.setAccessible( fs, false );
                 }
             }
         }
     }
 
-
     /**
      * Write a DOT digraph specification of the graph rooted at
      * <tt>obj</tt> to <tt>out</tt>.
      */
-    public void generateDOT(Context ctx, Object obj, StringBuilder out) {
+    private void generateDOT(Context ctx, Object obj, StringBuilder out) {
         out.append("digraph Java {\n");
-        generateDotInternal(ctx, obj, out, new HashSet());
+        generateDotInternal(ctx, obj, out, new HashSet<>());
         out.append("}\n");
     }
 
@@ -207,7 +271,6 @@ class LJV {
     }
 
     public String drawGraph(Object obj) {
-        return drawGraph(new Context(), obj);
+        return drawGraph(context, obj);
     }
-
 }
