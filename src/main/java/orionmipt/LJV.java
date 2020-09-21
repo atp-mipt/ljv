@@ -64,40 +64,40 @@ class LJV {
     }
 
 
-    protected void processPrimitiveArray(Object obj, PrintWriter out) {
-        out.print(dotName(obj) + "[shape=record, label=\"");
+    protected void processPrimitiveArray(Object obj, StringBuilder out) {
+        out.append(dotName(obj) + "[shape=record, label=\"");
         for (int i = 0, len = Array.getLength(obj); i < len; i++) {
             if (i != 0)
-                out.print("|");
-            out.print(Quote.quote(String.valueOf(Array.get(obj, i))));
+                out.append("|");
+            out.append(Quote.quote(String.valueOf(Array.get(obj, i))));
         }
-        out.println("\"];");
+        out.append("\"];\n");
     }
 
 
-    protected void processObjectArray(Context ctx, Object obj, PrintWriter out, Set visited) {
-        out.print(dotName(obj) + "[label=\"");
+    protected void processObjectArray(Context ctx, Object obj, StringBuilder out, Set visited) {
+        out.append(dotName(obj) + "[label=\"");
         int len = Array.getLength(obj);
         for (int i = 0; i < len; i++) {
             if (i != 0)
-                out.print("|");
-            out.print("<f" + i + ">");
+                out.append("|");
+            out.append("<f" + i + ">");
         }
-        out.println("\",shape=record];");
+        out.append("\",shape=record];\n");
         for (int i = 0; i < len; i++) {
             Object ref = Array.get(obj, i);
             if (ref == null)
                 continue;
-            out.println(dotName(obj) + ":f" + i + " -> " + dotName(ref)
-                    + "[label=\"" + i + "\",fontsize=12];");
+            out.append(dotName(obj) + ":f" + i + " -> " + dotName(ref)
+                    + "[label=\"" + i + "\",fontsize=12];\n");
             generateDotInternal(ctx, ref, out, visited);
         }
     }
 
 
-    protected void labelObjectWithSomePrimitiveFields(Context ctx, Object obj, Field[] fs, PrintWriter out) {
+    protected void labelObjectWithSomePrimitiveFields(Context ctx, Object obj, Field[] fs, StringBuilder out) {
         Object cabs = ctx.getClassAtribute(obj.getClass());
-        out.print(dotName(obj) + "[label=\"" + ctx.className(obj, false) + "|{");
+        out.append(dotName(obj) + "[label=\"" + ctx.className(obj, false) + "|{");
         String sep = "";
         for (int i = 0; i < fs.length; i++) {
             Field field = fs[i];
@@ -106,28 +106,28 @@ class LJV {
                     Object ref = field.get(obj);
                     if (field.getType().isPrimitive() || ctx.canTreatAsPrimitive(ref)) {
                         if (ctx.showFieldNamesInLabels)
-                            out.print(sep + field.getName() + ": " + Quote.quote(String.valueOf(ref)));
+                            out.append(sep + field.getName() + ": " + Quote.quote(String.valueOf(ref)));
                         else
-                            out.print(sep + Quote.quote(String.valueOf(ref)));
+                            out.append(sep + Quote.quote(String.valueOf(ref)));
                         sep = "|";
                     }
                 } catch (IllegalAccessException e) {
                 }
         }
 
-        out.println("}\"" + (cabs == null ? "" : "," + cabs) + ",shape=record];");
+        out.append("}\"" + (cabs == null ? "" : "," + cabs) + ",shape=record];\n");
     }
 
 
-    protected void labelObjectWithNoPrimitiveFields(Context ctx, Object obj, PrintWriter out) {
+    protected void labelObjectWithNoPrimitiveFields(Context ctx, Object obj, StringBuilder out) {
         Object cabs = ctx.getClassAtribute(obj.getClass());
-        out.println(dotName(obj)
+        out.append(dotName(obj)
                 + "[label=\"" + ctx.className(obj, true) + "\""
                 + (cabs == null ? "" : "," + cabs)
-                + "];");
+                + "];\n");
     }
 
-    protected void processFields(Context ctx, Object obj, Field[] fs, PrintWriter out, Set visited) {
+    protected void processFields(Context ctx, Object obj, Field[] fs, StringBuilder out, Set visited) {
         for (int i = 0; i < fs.length; i++) {
             Field field = fs[i];
             if (!ctx.canIgnoreField(field)) {
@@ -141,10 +141,10 @@ class LJV {
                     Object fabs = ctx.getFieldAttribute(field);
                     if (fabs == null)
                         fabs = ctx.getFieldAttribute(name);
-                    out.println(dotName(obj) + " -> " + dotName(ref)
+                    out.append(dotName(obj) + " -> " + dotName(ref)
                             + "[label=\"" + name + "\",fontsize=12"
                             + (fabs == null ? "" : "," + fabs)
-                            + "];");
+                            + "];\n");
                     generateDotInternal(ctx, ref, out, visited);
                 } catch (IllegalAccessException e) {
                 }
@@ -152,11 +152,11 @@ class LJV {
         }
     }
 
-    protected void generateDotInternal(Context ctx, Object obj, PrintWriter out, Set visited)
+    protected void generateDotInternal(Context ctx, Object obj, StringBuilder out, Set visited)
             throws IllegalArgumentException {
         if (visited.add(new VisitedObject(obj))) {
             if (obj == null)
-                out.println(dotName(obj) + "[label=\"null\"" + ", shape=plaintext];");
+                out.append(dotName(obj) + "[label=\"null\"" + ", shape=plaintext];\n");
             else {
                 Class c = obj.getClass();
                 if (c.isArray()) {
@@ -191,19 +191,18 @@ class LJV {
      * Write a DOT digraph specification of the graph rooted at
      * <tt>obj</tt> to <tt>out</tt>.
      */
-    public void generateDOT(Context ctx, Object obj, PrintWriter out) {
-        out.println("digraph Java {");
+    public void generateDOT(Context ctx, Object obj, StringBuilder out) {
+        out.append("digraph Java {\n");
         generateDotInternal(ctx, obj, out, new HashSet());
-        out.println("}");
+        out.append("}\n");
     }
 
     /**
      * Create a graph of the object rooted at <tt>obj</tt>.
      */
     public String drawGraph(Context ctx, Object obj) {
-        StringWriter out = new StringWriter();
-        PrintWriter wrapper = new PrintWriter(out);
-        generateDOT(ctx, obj, wrapper);
+        StringBuilder out = new StringBuilder();
+        generateDOT(ctx, obj, out);
         return out.toString();
     }
 
