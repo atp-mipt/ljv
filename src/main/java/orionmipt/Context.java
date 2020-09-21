@@ -10,9 +10,75 @@ import java.util.Map;
 import java.util.Set;
 
 
-//defaultContext.ignorePrivateFields = true;
-//defaultContext.treatAsPrimitive( Package.getPackage( "java.lang" ) );
-class Context {
+class Context implements Cloneable {
+
+    private final Map<Object, String> classAttributeMap;
+    private final Map<Object, String> fieldAttributeMap;
+    private final Set<Object> pretendPrimitiveSet;
+    private final Set<Object> ignoreSet;
+
+    /**
+     * Allow private, protected and package-access fields to be shown.
+     * This is only possible if the security manager allows
+     * <code>ReflectPermission("suppressAccessChecks")</code> permission.
+     * This is usually the case when running from an application, but
+     * not from an applet or servlet.
+     */
+    private boolean ignorePrivateFields = false;
+
+    /**
+     * Toggle whether to display the class name in the label for an
+     * object (false, the default) or to use the result of calling
+     * toString (true).
+     */
+    public boolean useToStringAsClassName = false;
+
+    /**
+     * Toggle whether to display qualified nested class names in the
+     * label for an object from the same package as LJV (true) or
+     * to display an abbreviated name (false, the default).
+     */
+    private boolean qualifyNestedClassNames = false;
+    private boolean showPackageNamesInClasses = true;
+
+    /**
+     * Toggle whether or not to include the field name in the label for an
+     * object.  This is currently all-or-nothing.  TODO: allow this to be
+     * set on a per-class basis.
+     */
+    private boolean showFieldNamesInLabels = true;
+
+
+    private Context(Map<Object, String> classAttributeMap,
+                    Map<Object, String> fieldAttributeMap,
+                    Set<Object> pretendPrimitiveSet,
+                    Set<Object> ignoreSet) {
+        this.classAttributeMap = classAttributeMap;
+        this.fieldAttributeMap = fieldAttributeMap;
+        this.pretendPrimitiveSet = pretendPrimitiveSet;
+        this.ignoreSet = ignoreSet;
+    }
+
+    public Context() {
+        this.classAttributeMap = new HashMap<>();
+        this.fieldAttributeMap = new HashMap<>();
+        this.pretendPrimitiveSet = new HashSet<>();
+        this.ignoreSet = new HashSet<>();
+    }
+
+    public Context clone() {
+        return new Context(
+                new HashMap<>(classAttributeMap),
+                new HashMap<>(fieldAttributeMap),
+                new HashSet<>(pretendPrimitiveSet),
+                new HashSet<>(ignoreSet)
+        );
+    }
+
+    public ContextBuilder toBuilder() {
+        return new ContextBuilder(this);
+    }
+
     /**
      * Set the DOT attributes for a class.  This allows you to change the
      * appearance of certain nodes in the output, but requires that you
@@ -89,6 +155,7 @@ class Context {
         ignoreSet.add(pk);
     }
 
+
     /**
      * Treat objects of this class as primitives; i.e., <code>toString</code>
      * is called on the object, and the result displayed in the label like
@@ -107,21 +174,8 @@ class Context {
         pretendPrimitiveSet.add(pk);
     }
 
-    private final Map<Object, String> classAttributeMap = new HashMap<>();
-    private final Map<Object, String> fieldAttributeMap = new HashMap<>();
-    private final Set<Object> pretendPrimitiveSet = new HashSet<>();
-    private final Set<Object> ignoreSet = new HashSet<>();
 
-    /**
-     * Allow private, protected and package-access fields to be shown.
-     * This is only possible if the security manager allows
-     * <code>ReflectPermission("suppressAccessChecks")</code> permission.
-     * This is usually the case when running from an application, but
-     * not from an applet or servlet.
-     */
-    private boolean ignorePrivateFields = false;
-
-    public void setIgnorePrivateFields(boolean ignorePrivateFields) {
+    public void ignorePrivateFields(boolean ignorePrivateFields) {
         this.ignorePrivateFields = ignorePrivateFields;
     }
 
@@ -129,14 +183,8 @@ class Context {
         return ignorePrivateFields;
     }
 
-    /**
-     * Toggle whether or not to include the field name in the label for an
-     * object.  This is currently all-or-nothing.  TODO: allow this to be
-     * set on a per-class basis.
-     */
-    private boolean showFieldNamesInLabels = true;
 
-    public void setShowFieldNamesInLabels(boolean showFieldNamesInLabels) {
+    public void showFieldNamesInLabels(boolean showFieldNamesInLabels) {
         this.showFieldNamesInLabels = showFieldNamesInLabels;
     }
 
@@ -144,20 +192,22 @@ class Context {
         return showFieldNamesInLabels;
     }
 
-    /**
-     Toggle whether to display the class name in the label for an
-     object (false, the default) or to use the result of calling
-     toString (true).
-     */
-    //public boolean useToStringAsClassName = false;
+    public boolean isQualifyNestedClassNames() {
+        return qualifyNestedClassNames;
+    }
 
-    /**
-     * Toggle whether to display qualified nested class names in the
-     * label for an object from the same package as LJV (true) or
-     * to display an abbreviated name (false, the default).
-     */
-    private boolean qualifyNestedClassNames = false;
-    private boolean showPackageNamesInClasses = true;
+    public void qualifyNestedClassNames(boolean qualifyNestedClassNames) {
+        this.qualifyNestedClassNames = qualifyNestedClassNames;
+    }
+
+    public boolean isShowPackageNamesInClasses() {
+        return showPackageNamesInClasses;
+    }
+
+    public void showPackageNamesInClasses(boolean showPackageNamesInClasses) {
+        this.showPackageNamesInClasses = showPackageNamesInClasses;
+    }
+
 
     boolean canTreatAsPrimitive(Object obj) {
         return obj == null || canTreatClassAsPrimitive(obj.getClass());
@@ -240,21 +290,5 @@ class Context {
             }
             return name;
         }
-    }
-
-    public boolean isQualifyNestedClassNames() {
-        return qualifyNestedClassNames;
-    }
-
-    public void setQualifyNestedClassNames(boolean qualifyNestedClassNames) {
-        this.qualifyNestedClassNames = qualifyNestedClassNames;
-    }
-
-    public boolean isShowPackageNamesInClasses() {
-        return showPackageNamesInClasses;
-    }
-
-    public void setShowPackageNamesInClasses(boolean showPackageNamesInClasses) {
-        this.showPackageNamesInClasses = showPackageNamesInClasses;
     }
 }
