@@ -14,44 +14,17 @@ import java.util.Set;
 //defaultContext.treatAsPrimitive( Package.getPackage( "java.lang" ) );
 class Context {
     /**
-     * Set the DOT output file format.  E.g., <tt>ps</tt> for
-     * PostScript, <tt>png</tt> for PNG, etc.
-     */
-    public String outputFormat = "dot";
-
-    /**
-     * The name of the output file is derived from
-     * <code>baseFileName</code> by appending successive integers.
-     */
-    public String baseFileName = "graph-";
-    private static int nextGraphNumber = 0;
-
-    private String nextFileName() {
-        return baseFileName + nextGraphNumber++ + "." + outputFormat;
-    }
-
-
-    /**
-     * If null (the default), the DOT file is written to a temporary
-     * file which is then deleted.<p/>
-     * <p>
-     * If non-null, the DOT file is left in this file.  This is only
-     * really useful for debugging Graphviz.java.<p/>
-     */
-    public String keepDotFile = null;
-
-    /**
      * Set the DOT attributes for a class.  This allows you to change the
      * appearance of certain nodes in the output, but requires that you
      * know something about dot attributes.  Simple attributes are, e.g.,
      * "color=red".
      */
-    public void setClassAttribute(Class cz, String attrib) {
+    public void setClassAttribute(Class<?> cz, String attrib) {
         classAttributeMap.put(cz, attrib);
     }
 
-    public String getClassAtribute(Class cz) {
-        return (String) classAttributeMap.get(cz);
+    public String getClassAtribute(Class<?> cz) {
+        return classAttributeMap.get(cz);
     }
 
     /**
@@ -65,7 +38,7 @@ class Context {
     }
 
     public String getFieldAttribute(Field field) {
-        return (String) fieldAttributeMap.get(field);
+        return fieldAttributeMap.get(field);
     }
 
     /**
@@ -76,7 +49,7 @@ class Context {
     }
 
     public String getFieldAttribute(String field) {
-        return (String) fieldAttributeMap.get(field);
+        return fieldAttributeMap.get(field);
     }
 
     /**
@@ -96,7 +69,7 @@ class Context {
     /**
      * Do not display any fields from this class.
      */
-    public void ignoreFields(Class cz) {
+    public void ignoreFields(Class<?> cz) {
         Field[] fs = cz.getDeclaredFields();
         for (int i = 0; i < fs.length; i++)
             ignoreField(fs[i]);
@@ -105,7 +78,7 @@ class Context {
     /**
      * Do not display any fields with this type.
      */
-    public void ignoreClass(Class cz) {
+    public void ignoreClass(Class<?> cz) {
         ignoreSet.add(cz);
     }
 
@@ -121,7 +94,7 @@ class Context {
      * is called on the object, and the result displayed in the label like
      * a primitive field.
      */
-    public void treatAsPrimitive(Class cz) {
+    public void treatAsPrimitive(Class<?> cz) {
         pretendPrimitiveSet.add(cz);
     }
 
@@ -134,11 +107,10 @@ class Context {
         pretendPrimitiveSet.add(pk);
     }
 
-    private final Map classAttributeMap = new HashMap();
-    private final Map fieldAttributeMap = new HashMap();
-    private final Set pretendPrimitiveSet = new HashSet();
-    private final Set ignoreSet = new HashSet();
-
+    private final Map<Object, String> classAttributeMap = new HashMap<>();
+    private final Map<Object, String> fieldAttributeMap = new HashMap<>();
+    private final Set<Object> pretendPrimitiveSet = new HashSet<>();
+    private final Set<Object> ignoreSet = new HashSet<>();
 
     /**
      * Allow private, protected and package-access fields to be shown.
@@ -147,15 +119,30 @@ class Context {
      * This is usually the case when running from an application, but
      * not from an applet or servlet.
      */
-    public boolean ignorePrivateFields = false;
+    private boolean ignorePrivateFields = false;
 
+    public void setIgnorePrivateFields(boolean ignorePrivateFields) {
+        this.ignorePrivateFields = ignorePrivateFields;
+    }
+
+    public boolean isIgnorePrivateFields() {
+        return ignorePrivateFields;
+    }
 
     /**
      * Toggle whether or not to include the field name in the label for an
      * object.  This is currently all-or-nothing.  TODO: allow this to be
      * set on a per-class basis.
      */
-    public boolean showFieldNamesInLabels = true;
+    private boolean showFieldNamesInLabels = true;
+
+    public void setShowFieldNamesInLabels(boolean showFieldNamesInLabels) {
+        this.showFieldNamesInLabels = showFieldNamesInLabels;
+    }
+
+    public boolean isShowFieldNamesInLabels() {
+        return showFieldNamesInLabels;
+    }
 
     /**
      Toggle whether to display the class name in the label for an
@@ -169,15 +156,15 @@ class Context {
      * label for an object from the same package as LJV (true) or
      * to display an abbreviated name (false, the default).
      */
-    public boolean qualifyNestedClassNames = false;
-    public boolean showPackageNamesInClasses = true;
+    private boolean qualifyNestedClassNames = false;
+    private boolean showPackageNamesInClasses = true;
 
     boolean canTreatAsPrimitive(Object obj) {
         return obj == null || canTreatClassAsPrimitive(obj.getClass());
     }
 
 
-    private boolean canTreatClassAsPrimitive(Class cz) {
+    private boolean canTreatClassAsPrimitive(Class<?> cz) {
         if (cz == null || cz.isPrimitive())
             return true;
 
@@ -193,7 +180,7 @@ class Context {
             if (cz == Object.class)
                 return false;
 
-            Class[] ifs = cz.getInterfaces();
+            Class<?>[] ifs = cz.getInterfaces();
             for (int i = 0; i < ifs.length; i++)
                 if (canTreatClassAsPrimitive(ifs[i]))
                     return true;
@@ -205,7 +192,7 @@ class Context {
 
 
     boolean looksLikePrimitiveArray(Object obj) {
-        Class c = obj.getClass();
+        Class<?> c = obj.getClass();
         if (c.getComponentType().isPrimitive())
             return true;
 
@@ -239,7 +226,7 @@ class Context {
         if (obj == null)
             return "";
 
-        Class c = obj.getClass();
+        Class<?> c = obj.getClass();
         if (useToStringAsClassName && redefinesToString(obj))
             return Quote.quote(obj.toString());
         else {
@@ -253,5 +240,21 @@ class Context {
             }
             return name;
         }
+    }
+
+    public boolean isQualifyNestedClassNames() {
+        return qualifyNestedClassNames;
+    }
+
+    public void setQualifyNestedClassNames(boolean qualifyNestedClassNames) {
+        this.qualifyNestedClassNames = qualifyNestedClassNames;
+    }
+
+    public boolean isShowPackageNamesInClasses() {
+        return showPackageNamesInClasses;
+    }
+
+    public void setShowPackageNamesInClasses(boolean showPackageNamesInClasses) {
+        this.showPackageNamesInClasses = showPackageNamesInClasses;
     }
 }
