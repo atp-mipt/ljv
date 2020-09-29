@@ -27,7 +27,7 @@ public class LJVTest {
     @Test
     void ObjectArraysHoldReferencesPrimitiveArraysHoldValues() {
         String actual_graph_1 = ljv.drawGraph(
-                new ContextBuilder().treatAsPrimitive(String.class).ignorePrivateFields(false).build(),
+                new Context().addTreatAsPrimitive(String.class).addIgnorePrivateFields(false),
                 new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
         );
 
@@ -110,15 +110,14 @@ public class LJVTest {
         n.right.left = n;
         n.right.right = n;
 
-        Context ctx = new ContextBuilder()
+        Context ctx = new Context()
                 .addFieldAttribute("left", "color=red,fontcolor=red")
                 .addFieldAttribute("right", "color=blue,fontcolor=blue")
                 .addClassAttribute(Node.class, "color=pink,style=filled")
-                .ignoreField("level")
-                .ignoreField("ok")
-                .treatAsPrimitive(String.class)
-                .showFieldNamesInLabels(false)
-                .build();
+                .addIgnoreField("level")
+                .addIgnoreField("ok")
+                .addTreatAsPrimitive(String.class)
+                .addShowFieldNamesInLabels(false);
 
         String actual_graph_5 = ljv.drawGraph(ctx, n);
 
@@ -144,15 +143,14 @@ public class LJVTest {
         n.right.left = n;
         n.right.right = n;
 
-        Context ctx = new ContextBuilder()
+        Context ctx = new Context()
                 .addFieldAttribute("left", "color=red,fontcolor=red")
                 .addFieldAttribute("right", "color=blue,fontcolor=blue")
                 .addClassAttribute(Node.class, "color=pink,style=filled")
-                .ignoreField("level")
-                .ignoreField("ok")
-                .treatAsPrimitive(String.class)
-                .showFieldNamesInLabels(false)
-                .build();
+                .addIgnoreField("level")
+                .addIgnoreField("ok")
+                .addTreatAsPrimitive(String.class)
+                .addShowFieldNamesInLabels(false);
 
         String actual_graph_5 = ljv.drawGraph(ctx, n);
 
@@ -177,11 +175,10 @@ public class LJVTest {
         a.add(new Person("Betty", false, 20));
         a.add(new java.awt.Point(100, -100));
         String actual_graph_6 = ljv.drawGraph(
-                new ContextBuilder()
-                        .ignoreField("hash")
-                        .ignoreField("count")
-                        .ignoreField("offset")
-                        .build()
+                new Context()
+                        .addIgnoreField("hash")
+                        .addIgnoreField("count")
+                        .addIgnoreField("offset")
                 , a);
 
         String expected_graph_6 = "digraph Java {\n"

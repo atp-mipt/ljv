@@ -1,8 +1,6 @@
 package orionmipt;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -75,10 +73,6 @@ class Context implements Cloneable {
         );
     }
 
-    public ContextBuilder toBuilder() {
-        return new ContextBuilder(this);
-    }
-
     /**
      * Set the DOT attributes for a class.  This allows you to change the
      * appearance of certain nodes in the output, but requires that you
@@ -91,6 +85,12 @@ class Context implements Cloneable {
 
     public String getClassAtribute(Class<?> cz) {
         return classAttributeMap.get(cz);
+    }
+
+    public Context addClassAttribute(Class<?> cz, String attrib) {
+        var result = this.clone();
+        result.setClassAttribute(cz, attrib);
+        return result;
     }
 
     /**
@@ -107,6 +107,12 @@ class Context implements Cloneable {
         return fieldAttributeMap.get(field);
     }
 
+    public Context addFieldAttribute(Field field, String attrib) {
+        var result = this.clone();
+        result.setFieldAttribute(field, attrib);
+        return result;
+    }
+
     /**
      * Set the DOT attributes for all fields with this name.
      */
@@ -118,6 +124,12 @@ class Context implements Cloneable {
         return fieldAttributeMap.get(field);
     }
 
+    public Context addFieldAttribute(String field, String attrib) {
+        var result = this.clone();
+        result.setFieldAttribute(field, attrib);
+        return result;
+    }
+
     /**
      * Do not display this field.
      */
@@ -125,11 +137,23 @@ class Context implements Cloneable {
         ignoreSet.add(field);
     }
 
+    public Context addIgnoreField(Field field) {
+        var result = this.clone();
+        result.ignoreField(field);
+        return this;
+    }
+
     /**
      * Do not display any fields with this name.
      */
     public void ignoreField(String field) {
         ignoreSet.add(field);
+    }
+
+    public Context addIgnoreField(String field) {
+        var result = this.clone();
+        result.ignoreField(field);
+        return result;
     }
 
     /**
@@ -141,6 +165,12 @@ class Context implements Cloneable {
             ignoreField(fs[i]);
     }
 
+    public Context addIgnoreFields(Class<?> cz) {
+        var result = this.clone();
+        result.ignoreFields(cz);
+        return result;
+    }
+
     /**
      * Do not display any fields with this type.
      */
@@ -148,11 +178,23 @@ class Context implements Cloneable {
         ignoreSet.add(cz);
     }
 
+    public Context addIgnoreClass(Class<?> cz) {
+        var result = this.clone();
+        result.ignoreClass(cz);
+        return result;
+    }
+
     /**
      * Do not display any fields that have a type from this package.
      */
     public void ignorePackage(Package pk) {
         ignoreSet.add(pk);
+    }
+
+    public Context addIgnorePackage(Package pk) {
+        var result = this.clone();
+        result.ignorePackage(pk);
+        return result;
     }
 
     boolean canIgnoreField(Field field) {
@@ -175,6 +217,12 @@ class Context implements Cloneable {
         pretendPrimitiveSet.add(cz);
     }
 
+    public Context addTreatAsPrimitive(Class<?> cz) {
+        var result = this.clone();
+        result.treatAsPrimitive(cz);
+        return result;
+    }
+
     public boolean isTreatsAsPrimitive(Class<?> cz) {
         return pretendPrimitiveSet.contains(cz);
     }
@@ -188,6 +236,12 @@ class Context implements Cloneable {
         pretendPrimitiveSet.add(pk);
     }
 
+    public Context addTreatAsPrimitive(Package pk) {
+        var result = this.clone();
+        result.treatAsPrimitive(pk);
+        return result;
+    }
+
     public boolean isTreatsAsPrimitive(Package pk) {
         return pretendPrimitiveSet.contains(pk);
     }
@@ -197,6 +251,13 @@ class Context implements Cloneable {
         this.ignorePrivateFields = ignorePrivateFields;
     }
 
+    public Context addIgnorePrivateFields(boolean ignorePrivateFields) {
+        var result = this.clone();
+        result.ignorePrivateFields(ignorePrivateFields);
+        return result;
+    }
+
+
     public boolean isIgnorePrivateFields() {
         return ignorePrivateFields;
     }
@@ -204,6 +265,12 @@ class Context implements Cloneable {
 
     public void showFieldNamesInLabels(boolean showFieldNamesInLabels) {
         this.showFieldNamesInLabels = showFieldNamesInLabels;
+    }
+
+    public Context addShowFieldNamesInLabels(boolean showFieldNamesInLabels) {
+        var result = this.clone();
+        result.showFieldNamesInLabels(showFieldNamesInLabels);
+        return result;
     }
 
     public boolean isShowFieldNamesInLabels() {
@@ -215,6 +282,12 @@ class Context implements Cloneable {
         this.qualifyNestedClassNames = qualifyNestedClassNames;
     }
 
+    public Context addQualifyNestedClassNames(boolean qualifyNestedClassNames) {
+        var result = this.clone();
+        result.qualifyNestedClassNames(qualifyNestedClassNames);
+        return this;
+    }
+
     public boolean isQualifyNestedClassNames() {
         return qualifyNestedClassNames;
     }
@@ -222,6 +295,12 @@ class Context implements Cloneable {
 
     public void showPackageNamesInClasses(boolean showPackageNamesInClasses) {
         this.showPackageNamesInClasses = showPackageNamesInClasses;
+    }
+
+    public Context addShowPackageNamesInClasses(boolean showPackageNamesInClasses) {
+        var result = this.clone();
+        result.showPackageNamesInClasses(showPackageNamesInClasses);
+        return result;
     }
 
     public boolean isShowPackageNamesInClasses() {
