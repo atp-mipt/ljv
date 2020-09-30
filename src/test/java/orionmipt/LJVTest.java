@@ -12,7 +12,7 @@ public class LJVTest {
 
 
     @Test
-    void StringIsNotAPrimitiveType() {
+    void stringIsNotAPrimitiveType() {
         String actual_graph_0 = ljv.drawGraph("Hello");
 
         String expected_graph_0 = "digraph Java {\n" +
@@ -25,7 +25,7 @@ public class LJVTest {
     }
 
     @Test
-    void ObjectArraysHoldReferencesPrimitiveArraysHoldValues() {
+    void objectArraysHoldReferencesPrimitiveArraysHoldValues() {
         String actual_graph_1 = ljv.drawGraph(
                 new Context().addTreatAsPrimitive(String.class).addIgnorePrivateFields(false),
                 new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
@@ -44,7 +44,7 @@ public class LJVTest {
     }
 
     @Test
-    void AssignmentDoesNotCreateANewObject() {
+    void assignmentDoesNotCreateANewObject() {
         String x = "Hello";
         String y = x;
         String actual_graph_2 = ljv.drawGraph(new Object[]{x, y});
@@ -63,7 +63,7 @@ public class LJVTest {
     }
 
     @Test
-    void AssignmentWithNewCreateANewObject() {
+    void assignmentWithNewCreateANewObject() {
         String x = "Hello";
         String y = new String(x);
         String actual_graph_3 = ljv.drawGraph(new Object[]{x, y});
@@ -84,7 +84,7 @@ public class LJVTest {
     }
 
     @Test
-    void MultiDimensionalArrays() {
+    void multiDimensionalArrays() {
         String actual_graph_4 = ljv.drawGraph(new int[4][5]);
 
         String expected_graph_4 = "digraph Java {\n"
@@ -103,7 +103,7 @@ public class LJVTest {
     }
 
     @Test
-    void CyclicalStructuresClassesWithAndWithoutAToString() {
+    void cyclicalStructuresClassesWithAndWithoutAToString() {
         Node n = new Node("top", 2);
         n.left = new Node("left", 1);
         n.right = new Node("right", 1);
@@ -136,7 +136,7 @@ public class LJVTest {
     }
 
     @Test
-    void CyclicalStructuresClassesWithAndWithoutAToStringAndWithoutContext() {
+    void cyclicalStructuresClassesWithAndWithoutAToStringAndWithoutContext() {
         Node n = new Node("top", 2);
         n.left = new Node("left", 1);
         n.right = new Node("right", 1);
@@ -169,7 +169,7 @@ public class LJVTest {
     }
 
     @Test
-    void PaulsExample() {
+    void paulsExample() {
         ArrayList<Object> a = new ArrayList<>();
         a.add(new Person("Albert", true, 35));
         a.add(new Person("Betty", false, 20));
