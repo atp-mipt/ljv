@@ -24,9 +24,10 @@ import java.lang.reflect.*;
 import java.util.*;
 
 class LJV {
+    private final IdentityHashMap<Object, String> objectsId = new IdentityHashMap<>();
 
-    private String dotName(IdGenerator idGenerator, Object obj) {
-        return idGenerator.getId(obj);
+    private String dotName(Object obj) {
+        return objectsId.computeIfAbsent(obj, s -> "n" + (objectsId.size() + 1));
     }
 
 
@@ -58,8 +59,8 @@ class LJV {
     }
 
 
-    private void processPrimitiveArray(IdGenerator idGenerator, Object obj, StringBuilder out) {
-        out.append(dotName(idGenerator, obj) + "[shape=record, label=\"");
+    private void processPrimitiveArray(Object obj, StringBuilder out) {
+        out.append(dotName(obj) + "[shape=record, label=\"");
         for (int i = 0, len = Array.getLength(obj); i < len; i++) {
             if (i != 0)
                 out.append("|");
@@ -69,8 +70,8 @@ class LJV {
     }
 
 
-    private void processObjectArray(Context ctx, IdGenerator idGenerator, Object obj, StringBuilder out, Set visited) {
-        out.append(dotName(idGenerator, obj) + "[label=\"");
+    private void processObjectArray(Context ctx, Object obj, StringBuilder out, Set<Object> visited) {
+        out.append(dotName(obj) + "[label=\"");
         int len = Array.getLength(obj);
         for (int i = 0; i < len; i++) {
             if (i != 0)
@@ -82,16 +83,16 @@ class LJV {
             Object ref = Array.get(obj, i);
             if (ref == null)
                 continue;
-            out.append(dotName(idGenerator, obj) + ":f" + i + " -> " + dotName(idGenerator, ref)
+            out.append(dotName(obj) + ":f" + i + " -> " + dotName(ref)
                     + "[label=\"" + i + "\",fontsize=12];\n");
-            generateDotInternal(ctx, idGenerator, ref, out, visited);
+            generateDotInternal(ctx, ref, out, visited);
         }
     }
 
 
-    private void labelObjectWithSomePrimitiveFields(Context ctx, IdGenerator idGenerator, Object obj, Field[] fs, StringBuilder out) {
+    private void labelObjectWithSomePrimitiveFields(Context ctx, Object obj, Field[] fs, StringBuilder out) {
         Object cabs = ctx.getClassAtribute(obj.getClass());
-        out.append(dotName(idGenerator, obj) + "[label=\"" + className(obj, ctx, false) + "|{");
+        out.append(dotName(obj) + "[label=\"" + className(obj, ctx, false) + "|{");
         String sep = "";
         for (int i = 0; i < fs.length; i++) {
             Field field = fs[i];
@@ -112,15 +113,15 @@ class LJV {
     }
 
 
-    private void labelObjectWithNoPrimitiveFields(Context ctx, IdGenerator idGenerator, Object obj, StringBuilder out) {
+    private void labelObjectWithNoPrimitiveFields(Context ctx, Object obj, StringBuilder out) {
         Object cabs = ctx.getClassAtribute(obj.getClass());
-        out.append(dotName(idGenerator, obj)
+        out.append(dotName(obj)
                 + "[label=\"" + className(obj, ctx, true) + "\""
                 + (cabs == null ? "" : "," + cabs)
                 + "];\n");
     }
 
-    private void processFields(Context ctx, IdGenerator idGenerator, Object obj, Field[] fs, StringBuilder out, Set visited) {
+    private void processFields(Context ctx, Object obj, Field[] fs, StringBuilder out, Set<Object> visited) {
         for (int i = 0; i < fs.length; i++) {
             Field field = fs[i];
             if (!ctx.canIgnoreField(field)) {
@@ -134,11 +135,11 @@ class LJV {
                     Object fabs = ctx.getFieldAttribute(field);
                     if (fabs == null)
                         fabs = ctx.getFieldAttribute(name);
-                    out.append(dotName(idGenerator, obj) + " -> " + dotName(idGenerator, ref)
+                    out.append(dotName(obj) + " -> " + dotName(ref)
                             + "[label=\"" + name + "\",fontsize=12"
                             + (fabs == null ? "" : "," + fabs)
                             + "];\n");
-                    generateDotInternal(ctx, idGenerator, ref, out, visited);
+                    generateDotInternal(ctx, ref, out, visited);
                 } catch (IllegalAccessException e) {
                 }
             }
@@ -216,29 +217,29 @@ class LJV {
         return true;
     }
 
-    private void generateDotInternal(Context ctx, IdGenerator idGenerator, Object obj, StringBuilder out, Set<Object> visited)
+    private void generateDotInternal(Context ctx, Object obj, StringBuilder out, Set<Object> visited)
             throws IllegalArgumentException {
         if (visited.add(new VisitedObject(obj))) {
             if (obj == null)
-                out.append(dotName(idGenerator, obj) + "[label=\"null\"" + ", shape=plaintext];\n");
+                out.append(dotName(obj) + "[label=\"null\"" + ", shape=plaintext];\n");
             else {
                 Class<?> c = obj.getClass();
                 if (c.isArray()) {
                     if (looksLikePrimitiveArray(obj, ctx))
-                        processPrimitiveArray(idGenerator, obj, out);
+                        processPrimitiveArray(obj, out);
                     else
-                        processObjectArray(ctx, idGenerator, obj, out, visited);
+                        processObjectArray(ctx, obj, out, visited);
                 } else {
                     Field[] fs = c.getDeclaredFields();
                     if (!ctx.isIgnorePrivateFields())
                         AccessibleObject.setAccessible(fs, true);
 
                     if (hasPrimitiveFields(ctx, fs, obj))
-                        labelObjectWithSomePrimitiveFields(ctx, idGenerator, obj, fs, out);
+                        labelObjectWithSomePrimitiveFields(ctx, obj, fs, out);
                     else
-                        labelObjectWithNoPrimitiveFields(ctx, idGenerator, obj, out);
+                        labelObjectWithNoPrimitiveFields(ctx, obj, out);
 
-                    processFields(ctx, idGenerator, obj, fs, out, visited);
+                    processFields(ctx, obj, fs, out, visited);
 
                     //- If we cared, we would take the trouble to check which
                     //- fields were accessible when we started, and carefully
@@ -254,9 +255,9 @@ class LJV {
      * Write a DOT digraph specification of the graph rooted at
      * <tt>obj</tt> to <tt>out</tt>.
      */
-    private void generateDOT(Context ctx, IdGenerator idGenerator, Object obj, StringBuilder out) {
+    private void generateDOT(Context ctx, Object obj, StringBuilder out) {
         out.append("digraph Java {\n");
-        generateDotInternal(ctx, idGenerator, obj, out, new HashSet<>());
+        generateDotInternal(ctx, obj, out, new HashSet<>());
         out.append("}\n");
     }
 
@@ -264,9 +265,8 @@ class LJV {
      * Create a graph of the object rooted at <tt>obj</tt>.
      */
     public String drawGraph(Context ctx, Object obj) {
-        IdGenerator idGenerator = new IdGenerator();
         StringBuilder out = new StringBuilder();
-        generateDOT(ctx, idGenerator, obj, out);
+        generateDOT(ctx, obj, out);
         return out.toString();
     }
 
