@@ -34,17 +34,18 @@ class LJV {
     private boolean fieldExistsAndIsPrimitive(Context ctx, Field field, Object obj) {
         if (!ctx.canIgnoreField(field)) {
             try {
-                //- The order of these statements matters.  If field is not
-                //- accessible, we want an IllegalAccessException to be raised
-                //- (and caught).  It is not correct to return true if
-                //- field.getType( ).isPrimitive( )
-                Object val = field.get(obj);
-                if (field.getType().isPrimitive() || canTreatAsPrimitive(ctx, val))
-                    //- Just calling ctx.canTreatAsPrimitive is not adequate --
-                    //- val will be wrapped as a Boolean or Character, etc. if we
-                    //- are dealing with a truly primitive type.
-                    return true;
+            //- The order of these statements matters.  If field is not
+            //- accessible, we want an IllegalAccessException to be raised
+            //- (and caught).  It is not correct to return true if
+            //- field.getType( ).isPrimitive( )
+            Object val = field.get(obj);
+            if (field.getType().isPrimitive() || canTreatAsPrimitive(ctx, val))
+                //- Just calling ctx.canTreatAsPrimitive is not adequate --
+                //- val will be wrapped as a Boolean or Character, etc. if we
+                //- are dealing with a truly primitive type.
+                return true;
             } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
         }
 
@@ -70,7 +71,7 @@ class LJV {
     }
 
 
-    private void processObjectArray(Context ctx, Object obj, StringBuilder out, Set<Object> visited) {
+    private void processObjectArray(Context ctx, Object obj, StringBuilder out) {
         out.append(dotName(obj) + "[label=\"");
         int len = Array.getLength(obj);
         for (int i = 0; i < len; i++) {
@@ -85,7 +86,7 @@ class LJV {
                 continue;
             out.append(dotName(obj) + ":f" + i + " -> " + dotName(ref)
                     + "[label=\"" + i + "\",fontsize=12];\n");
-            generateDotInternal(ctx, ref, out, visited);
+            generateDotInternal(ctx, ref, out);
         }
     }
 
@@ -107,6 +108,7 @@ class LJV {
                         sep = "|";
                     }
                 } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
         }
         out.append("}\"" + (cabs == null ? "" : "," + cabs) + ",shape=record];\n");
@@ -121,7 +123,7 @@ class LJV {
                 + "];\n");
     }
 
-    private void processFields(Context ctx, Object obj, Field[] fs, StringBuilder out, Set<Object> visited) {
+    private void processFields(Context ctx, Object obj, Field[] fs, StringBuilder out) {
         for (int i = 0; i < fs.length; i++) {
             Field field = fs[i];
             if (!ctx.canIgnoreField(field)) {
@@ -139,8 +141,9 @@ class LJV {
                             + "[label=\"" + name + "\",fontsize=12"
                             + (fabs == null ? "" : "," + fabs)
                             + "];\n");
-                    generateDotInternal(ctx, ref, out, visited);
+                    generateDotInternal(ctx, ref, out);
                 } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -217,36 +220,30 @@ class LJV {
         return true;
     }
 
-    private void generateDotInternal(Context ctx, Object obj, StringBuilder out, Set<Object> visited)
-            throws IllegalArgumentException {
-        if (visited.add(new VisitedObject(obj))) {
-            if (obj == null)
-                out.append(dotName(obj) + "[label=\"null\"" + ", shape=plaintext];\n");
-            else {
-                Class<?> c = obj.getClass();
-                if (c.isArray()) {
-                    if (looksLikePrimitiveArray(obj, ctx))
-                        processPrimitiveArray(obj, out);
-                    else
-                        processObjectArray(ctx, obj, out, visited);
-                } else {
-                    Field[] fs = c.getDeclaredFields();
-                    if (!ctx.isIgnorePrivateFields())
-                        AccessibleObject.setAccessible(fs, true);
+    private void generateDotInternal(Context ctx, Object obj, StringBuilder out) {
+        if (objectsId.containsKey(obj))
+            return;
 
-                    if (hasPrimitiveFields(ctx, fs, obj))
-                        labelObjectWithSomePrimitiveFields(ctx, obj, fs, out);
-                    else
-                        labelObjectWithNoPrimitiveFields(ctx, obj, out);
+        if (obj == null)
+            out.append(dotName(obj) + "[label=\"null\"" + ", shape=plaintext];\n");
+        else {
+            Class<?> c = obj.getClass();
+            if (c.isArray()) {
+                if (looksLikePrimitiveArray(obj, ctx))
+                    processPrimitiveArray(obj, out);
+                else
+                    processObjectArray(ctx, obj, out);
+            } else {
+                Field[] fs = c.getDeclaredFields();
+                if (!ctx.isIgnorePrivateFields())
+                    AccessibleObject.setAccessible(fs, true);
 
-                    processFields(ctx, obj, fs, out, visited);
+                if (hasPrimitiveFields(ctx, fs, obj))
+                    labelObjectWithSomePrimitiveFields(ctx, obj, fs, out);
+                else
+                    labelObjectWithNoPrimitiveFields(ctx, obj, out);
 
-                    //- If we cared, we would take the trouble to check which
-                    //- fields were accessible when we started, and carefully
-                    //- restore them.  Leaving them accessible does no real harm.
-                    // if( ! ctx.ignorePrivateFields )
-                    //     AccessibleObject.setAccessible( fs, false );
-                }
+                processFields(ctx, obj, fs, out);
             }
         }
     }
@@ -257,7 +254,7 @@ class LJV {
      */
     private void generateDOT(Context ctx, Object obj, StringBuilder out) {
         out.append("digraph Java {\n");
-        generateDotInternal(ctx, obj, out, new HashSet<>());
+        generateDotInternal(ctx, obj, out);
         out.append("}\n");
     }
 
