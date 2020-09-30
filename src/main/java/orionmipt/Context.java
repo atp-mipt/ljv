@@ -2,76 +2,48 @@ package orionmipt;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+class Context {
+    private final Map<Object, String> classAttributeMap = new HashMap<>();
+    private final Map<Object, String> fieldAttributeMap = new HashMap<>();
+    private final Set<Object> pretendPrimitiveSet = new HashSet<>();
+    private final Set<Object> ignoreSet = new HashSet<>();
 
-class Context implements Cloneable {
-
-    private final Map<Object, String> classAttributeMap;
-    private final Map<Object, String> fieldAttributeMap;
-    private final Set<Object> pretendPrimitiveSet;
-    private final Set<Object> ignoreSet;
-
-    /**
-     * Allow private, protected and package-access fields to be shown.
-     * This is only possible if the security manager allows
-     * <code>ReflectPermission("suppressAccessChecks")</code> permission.
-     * This is usually the case when running from an application, but
-     * not from an applet or servlet.
-     */
-    private boolean ignorePrivateFields = false;
-
-    /**
-     * Toggle whether to display the class name in the label for an
-     * object (false, the default) or to use the result of calling
-     * toString (true).
-     */
-    public boolean useToStringAsClassName = false;
-
-    /**
-     * Toggle whether to display qualified nested class names in the
-     * label for an object from the same package as LJV (true) or
-     * to display an abbreviated name (false, the default).
-     */
-    private boolean qualifyNestedClassNames = false;
-    private boolean showPackageNamesInClasses = true;
-
-    /**
-     * Toggle whether or not to include the field name in the label for an
-     * object.  This is currently all-or-nothing.  TODO: allow this to be
-     * set on a per-class basis.
-     */
-    private boolean showFieldNamesInLabels = true;
-
-
-    private Context(Map<Object, String> classAttributeMap,
-                    Map<Object, String> fieldAttributeMap,
-                    Set<Object> pretendPrimitiveSet,
-                    Set<Object> ignoreSet) {
-        this.classAttributeMap = classAttributeMap;
-        this.fieldAttributeMap = fieldAttributeMap;
-        this.pretendPrimitiveSet = pretendPrimitiveSet;
-        this.ignoreSet = ignoreSet;
+    private enum Options {
+        /**
+         * Allow private, protected and package-access fields to be shown.
+         * This is only possible if the security manager allows
+         * <code>ReflectPermission("suppressAccessChecks")</code> permission.
+         * This is usually the case when running from an application, but
+         * not from an applet or servlet.
+         */
+        IGNOREPRIVATEFIELDS,
+        /**
+         * Toggle whether to display the class name in the label for an
+         * object (false, the default) or to use the result of calling
+         * toString (true).
+         */
+        USETOSTRINGASCLASSNAME,
+        /**
+         * Toggle whether to display qualified nested class names in the
+         * label for an object from the same package as LJV (true) or
+         * to display an abbreviated name (false, the default).
+         */
+        QUALIFYNESTEDCLASSNAMES,
+        SHOWPACKAGENAMESINCLASSES,
+        /**
+         * Toggle whether or not to include the field name in the label for an
+         * object.  This is currently all-or-nothing.  TODO: allow this to be
+         * set on a per-class basis.
+         */
+        SHOWFIELDNAMESINLABELS,
     }
-
-    public Context() {
-        this.classAttributeMap = new HashMap<>();
-        this.fieldAttributeMap = new HashMap<>();
-        this.pretendPrimitiveSet = new HashSet<>();
-        this.ignoreSet = new HashSet<>();
-    }
-
-    public Context clone() {
-        return new Context(
-                new HashMap<>(classAttributeMap),
-                new HashMap<>(fieldAttributeMap),
-                new HashSet<>(pretendPrimitiveSet),
-                new HashSet<>(ignoreSet)
-        );
-    }
+    private final EnumSet<Options> oSet = EnumSet.of(Options.SHOWPACKAGENAMESINCLASSES, Options.SHOWFIELDNAMESINLABELS);
 
     /**
      * Set the DOT attributes for a class.  This allows you to change the
@@ -88,9 +60,8 @@ class Context implements Cloneable {
     }
 
     public Context addClassAttribute(Class<?> cz, String attrib) {
-        var result = this.clone();
-        result.setClassAttribute(cz, attrib);
-        return result;
+        this.setClassAttribute(cz, attrib);
+        return this;
     }
 
     /**
@@ -99,105 +70,70 @@ class Context implements Cloneable {
      * that you know something about dot attributes.  Simple attributes
      * are, e.g., "color=blue".
      */
-    public void setFieldAttribute(Field field, String attrib) {
-        fieldAttributeMap.put(field, attrib);
+    public Context addFieldAttribute(Field field, String attrib) {
+        this.fieldAttributeMap.put(field, attrib);
+        return this;
     }
 
     public String getFieldAttribute(Field field) {
         return fieldAttributeMap.get(field);
     }
 
-    public Context addFieldAttribute(Field field, String attrib) {
-        var result = this.clone();
-        result.setFieldAttribute(field, attrib);
-        return result;
-    }
-
     /**
      * Set the DOT attributes for all fields with this name.
      */
-    public void setFieldAttribute(String field, String attrib) {
-        fieldAttributeMap.put(field, attrib);
-    }
-
     public String getFieldAttribute(String field) {
         return fieldAttributeMap.get(field);
     }
 
     public Context addFieldAttribute(String field, String attrib) {
-        var result = this.clone();
-        result.setFieldAttribute(field, attrib);
-        return result;
+        this.fieldAttributeMap.put(field, attrib);
+        return this;
     }
 
     /**
      * Do not display this field.
      */
-    public void ignoreField(Field field) {
-        ignoreSet.add(field);
-    }
-
     public Context addIgnoreField(Field field) {
-        var result = this.clone();
-        result.ignoreField(field);
+        this.ignoreSet.add(field);
         return this;
     }
 
     /**
      * Do not display any fields with this name.
      */
-    public void ignoreField(String field) {
-        ignoreSet.add(field);
-    }
-
     public Context addIgnoreField(String field) {
-        var result = this.clone();
-        result.ignoreField(field);
-        return result;
+        this.ignoreSet.add(field);
+        return this;
     }
 
     /**
      * Do not display any fields from this class.
      */
-    public void ignoreFields(Class<?> cz) {
+    public Context addIgnoreFields(Class<?> cz) {
         Field[] fs = cz.getDeclaredFields();
         for (int i = 0; i < fs.length; i++)
-            ignoreField(fs[i]);
-    }
-
-    public Context addIgnoreFields(Class<?> cz) {
-        var result = this.clone();
-        result.ignoreFields(cz);
-        return result;
+            this.addIgnoreField(fs[i]);
+        return this;
     }
 
     /**
      * Do not display any fields with this type.
      */
-    public void ignoreClass(Class<?> cz) {
-        ignoreSet.add(cz);
-    }
-
     public Context addIgnoreClass(Class<?> cz) {
-        var result = this.clone();
-        result.ignoreClass(cz);
-        return result;
+        this.ignoreSet.add(cz);
+        return this;
     }
 
     /**
      * Do not display any fields that have a type from this package.
      */
-    public void ignorePackage(Package pk) {
-        ignoreSet.add(pk);
-    }
-
     public Context addIgnorePackage(Package pk) {
-        var result = this.clone();
-        result.ignorePackage(pk);
-        return result;
+        this.ignoreSet.add(pk);
+        return this;
     }
 
-    boolean canIgnoreField(Field field) {
+    public boolean canIgnoreField(Field field) {
         return
                 Modifier.isStatic(field.getModifiers())
                         || ignoreSet.contains(field)
@@ -207,20 +143,14 @@ class Context implements Cloneable {
                 ;
     }
 
-
     /**
      * Treat objects of this class as primitives; i.e., <code>toString</code>
      * is called on the object, and the result displayed in the label like
      * a primitive field.
      */
-    public void treatAsPrimitive(Class<?> cz) {
-        pretendPrimitiveSet.add(cz);
-    }
-
-    public Context addTreatAsPrimitive(Class<?> cz) {
-        var result = this.clone();
-        result.treatAsPrimitive(cz);
-        return result;
+    public Context setTreatAsPrimitive(Class<?> cz) {
+        this.pretendPrimitiveSet.add(cz);
+        return this;
     }
 
     public boolean isTreatsAsPrimitive(Class<?> cz) {
@@ -232,78 +162,58 @@ class Context implements Cloneable {
      * <code>toString</code> is called on the object, and the result displayed
      * in the label like a primitive field.
      */
-    public void treatAsPrimitive(Package pk) {
-        pretendPrimitiveSet.add(pk);
-    }
-
-    public Context addTreatAsPrimitive(Package pk) {
-        var result = this.clone();
-        result.treatAsPrimitive(pk);
-        return result;
+    public Context setTreatAsPrimitive(Package pk) {
+        this.pretendPrimitiveSet.add(pk);
+        return this;
     }
 
     public boolean isTreatsAsPrimitive(Package pk) {
         return pretendPrimitiveSet.contains(pk);
     }
 
-
-    public void ignorePrivateFields(boolean ignorePrivateFields) {
-        this.ignorePrivateFields = ignorePrivateFields;
+    private void setOption(boolean flag, Options option) {
+        if (flag) {
+            oSet.add(option);
+        }
+        else {
+            oSet.remove(option);
+        }
     }
 
-    public Context addIgnorePrivateFields(boolean ignorePrivateFields) {
-        var result = this.clone();
-        result.ignorePrivateFields(ignorePrivateFields);
-        return result;
+    public Context setIgnorePrivateFields(boolean ignorePrivateFields) {
+        setOption(ignorePrivateFields, Options.IGNOREPRIVATEFIELDS);
+        return this;
     }
-
 
     public boolean isIgnorePrivateFields() {
-        return ignorePrivateFields;
+        return oSet.contains(Options.IGNOREPRIVATEFIELDS);
     }
 
-
-    public void showFieldNamesInLabels(boolean showFieldNamesInLabels) {
-        this.showFieldNamesInLabels = showFieldNamesInLabels;
-    }
-
-    public Context addShowFieldNamesInLabels(boolean showFieldNamesInLabels) {
-        var result = this.clone();
-        result.showFieldNamesInLabels(showFieldNamesInLabels);
-        return result;
+    public Context setShowFieldNamesInLabels(boolean showFieldNamesInLabels) {
+        setOption(showFieldNamesInLabels, Options.SHOWFIELDNAMESINLABELS);
+        return this;
     }
 
     public boolean isShowFieldNamesInLabels() {
-        return showFieldNamesInLabels;
+        return oSet.contains(Options.SHOWFIELDNAMESINLABELS);
     }
 
-
-    public void qualifyNestedClassNames(boolean qualifyNestedClassNames) {
-        this.qualifyNestedClassNames = qualifyNestedClassNames;
-    }
-
-    public Context addQualifyNestedClassNames(boolean qualifyNestedClassNames) {
-        var result = this.clone();
-        result.qualifyNestedClassNames(qualifyNestedClassNames);
+    public Context setQualifyNestedClassNames(boolean qualifyNestedClassNames) {
+        setOption(qualifyNestedClassNames, Options.QUALIFYNESTEDCLASSNAMES);
         return this;
     }
 
     public boolean isQualifyNestedClassNames() {
-        return qualifyNestedClassNames;
+        return oSet.contains(Options.QUALIFYNESTEDCLASSNAMES);
     }
 
 
-    public void showPackageNamesInClasses(boolean showPackageNamesInClasses) {
-        this.showPackageNamesInClasses = showPackageNamesInClasses;
-    }
-
-    public Context addShowPackageNamesInClasses(boolean showPackageNamesInClasses) {
-        var result = this.clone();
-        result.showPackageNamesInClasses(showPackageNamesInClasses);
-        return result;
+    public Context setShowPackageNamesInClasses(boolean showPackageNamesInClasses) {
+        setOption(showPackageNamesInClasses, Options.SHOWPACKAGENAMESINCLASSES);
+        return this;
     }
 
     public boolean isShowPackageNamesInClasses() {
-        return showPackageNamesInClasses;
+        return oSet.contains(Options.SHOWPACKAGENAMESINCLASSES);
     }
 }

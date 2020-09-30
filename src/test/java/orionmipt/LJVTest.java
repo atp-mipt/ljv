@@ -27,7 +27,7 @@ public class LJVTest {
     @Test
     void objectArraysHoldReferencesPrimitiveArraysHoldValues() {
         String actual_graph_1 = ljv.drawGraph(
-                new Context().addTreatAsPrimitive(String.class).addIgnorePrivateFields(false),
+                new Context().setTreatAsPrimitive(String.class).setIgnorePrivateFields(false),
                 new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
         );
 
@@ -116,8 +116,8 @@ public class LJVTest {
                 .addClassAttribute(Node.class, "color=pink,style=filled")
                 .addIgnoreField("level")
                 .addIgnoreField("ok")
-                .addTreatAsPrimitive(String.class)
-                .addShowFieldNamesInLabels(false);
+                .setTreatAsPrimitive(String.class)
+                .setShowFieldNamesInLabels(false);
 
         String actual_graph_5 = ljv.drawGraph(ctx, n);
 
@@ -149,8 +149,8 @@ public class LJVTest {
                 .addClassAttribute(Node.class, "color=pink,style=filled")
                 .addIgnoreField("level")
                 .addIgnoreField("ok")
-                .addTreatAsPrimitive(String.class)
-                .addShowFieldNamesInLabels(false);
+                .setTreatAsPrimitive(String.class)
+                .setShowFieldNamesInLabels(false);
 
         String actual_graph_5 = ljv.drawGraph(ctx, n);
 
