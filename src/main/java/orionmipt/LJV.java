@@ -25,6 +25,7 @@ import java.util.*;
 
 class LJV {
     private final IdentityHashMap<Object, String> objectsId = new IdentityHashMap<>();
+    private final Set<Object> visited = Collections.newSetFromMap(new IdentityHashMap<>());
 
     private String dotName(Object obj) {
         return objectsId.computeIfAbsent(obj, s -> "n" + (objectsId.size() + 1));
@@ -221,7 +222,7 @@ class LJV {
     }
 
     private void generateDotInternal(Context ctx, Object obj, StringBuilder out) {
-        if (objectsId.containsKey(obj))
+        if (visited.add(obj) == false)
             return;
 
         if (obj == null)
