@@ -25,7 +25,6 @@ import java.util.*;
 
 class LJV {
     private final IdentityHashMap<Object, String> objectsId = new IdentityHashMap<>();
-    private final Set<Object> visited = Collections.newSetFromMap(new IdentityHashMap<>());
 
     private String dotName(Object obj) {
         return objectsId.computeIfAbsent(obj, s -> "n" + (objectsId.size() + 1));
@@ -35,16 +34,16 @@ class LJV {
     private boolean fieldExistsAndIsPrimitive(Context ctx, Field field, Object obj) {
         if (!ctx.canIgnoreField(field)) {
             try {
-            //- The order of these statements matters.  If field is not
-            //- accessible, we want an IllegalAccessException to be raised
-            //- (and caught).  It is not correct to return true if
-            //- field.getType( ).isPrimitive( )
-            Object val = field.get(obj);
-            if (field.getType().isPrimitive() || canTreatAsPrimitive(ctx, val))
-                //- Just calling ctx.canTreatAsPrimitive is not adequate --
-                //- val will be wrapped as a Boolean or Character, etc. if we
-                //- are dealing with a truly primitive type.
-                return true;
+                //- The order of these statements matters.  If field is not
+                //- accessible, we want an IllegalAccessException to be raised
+                //- (and caught).  It is not correct to return true if
+                //- field.getType( ).isPrimitive( )
+                Object val = field.get(obj);
+                if (field.getType().isPrimitive() || canTreatAsPrimitive(ctx, val))
+                    //- Just calling ctx.canTreatAsPrimitive is not adequate --
+                    //- val will be wrapped as a Boolean or Character, etc. if we
+                    //- are dealing with a truly primitive type.
+                    return true;
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -85,9 +84,9 @@ class LJV {
             Object ref = Array.get(obj, i);
             if (ref == null)
                 continue;
+            generateDotInternal(ctx, ref, out);
             out.append(dotName(obj) + ":f" + i + " -> " + dotName(ref)
                     + "[label=\"" + i + "\",fontsize=12];\n");
-            generateDotInternal(ctx, ref, out);
         }
     }
 
@@ -138,11 +137,11 @@ class LJV {
                     Object fabs = ctx.getFieldAttribute(field);
                     if (fabs == null)
                         fabs = ctx.getFieldAttribute(name);
+                    generateDotInternal(ctx, ref, out);
                     out.append(dotName(obj) + " -> " + dotName(ref)
                             + "[label=\"" + name + "\",fontsize=12"
                             + (fabs == null ? "" : "," + fabs)
                             + "];\n");
-                    generateDotInternal(ctx, ref, out);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -222,12 +221,9 @@ class LJV {
     }
 
     private void generateDotInternal(Context ctx, Object obj, StringBuilder out) {
-        if (visited.add(obj) == false)
-            return;
-
         if (obj == null)
             out.append(dotName(obj) + "[label=\"null\"" + ", shape=plaintext];\n");
-        else {
+         else if (!objectsId.containsKey(obj)) {
             Class<?> c = obj.getClass();
             if (c.isArray()) {
                 if (looksLikePrimitiveArray(obj, ctx))
