@@ -34,16 +34,16 @@ class LJV {
     private boolean fieldExistsAndIsPrimitive(Context ctx, Field field, Object obj) {
         if (!ctx.canIgnoreField(field)) {
             try {
-            //- The order of these statements matters.  If field is not
-            //- accessible, we want an IllegalAccessException to be raised
-            //- (and caught).  It is not correct to return true if
-            //- field.getType( ).isPrimitive( )
-            Object val = field.get(obj);
-            if (field.getType().isPrimitive() || canTreatAsPrimitive(ctx, val))
-                //- Just calling ctx.canTreatAsPrimitive is not adequate --
-                //- val will be wrapped as a Boolean or Character, etc. if we
-                //- are dealing with a truly primitive type.
-                return true;
+                //- The order of these statements matters.  If field is not
+                //- accessible, we want an IllegalAccessException to be raised
+                //- (and caught).  It is not correct to return true if
+                //- field.getType( ).isPrimitive( )
+                Object val = field.get(obj);
+                if (field.getType().isPrimitive() || canTreatAsPrimitive(ctx, val))
+                    //- Just calling ctx.canTreatAsPrimitive is not adequate --
+                    //- val will be wrapped as a Boolean or Character, etc. if we
+                    //- are dealing with a truly primitive type.
+                    return true;
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -221,10 +221,9 @@ class LJV {
     }
 
     private void generateDotInternal(Context ctx, Object obj, StringBuilder out) {
-
         if (obj == null)
             out.append(dotName(obj) + "[label=\"null\"" + ", shape=plaintext];\n");
-        else {
+         else if (!objectsId.containsKey(obj)) {
             Class<?> c = obj.getClass();
             if (c.isArray()) {
                 if (looksLikePrimitiveArray(obj, ctx))
