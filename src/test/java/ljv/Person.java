@@ -1,4 +1,4 @@
-package orionmipt;
+package ljv;
 
 class Person {
     private String name;

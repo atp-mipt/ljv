@@ -1,4 +1,4 @@
-package orionmipt;
+package ljv;
 
 //- Author:     John Hamer <J.Hamer@cs.auckland.ac.nz>
 //- Created:    Sat May 10 15:27:48 2003

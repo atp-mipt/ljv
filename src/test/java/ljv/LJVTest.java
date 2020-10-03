@@ -1,4 +1,4 @@
-package orionmipt;
+package ljv;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
