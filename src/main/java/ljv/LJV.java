@@ -29,6 +29,35 @@ class LJV {
     private final Set<Object> pretendPrimitiveSet = new HashSet<>();
     private final Set<Object> ignoreSet = new HashSet<>();
 
+    private enum Directions {
+        BT, LR, TB, RL;
+    }
+    private Directions direction = Directions.BT;
+
+    public LJV setDirection(String directionStr) {
+        if (directionStr == "BT") this.direction = Directions.BT;
+        if (directionStr == "LR") this.direction = Directions.LR;
+        if (directionStr == "TB") this.direction = Directions.TB;
+        if (directionStr == "RL") this.direction = Directions.RL;
+        return this;
+    }
+    public String getDirection() {
+        if (this.direction == Directions.BT) return "BT";
+        if (this.direction == Directions.LR) return "LR";
+        if (this.direction == Directions.TB) return "TB";
+        return "RL";
+    }
+
+    private String directionStr = "BT";
+
+    public String getDirectionStr() {
+        return directionStr;
+    }
+
+    public void setDirectionStr(String directionStr) {
+        this.directionStr = directionStr;
+    }
+
     private enum Options {
         /**
          * Allow private, protected and package-access fields to be shown.

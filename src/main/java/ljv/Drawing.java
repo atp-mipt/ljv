@@ -13,39 +13,43 @@ public class Drawing {
         this.ljv = ljv;
         this.oSettings = new ObjSettings(ljv);
     }
-    //TODO add сюда лджв финал
 
     private String dotName(Object obj) {
         return obj == null ? "NULL" : objectsId.computeIfAbsent(obj, s -> "n" + (objectsId.size() + 1));
     }
 
     private void processPrimitiveArray(Object obj) {
-        out.append(dotName(obj)).append("[label=<\n")
-            .append("<table border='0' cellborder='1' cellspacing='0'>\n")
-            .append("<tr>\n");
+        out.append("\t")
+                .append(dotName(obj))
+                .append("[label=<\n")
+                .append("\t\t<table border='0' cellborder='1' cellspacing='0'>\n")
+                .append("\t\t\t<tr>\n");
         for (int i = 0, len = Array.getLength(obj); i < len; i++) {
-            out.append("<td>")
+            out.append("\t\t\t\t<td>")
                 .append(Quote.quote(String.valueOf(Array.get(obj, i))))
-                .append("</td>");
+                .append("</td>\n");
         }
-        out.append("</tr>\n</table>\n>];\n");
+        out.append("\t\t\t</tr>\n\t\t</table>\n\t>];\n");
     }
 
     private void processObjectArray(Object obj) {
-        out.append(dotName(obj)).append("[label=<\n")
-            .append("<table border='0' cellborder='1' cellspacing='0' cellpadding='9'>\n")
-            .append("<tr>\n");
+        out.append("\t")
+                .append(dotName(obj))
+                .append("[label=<\n")
+                .append("\t\t<table border='0' cellborder='1' cellspacing='0' cellpadding='9'>\n")
+                .append("\t\t\t<tr>\n");
         int len = Array.getLength(obj);
         for (int i = 0; i < len; i++) {
-            out.append("<td port=\"f").append(i).append("\"></td>");
+            out.append("\t\t\t\t<td port=\"f").append(i).append("\"></td>\n");
         }
-        out.append("</tr>\n</table>\n>];\n");
+        out.append("\t\t\t</tr>\n\t\t</table>\n\t>];\n");
         for (int i = 0; i < len; i++) {
             Object ref = Array.get(obj, i);
             if (ref == null)
                 continue;
             generateDotInternal(ref);
-            out.append(dotName(obj))
+            out.append("\t")
+                    .append(dotName(obj))
                     .append(":f")
                     .append(i)
                     .append(" -> ")
@@ -72,18 +76,23 @@ public class Drawing {
     }
 
     private void labelObjectWithSomePrimitiveFields(Object obj, Field[] fs) {
-        out.append(dotName(obj)).append("[label=<\n")
-            .append("<table border='0' cellborder='1' cellspacing='0'>\n")
-            .append("<tr><td colspan='" + getFieldSize(ljv, obj, fs) + "'>")
-            .append(oSettings.className(obj, false)).append("</td></tr>\n")
-            .append("<tr>");
+        out.append("\t")
+                .append(dotName(obj))
+                .append("[label=<\n")
+                .append("\t\t<table border='0' cellborder='1' cellspacing='0'>\n")
+                .append("\t\t\t<tr>\n\t\t\t\t<td colspan='")
+                .append(getFieldSize(ljv, obj, fs))
+                .append("'>")
+                .append(oSettings.className(obj, false))
+                .append("</td>\n\t\t\t</tr>\n")
+                .append("\t\t\t<tr>\n");
         Object cabs = ljv.getClassAtribute(obj.getClass());
         for (Field field : fs) {
             if (!ljv.canIgnoreField(field))
                 try {
                     Object ref = field.get(obj);
                     if (field.getType().isPrimitive() || oSettings.canTreatAsPrimitive(ljv, ref)) {
-                        out.append("<td>");
+                        out.append("\t\t\t\t<td>");
                         if (ljv.isShowFieldNamesInLabels())
                             out.append(field.getName()).append(": ").append(Quote.quote(String.valueOf(ref)));
                         else
@@ -94,7 +103,7 @@ public class Drawing {
                     e.printStackTrace();
                 }
         }
-        out.append("</tr>\n</table>\n>")
+        out.append("\t\t\t</tr>\n\t\t</table>\n\t>")
             .append(cabs == null ? "" : "," + cabs)
             .append("];\n");
     }
@@ -102,13 +111,15 @@ public class Drawing {
 
     private void labelObjectWithNoPrimitiveFields(Object obj) {
         Object cabs = ljv.getClassAtribute(obj.getClass());
-        out.append(dotName(obj)).append("[label=<\n")
-            .append("<table border='0' cellborder='1' cellspacing='0'>\n")
-            .append("<tr><td>")
-            .append(oSettings.className(obj, true))
-            .append("</td></tr>\n</table>\n>")
-            .append(cabs == null ? "" : "," + cabs)
-            .append("];\n");
+        out.append("\t")
+                .append(dotName(obj))
+                .append("[label=<\n")
+                .append("\t\t<table border='0' cellborder='1' cellspacing='0'>\n")
+                .append("\t\t\t<tr>\n\t\t\t\t<td>")
+                .append(oSettings.className(obj, true))
+                .append("</td>\n\t\t\t</tr>\n\t\t</table>\n\t>")
+                .append(cabs == null ? "" : "," + cabs)
+                .append("];\n");
     }
 
     private void processFields(Object obj, Field[] fs) {
@@ -125,7 +136,9 @@ public class Drawing {
                     if (fabs == null)
                         fabs = ljv.getFieldAttribute(name);
                     generateDotInternal(ref);
-                    out.append(dotName(obj)).append(" -> ")
+                    out.append("\t")
+                            .append(dotName(obj))
+                            .append(" -> ")
                             .append(dotName(ref))
                             .append("[label=\"")
                             .append(name)
@@ -141,7 +154,7 @@ public class Drawing {
 
     private void generateDotInternal(Object obj) {
         if (obj == null)
-            out.append(dotName(null)).append("[label=\"null\"").append(", shape=plaintext];\n");
+            out.append("\t").append(dotName(null)).append("[label=\"null\"").append(", shape=plaintext];\n");
         else if (!objectsId.containsKey(obj)) {
             Class<?> c = obj.getClass();
             if (c.isArray()) {
@@ -167,7 +180,7 @@ public class Drawing {
     public String generateDOT(Object obj) {
         out.append("digraph Java {\n");
         //TODO out.append("rankdir=\"LR\";");
-        out.append("node[shape=plaintext]\n");
+        out.append("\tnode[shape=plaintext]\n");
         generateDotInternal(obj);
         return out
             .append("}\n")
