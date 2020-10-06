@@ -267,6 +267,76 @@ public class LJVTest {
     }
 
     @Test
+    void reversedMultiDimensionalArrays() {
+        String actual_graph = new LJV().setDirection("LR").drawGraph(new int[4][5]);
+
+        String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"LR\";\n" +
+                "\tnode[shape=plaintext]\n" +
+                "\tn1[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0' cellpadding='9'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td port=\"f0\"></td>\n" +
+                "\t\t\t\t<td port=\"f1\"></td>\n" +
+                "\t\t\t\t<td port=\"f2\"></td>\n" +
+                "\t\t\t\t<td port=\"f3\"></td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn2[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn1:f0 -> n2[label=\"0\",fontsize=12];\n" +
+                "\tn3[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn1:f1 -> n3[label=\"1\",fontsize=12];\n" +
+                "\tn4[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn1:f2 -> n4[label=\"2\",fontsize=12];\n" +
+                "\tn5[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t\t<td>0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn1:f3 -> n5[label=\"3\",fontsize=12];\n" +
+                "}\n";
+
+        assertEquals(expected_graph, actual_graph, "Multiarray case failed");
+    }
+
+    @Test
     void cyclicalStructuresClassesWithAndWithoutAToString() {
         Node n = new Node("top", 2);
         n.left = new Node("left", 1);
