@@ -178,9 +178,11 @@ public class Drawing {
     }
 
     public String generateDOT(Object obj) {
-        out.append("digraph Java {\n");
-        //TODO out.append("rankdir=\"LR\";");
-        out.append("\tnode[shape=plaintext]\n");
+        out.append("digraph Java {\n")
+                .append("\trankdir=\"")
+                .append(ljv.getDirection())
+                .append("\";\n")
+                .append("\tnode[shape=plaintext]\n");
         generateDotInternal(obj);
         return out
             .append("}\n")

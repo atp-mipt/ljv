@@ -13,6 +13,7 @@ public class LJVTest {
         String actual_graph = new LJV().drawGraph("Hello");
 
         String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
                 "\tnode[shape=plaintext]\n" +
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
@@ -52,6 +53,7 @@ public class LJVTest {
                 );
 
         String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
                 "\tnode[shape=plaintext]\n" +
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0' cellpadding='9'>\n" +
@@ -93,6 +95,7 @@ public class LJVTest {
         String actual_graph = new LJV().drawGraph(new Object[]{x, y});
 
         String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
                 "\tnode[shape=plaintext]\n" +
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0' cellpadding='9'>\n" +
@@ -140,6 +143,7 @@ public class LJVTest {
         String actual_graph = new LJV().drawGraph(new Object[]{x, y});
 
         String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
                 "\tnode[shape=plaintext]\n" +
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0' cellpadding='9'>\n" +
@@ -197,6 +201,7 @@ public class LJVTest {
         String actual_graph = new LJV().drawGraph(new int[4][5]);
 
         String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
                 "\tnode[shape=plaintext]\n" +
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0' cellpadding='9'>\n" +
@@ -280,6 +285,7 @@ public class LJVTest {
                 .drawGraph(n);
 
         String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
                 "\tnode[shape=plaintext]\n" +
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
@@ -342,6 +348,7 @@ public class LJVTest {
                 .drawGraph(n);
 
         String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
                 "\tnode[shape=plaintext]\n" +
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
@@ -399,6 +406,7 @@ public class LJVTest {
                 .drawGraph(a);
 
         String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
                 "\tnode[shape=plaintext]\n" +
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
@@ -520,6 +528,7 @@ public class LJVTest {
         String actualGraph = new LJV().drawGraph(null);
 
         assertEquals("digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
                 "\tnode[shape=plaintext]\n" +
                 "\tNULL[label=\"null\", shape=plaintext];\n" +
                 "}\n", actualGraph);
