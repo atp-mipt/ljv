@@ -235,6 +235,6 @@ class LJV {
      * Create a graph of the object rooted at <tt>obj</tt>.
      */
     public String drawGraph(Object obj) {
-        return new Drawing().generateDOT(this, obj);
+        return new Drawing(this).generateDOT(obj);
     }
 }

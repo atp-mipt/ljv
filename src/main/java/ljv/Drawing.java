@@ -5,8 +5,15 @@ import java.util.*;
 
 public class Drawing {
     private final IdentityHashMap<Object, String> objectsId = new IdentityHashMap<>();
-    private final ObjSettings oSettings = new ObjSettings();
+    private final ObjSettings oSettings;
     private final StringBuilder out = new StringBuilder();
+    private final LJV ljv;
+
+    public Drawing(LJV ljv) {
+        this.ljv = ljv;
+        this.oSettings = new ObjSettings(ljv);
+    }
+    //TODO add сюда лджв финал
 
     private String dotName(Object obj) {
         return obj == null ? "NULL" : objectsId.computeIfAbsent(obj, s -> "n" + (objectsId.size() + 1));
@@ -24,7 +31,7 @@ public class Drawing {
         out.append("</tr>\n</table>\n>];\n");
     }
 
-    private void processObjectArray(LJV ljv, Object obj) {
+    private void processObjectArray(Object obj) {
         out.append(dotName(obj)).append("[label=<\n")
             .append("<table border='0' cellborder='1' cellspacing='0' cellpadding='9'>\n")
             .append("<tr>\n");
@@ -37,7 +44,7 @@ public class Drawing {
             Object ref = Array.get(obj, i);
             if (ref == null)
                 continue;
-            generateDotInternal(ljv, ref);
+            generateDotInternal(ref);
             out.append(dotName(obj))
                     .append(":f")
                     .append(i)
@@ -64,11 +71,11 @@ public class Drawing {
         return size;
     }
 
-    private void labelObjectWithSomePrimitiveFields(LJV ljv, Object obj, Field[] fs) {
+    private void labelObjectWithSomePrimitiveFields(Object obj, Field[] fs) {
         out.append(dotName(obj)).append("[label=<\n")
             .append("<table border='0' cellborder='1' cellspacing='0'>\n")
             .append("<tr><td colspan='" + getFieldSize(ljv, obj, fs) + "'>")
-            .append(oSettings.className(obj, ljv, false)).append("</td></tr>\n")
+            .append(oSettings.className(obj, false)).append("</td></tr>\n")
             .append("<tr>");
         Object cabs = ljv.getClassAtribute(obj.getClass());
         for (Field field : fs) {
@@ -93,18 +100,18 @@ public class Drawing {
     }
 
 
-    private void labelObjectWithNoPrimitiveFields(LJV ljv, Object obj) {
+    private void labelObjectWithNoPrimitiveFields(Object obj) {
         Object cabs = ljv.getClassAtribute(obj.getClass());
         out.append(dotName(obj)).append("[label=<\n")
             .append("<table border='0' cellborder='1' cellspacing='0'>\n")
             .append("<tr><td>")
-            .append(oSettings.className(obj, ljv, true))
+            .append(oSettings.className(obj, true))
             .append("</td></tr>\n</table>\n>")
             .append(cabs == null ? "" : "," + cabs)
             .append("];\n");
     }
 
-    private void processFields(LJV ljv, Object obj, Field[] fs) {
+    private void processFields(Object obj, Field[] fs) {
         for (Field field : fs) {
             if (!ljv.canIgnoreField(field)) {
                 try {
@@ -117,7 +124,7 @@ public class Drawing {
                     Object fabs = ljv.getFieldAttribute(field);
                     if (fabs == null)
                         fabs = ljv.getFieldAttribute(name);
-                    generateDotInternal(ljv, ref);
+                    generateDotInternal(ref);
                     out.append(dotName(obj)).append(" -> ")
                             .append(dotName(ref))
                             .append("[label=\"")
@@ -132,7 +139,7 @@ public class Drawing {
         }
     }
 
-    private void generateDotInternal(LJV ljv, Object obj) {
+    private void generateDotInternal(Object obj) {
         if (obj == null)
             out.append(dotName(null)).append("[label=\"null\"").append(", shape=plaintext];\n");
         else if (!objectsId.containsKey(obj)) {
@@ -141,26 +148,27 @@ public class Drawing {
                 if (oSettings.looksLikePrimitiveArray(obj, ljv))
                     processPrimitiveArray(obj);
                 else
-                    processObjectArray(ljv, obj);
+                    processObjectArray(obj);
             } else {
                 Field[] fs = c.getDeclaredFields();
                 if (!ljv.isIgnorePrivateFields())
                     AccessibleObject.setAccessible(fs, true);
 
-                if (oSettings.hasPrimitiveFields(ljv, fs, obj))
-                    labelObjectWithSomePrimitiveFields(ljv, obj, fs);
+                if (oSettings.hasPrimitiveFields(fs, obj))
+                    labelObjectWithSomePrimitiveFields(obj, fs);
                 else
-                    labelObjectWithNoPrimitiveFields(ljv, obj);
+                    labelObjectWithNoPrimitiveFields(obj);
 
-                processFields(ljv, obj, fs);
+                processFields(obj, fs);
             }
         }
     }
 
-    public String generateDOT(LJV ljv, Object obj) {
+    public String generateDOT(Object obj) {
         out.append("digraph Java {\n");
+        //TODO out.append("rankdir=\"LR\";");
         out.append("node[shape=plaintext]\n");
-        generateDotInternal(ljv, obj);
+        generateDotInternal(obj);
         return out
             .append("}\n")
             .toString();

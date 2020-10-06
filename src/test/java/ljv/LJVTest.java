@@ -41,7 +41,7 @@ public class LJVTest {
                 .setIgnorePrivateFields(false)
                 .drawGraph(
                 new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
-        );
+                );
 
         String expected_graph = "digraph Java {\n" +
                 "node[shape=plaintext]\n" +

@@ -3,7 +3,12 @@ package ljv;
 import java.lang.reflect.*;
 
 public class ObjSettings {
-    private boolean fieldExistsAndIsPrimitive(LJV ljv, Field field, Object obj) {
+    private final LJV ljv;
+    public ObjSettings(LJV ljv) {
+        this.ljv = ljv;
+    }
+
+    private boolean fieldExistsAndIsPrimitive(Field field, Object obj) {
         if (!ljv.canIgnoreField(field)) {
             try {
                 //- The order of these statements matters.  If field is not
@@ -24,9 +29,9 @@ public class ObjSettings {
         return false;
     }
 
-    public boolean hasPrimitiveFields(LJV ljv, Field[] fs, Object obj) {
+    public boolean hasPrimitiveFields(Field[] fs, Object obj) {
         for (Field f : fs)
-            if (fieldExistsAndIsPrimitive(ljv, f, obj))
+            if (fieldExistsAndIsPrimitive(f, obj))
                 return true;
         return false;
     }
@@ -40,7 +45,7 @@ public class ObjSettings {
     }
 
 
-    public String className(Object obj, LJV LJV, boolean useToStringAsClassName) {
+    public String className(Object obj, boolean useToStringAsClassName) {
         if (obj == null)
             return "";
 
@@ -49,11 +54,11 @@ public class ObjSettings {
             return Quote.quote(obj.toString());
         else {
             String name = c.getName();
-            if (!LJV.isShowPackageNamesInClasses() || c.getPackage() == LJV.class.getPackage()) {
+            if (!ljv.isShowPackageNamesInClasses() || c.getPackage() == LJV.class.getPackage()) {
                 //- Strip away everything before the last .
                 name = name.substring(name.lastIndexOf('.') + 1);
 
-                if (!LJV.isQualifyNestedClassNames())
+                if (!ljv.isQualifyNestedClassNames())
                     name = name.substring(name.lastIndexOf('$') + 1);
             }
             return name;
