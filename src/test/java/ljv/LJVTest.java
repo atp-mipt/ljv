@@ -8,30 +8,29 @@ import org.junit.jupiter.api.Test;
 
 public class LJVTest {
 
-    private final LJV ljv = new LJV();
-
-
     @Test
     void stringIsNotAPrimitiveType() {
-        String actual_graph_0 = ljv.drawGraph("Hello");
+        String actual_graph = new LJV().drawGraph("Hello");
 
-        String expected_graph_0 = "digraph Java {\n" +
+        String expected_graph = "digraph Java {\n" +
                 "n1[label=\"java.lang.String|{coder: 0|hash: 0}\",shape=record];\n" +
                 "n2[shape=record, label=\"72|101|108|108|111\"];\n" +
                 "n1 -> n2[label=\"value\",fontsize=12];\n" +
                 "}\n";
 
-        assertEquals(expected_graph_0, actual_graph_0, "Hello case failed");
+        assertEquals(expected_graph, actual_graph, "Hello case failed");
     }
 
     @Test
     void objectArraysHoldReferencesPrimitiveArraysHoldValues() {
-        String actual_graph_1 = ljv.drawGraph(
-                new Context().setTreatAsPrimitive(String.class).setIgnorePrivateFields(false),
+        String actual_graph = new LJV()
+                .setTreatAsPrimitive(String.class)
+                .setIgnorePrivateFields(false)
+                .drawGraph(
                 new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
         );
 
-        String expected_graph_1 = "digraph Java {\n" +
+        String expected_graph = "digraph Java {\n" +
                 "n1[label=\"<f0>|<f1>\",shape=record];\n" +
                 "n2[shape=record, label=\"a|b|c\"];\n" +
                 "n1:f0 -> n2[label=\"0\",fontsize=12];\n" +
@@ -39,16 +38,16 @@ public class LJVTest {
                 "n1:f1 -> n3[label=\"1\",fontsize=12];\n" +
                 "}\n";
 
-        assertEquals(expected_graph_1, actual_graph_1, "Primitive array case failed");
+        assertEquals(expected_graph, actual_graph, "Primitive array case failed");
     }
 
     @Test
     void assignmentDoesNotCreateANewObject() {
         String x = "Hello";
         String y = x;
-        String actual_graph_2 = ljv.drawGraph(new Object[]{x, y});
+        String actual_graph = new LJV().drawGraph(new Object[]{x, y});
 
-        String expected_graph_2 = "digraph Java {\n" +
+        String expected_graph = "digraph Java {\n" +
                 "n1[label=\"<f0>|<f1>\",shape=record];\n" +
                 "n2[label=\"java.lang.String|{coder: 0|hash: 0}\",shape=record];\n" +
                 "n3[shape=record, label=\"72|101|108|108|111\"];\n" +
@@ -58,16 +57,16 @@ public class LJVTest {
                 "}\n";
 
 
-        assertEquals(expected_graph_2, actual_graph_2, "One link Hello case failed");
+        assertEquals(expected_graph, actual_graph, "One link Hello case failed");
     }
 
     @Test
     void assignmentWithNewCreateANewObject() {
         String x = "Hello";
         String y = new String(x);
-        String actual_graph_3 = ljv.drawGraph(new Object[]{x, y});
+        String actual_graph = new LJV().drawGraph(new Object[]{x, y});
 
-        String expected_graph_3 = "digraph Java {\n" +
+        String expected_graph = "digraph Java {\n" +
                 "n1[label=\"<f0>|<f1>\",shape=record];\n" +
                 "n2[label=\"java.lang.String|{coder: 0|hash: 0}\",shape=record];\n" +
                 "n3[shape=record, label=\"72|101|108|108|111\"];\n" +
@@ -79,14 +78,14 @@ public class LJVTest {
                 "}\n";
 
 
-        assertEquals(expected_graph_3, actual_graph_3, "Without duplicate hello case failed");
+        assertEquals(expected_graph, actual_graph, "Without duplicate hello case failed");
     }
 
     @Test
     void multiDimensionalArrays() {
-        String actual_graph_4 = ljv.drawGraph(new int[4][5]);
+        String actual_graph = new LJV().drawGraph(new int[4][5]);
 
-        String expected_graph_4 = "digraph Java {\n" +
+        String expected_graph = "digraph Java {\n" +
                 "n1[label=\"<f0>|<f1>|<f2>|<f3>\",shape=record];\n" +
                 "n2[shape=record, label=\"0|0|0|0|0\"];\n" +
                 "n1:f0 -> n2[label=\"0\",fontsize=12];\n" +
@@ -98,7 +97,7 @@ public class LJVTest {
                 "n1:f3 -> n5[label=\"3\",fontsize=12];\n" +
                 "}\n";
 
-        assertEquals(expected_graph_4, actual_graph_4, "Multiarray case failed");
+        assertEquals(expected_graph, actual_graph, "Multiarray case failed");
     }
 
     @Test
@@ -109,18 +108,17 @@ public class LJVTest {
         n.right.left = n;
         n.right.right = n;
 
-        Context ctx = new Context()
+        String actual_graph = new LJV()
                 .addFieldAttribute("left", "color=red,fontcolor=red")
                 .addFieldAttribute("right", "color=blue,fontcolor=blue")
                 .addClassAttribute(Node.class, "color=pink,style=filled")
                 .addIgnoreField("level")
                 .addIgnoreField("ok")
                 .setTreatAsPrimitive(String.class)
-                .setShowFieldNamesInLabels(false);
+                .setShowFieldNamesInLabels(false)
+                .drawGraph(n);
 
-        String actual_graph_5 = ljv.drawGraph(ctx, n);
-
-        String expected_graph_5 = "digraph Java {\n" +
+        String expected_graph = "digraph Java {\n" +
                 "n1[label=\"Node|{top}\",color=pink,style=filled,shape=record];\n" +
                 "n2[label=\"Node|{left|null|null}\",color=pink,style=filled,shape=record];\n" +
                 "n1 -> n2[label=\"left\",fontsize=12,color=red,fontcolor=red];\n" +
@@ -131,7 +129,7 @@ public class LJVTest {
                 "}\n";
 
 
-        assertEquals(expected_graph_5, actual_graph_5, "Nodes case with context failed");
+        assertEquals(expected_graph, actual_graph, "Nodes case with context failed");
     }
 
     @Test
@@ -142,18 +140,17 @@ public class LJVTest {
         n.right.left = n;
         n.right.right = n;
 
-        Context ctx = new Context()
+        String actual_graph = new LJV()
                 .addFieldAttribute("left", "color=red,fontcolor=red")
                 .addFieldAttribute("right", "color=blue,fontcolor=blue")
                 .addClassAttribute(Node.class, "color=pink,style=filled")
                 .addIgnoreField("level")
                 .addIgnoreField("ok")
                 .setTreatAsPrimitive(String.class)
-                .setShowFieldNamesInLabels(false);
+                .setShowFieldNamesInLabels(false)
+                .drawGraph(n);
 
-        String actual_graph_5 = ljv.drawGraph(ctx, n);
-
-        String expected_graph_5 = "digraph Java {\n" +
+        String expected_graph = "digraph Java {\n" +
                 "n1[label=\"Node|{top}\",color=pink,style=filled,shape=record];\n" +
                 "n2[label=\"Node|{left|null|null}\",color=pink,style=filled,shape=record];\n" +
                 "n1 -> n2[label=\"left\",fontsize=12,color=red,fontcolor=red];\n" +
@@ -164,7 +161,7 @@ public class LJVTest {
                 "}\n";
 
 
-        assertEquals(expected_graph_5, actual_graph_5, "Nodes case without context failed");
+        assertEquals(expected_graph, actual_graph, "Nodes case without context failed");
     }
 
     @Test
@@ -173,14 +170,14 @@ public class LJVTest {
         a.add(new Person("Albert", true, 35));
         a.add(new Person("Betty", false, 20));
         a.add(new java.awt.Point(100, -100));
-        String actual_graph_6 = ljv.drawGraph(
-                new Context()
-                        .addIgnoreField("hash")
-                        .addIgnoreField("count")
-                        .addIgnoreField("offset")
-                , a);
 
-        String expected_graph_6 = "digraph Java {\n" +
+        String actual_graph = new LJV()
+                .addIgnoreField("hash")
+                .addIgnoreField("count")
+                .addIgnoreField("offset")
+                .drawGraph(a);
+
+        String expected_graph = "digraph Java {\n" +
                 "n1[label=\"java.util.ArrayList|{size: 3}\",shape=record];\n" +
                 "n2[label=\"<f0>|<f1>|<f2>|<f3>|<f4>|<f5>|<f6>|<f7>|<f8>|<f9>\",shape=record];\n" +
                 "n3[label=\"Person|{isMale: true|age: 35}\",shape=record];\n" +
@@ -200,12 +197,12 @@ public class LJVTest {
                 "n1 -> n2[label=\"elementData\",fontsize=12];\n" +
                 "}\n";
 
-        assertEquals(expected_graph_6, actual_graph_6, "Multiarray case failed");
+        assertEquals(expected_graph, actual_graph, "Multiarray case failed");
     }
 
     @Test
     void testNull() {
-        String actualGraph = ljv.drawGraph(null);
+        String actualGraph = new LJV().drawGraph(null);
 
         assertEquals("digraph Java {\n" +
                 "NULL[label=\"null\", shape=plaintext];\n" +
