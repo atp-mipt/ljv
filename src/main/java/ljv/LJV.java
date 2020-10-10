@@ -29,22 +29,16 @@ class LJV {
     private final Set<Object> pretendPrimitiveSet = new HashSet<>();
     private final Set<Object> ignoreSet = new HashSet<>();
 
-    private enum Directions {
-        BT, LR, TB, RL;
-    }
-    private Directions direction = Directions.TB;
+    private Direction direction;
 
-    public LJV setDirection(String directionStr) {
-        if (Objects.equals(directionStr, "BT")) this.direction = Directions.BT;
-        if (Objects.equals(directionStr, "LR")) this.direction = Directions.LR;
-        if (Objects.equals(directionStr, "TB")) this.direction = Directions.TB;
-        if (Objects.equals(directionStr, "RL")) this.direction = Directions.RL;
+    public LJV setDirection(Direction direction) {
+        this.direction = direction;
         return this;
     }
     public String getDirection() {
-        if (this.direction == Directions.LR) return "LR";
-        if (this.direction == Directions.RL) return "RL";
-        if (this.direction == Directions.BT) return "BT";
+        if (this.direction == Direction.LR) return "LR";
+        if (this.direction == Direction.RL) return "RL";
+        if (this.direction == Direction.BT) return "BT";
         return "TB";
     }
 

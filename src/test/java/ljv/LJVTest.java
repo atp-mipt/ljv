@@ -268,7 +268,7 @@ public class LJVTest {
 
     @Test
     void reversedMultiDimensionalArrays() {
-        String actual_graph = new LJV().setDirection("LR").drawGraph(new int[4][5]);
+        String actual_graph = new LJV().setDirection(Direction.LR).drawGraph(new int[4][5]);
 
         String expected_graph = "digraph Java {\n" +
                 "\trankdir=\"LR\";\n" +
