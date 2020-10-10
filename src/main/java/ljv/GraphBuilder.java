@@ -3,13 +3,13 @@ package ljv;
 import java.lang.reflect.*;
 import java.util.*;
 
-public class Drawing {
+public class GraphBuilder {
     private final IdentityHashMap<Object, String> objectsId = new IdentityHashMap<>();
     private final ObjSettings oSettings;
     private final StringBuilder out = new StringBuilder();
     private final LJV ljv;
 
-    public Drawing(LJV ljv) {
+    public GraphBuilder(LJV ljv) {
         this.ljv = ljv;
         this.oSettings = new ObjSettings(ljv);
     }
@@ -86,7 +86,7 @@ public class Drawing {
                 .append(oSettings.className(obj, false))
                 .append("</td>\n\t\t\t</tr>\n")
                 .append("\t\t\t<tr>\n");
-        Object cabs = ljv.getClassAtribute(obj.getClass());
+        Object cabs = ljv.getClassAttribute(obj.getClass());
         for (Field field : fs) {
             if (!ljv.canIgnoreField(field))
                 try {
@@ -110,7 +110,7 @@ public class Drawing {
 
 
     private void labelObjectWithNoPrimitiveFields(Object obj) {
-        Object cabs = ljv.getClassAtribute(obj.getClass());
+        Object cabs = ljv.getClassAttribute(obj.getClass());
         out.append("\t")
                 .append(dotName(obj))
                 .append("[label=<\n")
