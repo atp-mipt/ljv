@@ -28,18 +28,15 @@ class LJV {
     private final Map<Object, String> fieldAttributeMap = new HashMap<>();
     private final Set<Object> pretendPrimitiveSet = new HashSet<>();
     private final Set<Object> ignoreSet = new HashSet<>();
-
-    private Direction direction;
+    private Direction direction = Direction.TB;
 
     public LJV setDirection(Direction direction) {
         this.direction = direction;
         return this;
     }
-    public String getDirection() {
-        if (this.direction == Direction.LR) return "LR";
-        if (this.direction == Direction.RL) return "RL";
-        if (this.direction == Direction.BT) return "BT";
-        return "TB";
+
+    public Direction getDirection() {
+        return direction;
     }
 
     private enum Options {
