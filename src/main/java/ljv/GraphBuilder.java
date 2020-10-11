@@ -66,7 +66,7 @@ public class GraphBuilder {
             if (!ljv.canIgnoreField(field))
                 try {
                     Object ref = field.get(obj);
-                    if (field.getType().isPrimitive() || oSettings.canTreatAsPrimitive(ljv, ref))
+                    if (field.getType().isPrimitive() || oSettings.canTreatAsPrimitive(ref))
                         size++;
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -91,7 +91,7 @@ public class GraphBuilder {
             if (!ljv.canIgnoreField(field))
                 try {
                     Object ref = field.get(obj);
-                    if (field.getType().isPrimitive() || oSettings.canTreatAsPrimitive(ljv, ref)) {
+                    if (field.getType().isPrimitive() || oSettings.canTreatAsPrimitive(ref)) {
                         out.append("\t\t\t\t<td>");
                         if (ljv.isShowFieldNamesInLabels())
                             out.append(field.getName()).append(": ").append(Quote.quote(String.valueOf(ref)));
@@ -127,7 +127,7 @@ public class GraphBuilder {
             if (!ljv.canIgnoreField(field)) {
                 try {
                     Object ref = field.get(obj);
-                    if (field.getType().isPrimitive() || oSettings.canTreatAsPrimitive(ljv, ref))
+                    if (field.getType().isPrimitive() || oSettings.canTreatAsPrimitive(ref))
                         //- The field might be declared, say, Object, but the actual
                         //- object may be, say, a String.
                         continue;
@@ -158,7 +158,7 @@ public class GraphBuilder {
         else if (!objectsId.containsKey(obj)) {
             Class<?> c = obj.getClass();
             if (c.isArray()) {
-                if (oSettings.looksLikePrimitiveArray(obj, ljv))
+                if (oSettings.looksLikePrimitiveArray(obj))
                     processPrimitiveArray(obj);
                 else
                     processObjectArray(obj);

@@ -16,7 +16,7 @@ public class ObjSettings {
                 //- (and caught).  It is not correct to return true if
                 //- field.getType( ).isPrimitive( )
                 Object val = field.get(obj);
-                if (field.getType().isPrimitive() || canTreatAsPrimitive(ljv, val))
+                if (field.getType().isPrimitive() || canTreatAsPrimitive(val))
                     //- Just calling ljv.canTreatAsPrimitive is not adequate --
                     //- val will be wrapped as a Boolean or Character, etc. if we
                     //- are dealing with a truly primitive type.
@@ -54,7 +54,7 @@ public class ObjSettings {
             return Quote.quote(obj.toString());
         else {
             String name = c.getName();
-            if (!ljv.isShowPackageNamesInClasses() || c.getPackage() == LJV.class.getPackage()) {
+            if (!ljv.isShowPackageNamesInClasses() || c.getPackage() == ljv.getClass().getPackage()) {
                 //- Strip away everything before the last .
                 name = name.substring(name.lastIndexOf('.') + 1);
 
@@ -65,12 +65,12 @@ public class ObjSettings {
         }
     }
 
-    public boolean canTreatAsPrimitive(LJV LJV, Object obj) {
-        return obj == null || canTreatClassAsPrimitive(LJV, obj.getClass());
+    public boolean canTreatAsPrimitive(Object obj) {
+        return obj == null || canTreatClassAsPrimitive(obj.getClass());
     }
 
 
-    public boolean canTreatClassAsPrimitive(LJV LJV, Class<?> cz) {
+    public boolean canTreatClassAsPrimitive(Class<?> cz) {
         if (cz == null || cz.isPrimitive())
             return true;
 
@@ -78,8 +78,8 @@ public class ObjSettings {
             return false;
 
         do {
-            if (LJV.isTreatsAsPrimitive(cz)
-                    || LJV.isTreatsAsPrimitive(cz.getPackage())
+            if (ljv.isTreatsAsPrimitive(cz)
+                    || ljv.isTreatsAsPrimitive(cz.getPackage())
             )
                 return true;
 
@@ -88,7 +88,7 @@ public class ObjSettings {
 
             Class<?>[] ifs = cz.getInterfaces();
             for (Class<?> anIf : ifs)
-                if (canTreatClassAsPrimitive(LJV, anIf))
+                if (canTreatClassAsPrimitive(anIf))
                     return true;
 
             cz = cz.getSuperclass();
@@ -96,13 +96,13 @@ public class ObjSettings {
         return false;
     }
 
-    public boolean looksLikePrimitiveArray(Object obj, LJV LJV) {
+    public boolean looksLikePrimitiveArray(Object obj) {
         Class<?> c = obj.getClass();
         if (c.getComponentType().isPrimitive())
             return true;
 
         for (int i = 0, len = Array.getLength(obj); i < len; i++)
-            if (!canTreatAsPrimitive(LJV, Array.get(obj, i)))
+            if (!canTreatAsPrimitive(Array.get(obj, i)))
                 return false;
         return true;
     }
