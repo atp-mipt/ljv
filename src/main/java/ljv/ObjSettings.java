@@ -2,7 +2,7 @@ package ljv;
 
 import java.lang.reflect.*;
 
-public class ObjSettings {
+final class ObjSettings {
     private final LJV ljv;
     public ObjSettings(LJV ljv) {
         this.ljv = ljv;

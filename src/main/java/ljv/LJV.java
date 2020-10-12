@@ -23,7 +23,7 @@ package ljv;
 import java.lang.reflect.*;
 import java.util.*;
 
-class LJV {
+public final class LJV {
     private final Map<Object, String> classAttributeMap = new HashMap<>();
     private final Map<Object, String> fieldAttributeMap = new HashMap<>();
     private final Set<Object> pretendPrimitiveSet = new HashSet<>();

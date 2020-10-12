@@ -3,7 +3,7 @@ package ljv;
 import java.lang.reflect.*;
 import java.util.*;
 
-public class GraphBuilder {
+final class GraphBuilder {
     private final IdentityHashMap<Object, String> objectsId = new IdentityHashMap<>();
     private final ObjSettings oSettings;
     private final StringBuilder out = new StringBuilder();
@@ -60,7 +60,7 @@ public class GraphBuilder {
         }
     }
 
-    private int getFieldSize(LJV ljv, Object obj, Field[] fs) {
+    private int getFieldSize(Object obj, Field[] fs) {
         int size = 0;
         for (Field field: fs) {
             if (!ljv.canIgnoreField(field))
@@ -81,7 +81,7 @@ public class GraphBuilder {
                 .append("[label=<\n")
                 .append("\t\t<table border='0' cellborder='1' cellspacing='0'>\n")
                 .append("\t\t\t<tr>\n\t\t\t\t<td colspan='")
-                .append(getFieldSize(ljv, obj, fs))
+                .append(getFieldSize(obj, fs))
                 .append("'>")
                 .append(oSettings.className(obj, false))
                 .append("</td>\n\t\t\t</tr>\n")

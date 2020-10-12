@@ -1,20 +1,11 @@
 package ljv;
 
+/**
+ * Represents direction of graph layout. Corresponds to possible values of rankdir command in Graphviz.
+ */
 public enum Direction {
-    BT("BT"),
-    LR("LR"),
-    TB("TB"),
-    RL("RL");
-
-    private String direction;
-
-    Direction(String direction) {
-        this.direction = direction;
-    }
-
-    @Override
-    public String toString() {
-        return direction;
-    }
-
+    BT,
+    LR,
+    TB,
+    RL;
 }
