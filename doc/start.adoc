@@ -1,5 +1,7 @@
 = Lightweight Java Visualizer
 :imagesdir: images
+
+
 == Установка
 
 Установка
@@ -11,44 +13,44 @@
 ----
 String graph = new LJV().drawGraph("Hello");
 ----
-В строке `graph` содержится сгенерированная graphviz-структура объекта, который мы передали в `drawGraph()`
+В `graph` содержится сгенерированная graphviz-структура объекта, который мы передали в `drawGraph()`
 [source, graphviz]
 ----
 digraph Java {
-	rankdir="TB";
-	node[shape=plaintext]
-	n1[label=<
-		<table border='0' cellborder='1' cellspacing='0'>
-			<tr>
-				<td colspan='2'>java.lang.String</td>
-			</tr>
-			<tr>
-				<td>coder: 0</td>
-				<td>hash: 0</td>
-			</tr>
-		</table>
-	>];
-	n2[label=<
-		<table border='0' cellborder='1' cellspacing='0'>
-			<tr>
-				<td>72</td>
-				<td>101</td>
-				<td>108</td>
-				<td>108</td>
-				<td>111</td>
-			</tr>
-		</table>
-	>];
-	n1 -> n2[label="value",fontsize=12];
+    rankdir="TB";
+    node[shape=plaintext]
+    n1[label=<
+        <table border='0' cellborder='1' cellspacing='0'>
+            <tr>
+                <td colspan='2'>java.lang.String</td>
+            </tr>
+            <tr>
+                <td>coder: 0</td>
+                <td>hash: 0</td>
+            </tr>
+        </table>
+    >];
+    n2[label=<
+        <table border='0' cellborder='1' cellspacing='0'>
+            <tr>
+                <td>72</td>
+                <td>101</td>
+                <td>108</td>
+                <td>108</td>
+                <td>111</td>
+            </tr>
+        </table>
+    >];
+    n1 -> n2[label="value",fontsize=12];
 }
 ----
 Полученную строку мы можем загрузить в link:https://dreampuf.github.io/GraphvizOnline/[онлайн-сервисы]
 для GraphViz и построить вот такую визуализацию объекта:
 
 image::stringIsNotAPrimitiveType.svg[]
-== Настройки
-LJV имеет возможность настраивать отрисовки.
+== Кастомизация
 
+LJV имеет возможность настраивать отрисовки.
 
 Например, можно строку указать как примитивный тип:
 [source,java]
@@ -82,6 +84,7 @@ String graph = new LJV()
 
 image::lrwithperson.svg[]
 == Интернирование строк
+
 [source,java]
 ----
 String x = "Hello";
@@ -95,10 +98,28 @@ image::stringwithoutduplicating.svg[]
 ----
 String x = "Hello";
 String y = new String(x);
-String graph = new LJV().drawGraph(new Object[]{x, y});
+String graph1 = new LJV().drawGraph(new Object[]{x, y});
+String graph2 = new LJV().drawGraph(new Object[]{x, y.intern()});
 ----
 
 image::stringwithduplicating.svg[]
+image::stringwithintern.svg[]
 
+== Кэширование wrapped objects
 
-asd
+[source,java]
+----
+public class Example {
+    private Integer i1 = 42;
+    private Integer i2 = 42;
+    private Integer i3 = 2020;
+    private Integer i4 = 2020;
+}
+----
+
+[source,java]
+----
+String actual_graph = new LJV().drawGraph(new Example());
+----
+
+image::wrappedinteger.svg[]
