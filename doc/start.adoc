@@ -1,0 +1,104 @@
+= Lightweight Java Visualizer
+:imagesdir: images
+== Установка
+
+Установка
+
+== Начало
+
+Простой пример с генерацией graphviz
+[source, java]
+----
+String graph = new LJV().drawGraph("Hello");
+----
+В строке `graph` содержится сгенерированная graphviz-структура объекта, который мы передали в `drawGraph()`
+[source, graphviz]
+----
+digraph Java {
+	rankdir="TB";
+	node[shape=plaintext]
+	n1[label=<
+		<table border='0' cellborder='1' cellspacing='0'>
+			<tr>
+				<td colspan='2'>java.lang.String</td>
+			</tr>
+			<tr>
+				<td>coder: 0</td>
+				<td>hash: 0</td>
+			</tr>
+		</table>
+	>];
+	n2[label=<
+		<table border='0' cellborder='1' cellspacing='0'>
+			<tr>
+				<td>72</td>
+				<td>101</td>
+				<td>108</td>
+				<td>108</td>
+				<td>111</td>
+			</tr>
+		</table>
+	>];
+	n1 -> n2[label="value",fontsize=12];
+}
+----
+Полученную строку мы можем загрузить в link:https://dreampuf.github.io/GraphvizOnline/[онлайн-сервисы]
+для GraphViz и построить вот такую визуализацию объекта:
+
+image::stringIsNotAPrimitiveType.svg[]
+== Настройки
+LJV имеет возможность настраивать отрисовки.
+
+
+Например, можно строку указать как примитивный тип:
+[source,java]
+----
+String graph = new LJV()
+        .setTreatAsPrimitive(String.class)
+        .drawGraph(
+                new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
+        );
+----
+image::arrwithprimitivestring.svg[]
+
+Можно также перевернуть структуру:
+[source, java]
+----
+ArrayList<Object> a = new ArrayList<>();
+        a.add(new Person("Albert", true, 35));
+        a.add(new Person("Betty", false, 20));
+        a.add(new java.awt.Point(100, -100));
+
+String graph = new LJV()
+        .setTreatAsPrimitive(String.class)
+        .setDirection(Direction.LR) # <1>
+        .drawGraph(a);
+----
+<1> Direction - это enum с 4 типами:
+* TB - по умолчанию, рисует сверху вниз
+* BT - рисует снизу верх
+* LR - рисует слева направо
+* RL - рисует справа налево
+
+image::lrwithperson.svg[]
+== Интернирование строк
+[source,java]
+----
+String x = "Hello";
+String y = x;
+String graph = new LJV().drawGraph(new Object[]{x, y});
+----
+
+image::stringwithoutduplicating.svg[]
+
+[source,java]
+----
+String x = "Hello";
+String y = new String(x);
+String graph = new LJV().drawGraph(new Object[]{x, y});
+----
+
+image::stringwithduplicating.svg[]
+
+
+asd
