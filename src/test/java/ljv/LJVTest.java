@@ -3,7 +3,10 @@ package ljv;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class LJVTest {
@@ -606,8 +609,140 @@ public class LJVTest {
 
     @Test
     void treeMap() {
+        TreeMap<String, Integer> map = new TreeMap<>();
 
-        
+        map.put("one", 1);
+        map.put("two", 2);
+
+        String actualGraph = new LJV().drawGraph(map);
+
+        assertEquals("digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
+                "\tnode[shape=plaintext]\n" +
+                "\tn1[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='6'>java.util.TreeMap</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>comparator: null</td>\n" +
+                "\t\t\t\t<td>size: 2</td>\n" +
+                "\t\t\t\t<td>modCount: 2</td>\n" +
+                "\t\t\t\t<td>entrySet: null</td>\n" +
+                "\t\t\t\t<td>navigableKeySet: null</td>\n" +
+                "\t\t\t\t<td>descendingMap: null</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn2[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='3'>java.util.TreeMap$Entry</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>left: null</td>\n" +
+                "\t\t\t\t<td>parent: null</td>\n" +
+                "\t\t\t\t<td>color: true</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn3[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='2'>java.lang.String</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>coder: 0</td>\n" +
+                "\t\t\t\t<td>hash: 0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn4[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>111</td>\n" +
+                "\t\t\t\t<td>110</td>\n" +
+                "\t\t\t\t<td>101</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn3 -> n4[label=\"value\",fontsize=12];\n" +
+                "\tn2 -> n3[label=\"key\",fontsize=12];\n" +
+                "\tn5[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='1'>java.lang.Integer</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>value: 1</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn2 -> n5[label=\"value\",fontsize=12];\n" +
+                "\tn6[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='3'>java.util.TreeMap$Entry</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>left: null</td>\n" +
+                "\t\t\t\t<td>right: null</td>\n" +
+                "\t\t\t\t<td>color: false</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn7[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='2'>java.lang.String</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>coder: 0</td>\n" +
+                "\t\t\t\t<td>hash: 0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn8[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>116</td>\n" +
+                "\t\t\t\t<td>119</td>\n" +
+                "\t\t\t\t<td>111</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn7 -> n8[label=\"value\",fontsize=12];\n" +
+                "\tn6 -> n7[label=\"key\",fontsize=12];\n" +
+                "\tn9[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='1'>java.lang.Integer</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>value: 2</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn6 -> n9[label=\"value\",fontsize=12];\n" +
+                "\tn6 -> n2[label=\"parent\",fontsize=12];\n" +
+                "\tn2 -> n6[label=\"right\",fontsize=12];\n" +
+                "\tn1 -> n2[label=\"root\",fontsize=12];\n" +
+                "}\n", actualGraph);
+    }
+
+    @Test
+    @Disabled
+    void concurrentSkipListMap() {
+        ConcurrentSkipListMap<String, Integer> map = new ConcurrentSkipListMap<>();
+
+        map.put("one", 1);
+        map.put("two", 2);
+        map.put("three", 3);
+        map.put("four", 4);
+
+        String actualGraph = new LJV().drawGraph(map);
+
+        System.out.println(actualGraph);
     }
 
 }

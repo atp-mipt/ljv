@@ -127,5 +127,33 @@ image::wrappedinteger.svg[]
 == Treemap
 [source, java]
 ----
+TreeMap<String, Integer> map = new TreeMap<>();
 
+map.put("one", 1);
+map.put("two", 2);
+
+String actualGraph = new LJV().drawGraph(map);
 ----
+
+image::treemap.svg[]
+
+== ConcurrentSkipListMap
+[source, java]
+----
+ConcurrentSkipListMap<String, Integer> map = new ConcurrentSkipListMap<>();
+
+map.put("one", 1);
+map.put("two", 2);
+map.put("three", 3);
+map.put("four", 4);
+
+String actualGraph = new LJV().drawGraph(map);
+----
+
+=== First start
+
+image::skiplisttreemap.svg[]
+
+=== Second start
+
+image::skiplisttreemap2.svg[]
