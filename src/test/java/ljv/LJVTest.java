@@ -777,12 +777,14 @@ public class LJVTest {
     @Test
     @Disabled
     void hashMapCollision() {
-        List<String> collisionString = new HashCodeCollision().genCollisionString(5);
+        List<String> collisionString = new HashCodeCollision().genCollisionString(6);
         HashMap<String, Integer> map = new HashMap<>();
 
         for (int i = 0; i < collisionString.size(); i++) {
             map.put(collisionString.get(i), i);
         }
+
+        System.out.println(collisionString.size());
 
         String actualGraph = new LJV().drawGraph(map);
 

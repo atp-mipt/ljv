@@ -128,9 +128,13 @@ image::wrappedinteger.svg[]
 
 image::hashmap.svg[]
 
-=== Collision with 4 len string
+=== Collision...
 
 image::hashmap2.svg[]
+
+=== Collision with 13 elements and tree map
+
+image::hashmap3.svg[]
 
 == LinkedHashMap
 

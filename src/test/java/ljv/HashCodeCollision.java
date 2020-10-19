@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public class HashCodeCollision {
 
     public List<String> genCollisionString(Integer len) {
-        String str = "abcdefghijklmnopqrstuvwxyz";
+        String str = "ab";
         str += str.toUpperCase();
         return genCollisionString(len, str);
     }
