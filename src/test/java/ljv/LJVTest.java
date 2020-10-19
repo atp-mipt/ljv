@@ -2,8 +2,7 @@ package ljv;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 import org.junit.jupiter.api.Disabled;
@@ -739,6 +738,51 @@ public class LJVTest {
         map.put("two", 2);
         map.put("three", 3);
         map.put("four", 4);
+
+        String actualGraph = new LJV().drawGraph(map);
+
+        System.out.println(actualGraph);
+    }
+
+    @Test
+    @Disabled
+    void linkedHashMap() {
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+
+        map.put("one", 1);
+        map.put("two", 2);
+        map.put("three", 3);
+        map.put("four", 4);
+
+        String actualGraph = new LJV().drawGraph(map);
+
+        System.out.println(actualGraph);
+    }
+
+    @Test
+    @Disabled
+    void hashMap() {
+        HashMap<String, Integer> map = new HashMap<>();
+
+        map.put("one", 1);
+        map.put("two", 2);
+        map.put("three", 3);
+        map.put("four", 4);
+
+        String actualGraph = new LJV().drawGraph(map);
+
+        System.out.println(actualGraph);
+    }
+
+    @Test
+    @Disabled
+    void hashMapCollision() {
+        List<String> collisionString = new HashCodeCollision().genCollisionString(5);
+        HashMap<String, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < collisionString.size(); i++) {
+            map.put(collisionString.get(i), i);
+        }
 
         String actualGraph = new LJV().drawGraph(map);
 

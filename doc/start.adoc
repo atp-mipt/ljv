@@ -124,6 +124,18 @@ String actual_graph = new LJV().drawGraph(new Example());
 
 image::wrappedinteger.svg[]
 
+== HashMap
+
+image::hashmap.svg[]
+
+=== Collision with 4 len string
+
+image::hashmap2.svg[]
+
+== LinkedHashMap
+
+image::linkedhashmap.svg[]
+
 == Treemap
 [source, java]
 ----
