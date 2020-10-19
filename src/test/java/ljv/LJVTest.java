@@ -49,7 +49,7 @@ public class LJVTest {
                 .setTreatAsPrimitive(String.class)
                 .setIgnorePrivateFields(false)
                 .drawGraph(
-                new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
+                        new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
                 );
 
         String expected_graph = "digraph Java {\n" +
@@ -602,6 +602,12 @@ public class LJVTest {
                 "\tnode[shape=plaintext]\n" +
                 "\tNULL[label=\"null\", shape=plaintext];\n" +
                 "}\n", actualGraph);
+    }
+
+    @Test
+    void treeMap() {
+
+        
     }
 
 }

@@ -123,3 +123,9 @@ String actual_graph = new LJV().drawGraph(new Example());
 ----
 
 image::wrappedinteger.svg[]
+
+== Treemap
+[source, java]
+----
+
+----
