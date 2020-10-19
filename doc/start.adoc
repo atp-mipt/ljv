@@ -136,6 +136,10 @@ image::hashmap2.svg[]
 
 image::hashmap3.svg[]
 
+=== Hash collision for god of hash collision
+
+image::hashmap4.svg[]
+
 == LinkedHashMap
 
 image::linkedhashmap.svg[]
