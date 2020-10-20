@@ -13,7 +13,7 @@
 ----
 String graph = new LJV().drawGraph("Hello");
 ----
-В `graph` содержится сгенерированная graphviz-структура объекта, который мы передали в `drawGraph()`
+В `graph` содержится сгенерированная graphviz-структура объекта, который мы передаем в `drawGraph()`
 [source, graphviz]
 ----
 digraph Java {
@@ -44,13 +44,13 @@ digraph Java {
     n1 -> n2[label="value",fontsize=12];
 }
 ----
-Полученную строку мы можем загрузить в link:https://dreampuf.github.io/GraphvizOnline/[онлайн-сервисы]
+Полученную строку можно загрузить в link:https://dreampuf.github.io/GraphvizOnline/[онлайн-сервисы]
 для GraphViz и построить вот такую визуализацию объекта:
 
 image::stringIsNotAPrimitiveType.svg[]
 == Кастомизация
 
-LJV имеет возможность настраивать отрисовки.
+LJV имеет возможность настраивать вид графа.
 
 Например, можно строку указать как примитивный тип:
 [source,java]
@@ -84,6 +84,8 @@ String graph = new LJV()
 
 image::lrwithperson.svg[]
 == Интернирование строк
+
+Библиотека
 
 [source,java]
 ----
@@ -119,16 +121,105 @@ public class Example {
 
 [source,java]
 ----
-String actual_graph = new LJV().drawGraph(new Example());
+String graph = new LJV().drawGraph(new Example());
 ----
 
 image::wrappedinteger.svg[]
 
+== ArrayDeque
+
+[source,java]
+----
+ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+
+String graph = new LJV().drawGraph(arrayDeque);
+----
+
+image::arraydeque1.svg[]
+
+[source,java]
+----
+ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+arrayDeque.addLast(1);
+arrayDeque.addLast(2);
+
+String graph = new LJV()
+        .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
+----
+
+image::arraydeque2.svg[]
+
+[source,java]
+----
+ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+for (int i = 0; i < 20; i++) {
+    arrayDeque.addLast(i);
+}
+
+String graph = new LJV()
+        .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
+----
+
+image::arraydeque4.svg[]
+
+[source,java]
+----
+ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+for (int i = 0; i < 20; i++) {
+    arrayDeque.addLast(i);
+}
+for (int i = 0; i < 18; i++) {
+    arrayDeque.removeFirst();
+}
+
+String graph = new LJV()
+        .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
+----
+
+image::arraydeque3.svg[]
+
+== LinkedList
+
+[source, java]
+----
+LinkedList<Integer> linkedList = new LinkedList<>();
+linkedList.add(1);
+linkedList.add(42);
+linkedList.add(21);
+
+String graph = new LJV().drawGraph(linkedList);
+----
+
+image::linkedlist.svg[]
+
 == HashMap
+
+[source,java]
+----
+HashMap<String, Integer> map = new HashMap<>();
+map.put("one", 1);
+map.put("two", 2);
+map.put("three", 3);
+map.put("four", 4);
+
+String graph = new LJV().drawGraph(map);
+----
 
 image::hashmap.svg[]
 
 === Collision...
+
+[source,java]
+----
+List<String> collisionString = new HashCodeCollision().genCollisionString(6);
+HashMap<String, Integer> map = new HashMap<>();
+
+for (int i = 0; i < collisionString.size(); i++) {
+    map.put(collisionString.get(i), i);
+}
+
+String graph = new LJV().drawGraph(map);
+----
 
 image::hashmap2.svg[]
 

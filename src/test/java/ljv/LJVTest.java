@@ -791,4 +791,223 @@ public class LJVTest {
         System.out.println(actualGraph);
     }
 
+    @Test
+    void wrappedObjects() {
+        String actual_graph = new LJV().drawGraph(new Example());
+
+        String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
+                "\tnode[shape=plaintext]\n" +
+                "\tn1[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>Example</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn2[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='1'>java.lang.Integer</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>value: 42</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn1 -> n2[label=\"i1\",fontsize=12];\n" +
+                "\tn1 -> n2[label=\"i2\",fontsize=12];\n" +
+                "\tn3[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='1'>java.lang.Integer</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>value: 2020</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn1 -> n3[label=\"i3\",fontsize=12];\n" +
+                "\tn4[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='1'>java.lang.Integer</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>value: 2020</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn1 -> n4[label=\"i4\",fontsize=12];\n" +
+                "}\n";
+
+        assertEquals(expected_graph, actual_graph, "Case with wrapped objects was failed");
+    }
+
+    @Test
+    void linkedList() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        linkedList.add(1);
+        linkedList.add(42);
+        linkedList.add(21);
+
+        String actual_graph = new LJV().drawGraph(linkedList);
+
+        String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
+                "\tnode[shape=plaintext]\n" +
+                "\tn1[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='1'>java.util.LinkedList</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>size: 3</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn2[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='1'>java.util.LinkedList$Node</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>prev: null</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn3[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='1'>java.lang.Integer</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>value: 1</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn2 -> n3[label=\"item\",fontsize=12];\n" +
+                "\tn4[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>java.util.LinkedList$Node</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn5[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='1'>java.lang.Integer</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>value: 42</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn4 -> n5[label=\"item\",fontsize=12];\n" +
+                "\tn6[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='1'>java.util.LinkedList$Node</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>next: null</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn7[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='1'>java.lang.Integer</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>value: 21</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn6 -> n7[label=\"item\",fontsize=12];\n" +
+                "\tn6 -> n4[label=\"prev\",fontsize=12];\n" +
+                "\tn4 -> n6[label=\"next\",fontsize=12];\n" +
+                "\tn4 -> n2[label=\"prev\",fontsize=12];\n" +
+                "\tn2 -> n4[label=\"next\",fontsize=12];\n" +
+                "\tn1 -> n2[label=\"first\",fontsize=12];\n" +
+                "\tn1 -> n6[label=\"last\",fontsize=12];\n" +
+                "}\n";
+
+        assertEquals(expected_graph, actual_graph, "Case with linked list was failed");
+    }
+
+    @Test
+    @Disabled
+    void arrayDeque() {
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+        for (int i = 0; i < 20; i++) {
+            arrayDeque.addLast(i);
+        }
+        for (int i = 0; i < 18; i++) {
+            arrayDeque.removeFirst();
+        }
+
+        String actual_graph = new LJV()
+                .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
+
+        String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
+                "\tnode[shape=plaintext]\n" +
+                "\tn1[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td colspan='2'>java.util.ArrayDeque</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>head: 2</td>\n" +
+                "\t\t\t\t<td>tail: 4</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn2[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>18</td>\n" +
+                "\t\t\t\t<td>19</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t\t<td>null</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn1 -> n2[label=\"elements\",fontsize=12];\n" +
+                "}";
+
+        assertEquals(expected_graph, actual_graph, "Case with arrayDeque was failed");
+    }
 }
