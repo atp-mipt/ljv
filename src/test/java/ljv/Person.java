@@ -3,6 +3,7 @@ package ljv;
 enum Gender {
     MALE,
     FEMALE,
+    OTHER,
 }
 
 class Person {

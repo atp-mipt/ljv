@@ -1,10 +1,9 @@
 = Lightweight Java Visualizer
 :imagesdir: images
 
+link:https://search.maven.org/artifact/org.atp-fivt/ljv/1.0/jar[Maven Central]
 
-== Установка
 
-Установка
 
 == Начало
 
@@ -76,11 +75,11 @@ String graph = new LJV()
         .setDirection(Direction.LR) # <1>
         .drawGraph(a);
 ----
-<1> Direction - это enum с 4 типами:
-* TB - по умолчанию, рисует сверху вниз
-* BT - рисует снизу верх
-* LR - рисует слева направо
-* RL - рисует справа налево
+* Direction - это enum с 4 типами:
+** TB - по умолчанию, рисует сверху вниз
+** BT - рисует снизу верх
+** LR - рисует слева направо
+** RL - рисует справа налево
 
 image::lrwithperson.svg[]
 == Интернирование строк
@@ -160,7 +159,7 @@ String graph = new LJV()
         .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
 ----
 
-image::arraydeque4.svg[]
+image::arraydeque3.svg[]
 
 [source,java]
 ----
@@ -173,10 +172,11 @@ for (int i = 0; i < 18; i++) {
 }
 
 String graph = new LJV()
-        .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
+        .setTreatAsPrimitive(Integer.class)
+        .drawGraph(arrayDeque);
 ----
 
-image::arraydeque3.svg[]
+image::arraydeque4.svg[]
 
 == LinkedList
 
@@ -187,7 +187,13 @@ linkedList.add(1);
 linkedList.add(42);
 linkedList.add(21);
 
-String graph = new LJV().drawGraph(linkedList);
+String graph = new LJV()
+        .setTreatAsPrimitive(Integer.class)
+        .addFieldAttribute("next", "color=red,fontcolor=red")
+        .addFieldAttribute("prev", "color=blue,fontcolor=blue")
+        .addFieldAttribute("first", "color=red,fontcolor=red")
+        .addFieldAttribute("last", "color=red,fontcolor=red")
+        .drawGraph(linkedList);
 ----
 
 image::linkedlist.svg[]
@@ -202,7 +208,10 @@ map.put("two", 2);
 map.put("three", 3);
 map.put("four", 4);
 
-String graph = new LJV().drawGraph(map);
+String graph = new LJV()
+        .setTreatAsPrimitive(Integer.class)
+        .setTreatAsPrimitive(String.class)
+        .drawGraph(map);
 ----
 
 image::hashmap.svg[]
@@ -211,6 +220,25 @@ image::hashmap.svg[]
 
 [source,java]
 ----
+List<String> collisionString = new HashCodeCollision().genCollisionString(3);
+HashMap<String, Integer> map = new HashMap<>();
+
+for (int i = 0; i < collisionString.size(); i++) {
+    map.put(collisionString.get(i), i);
+}
+
+String graph = new LJV()
+        .setTreatAsPrimitive(Integer.class)
+        .setTreatAsPrimitive(String.class)
+        .drawGraph(map);
+----
+
+image::hashmap2.svg[]
+
+=== Collision with 13 elements and tree map
+
+[source, java]
+----
 List<String> collisionString = new HashCodeCollision().genCollisionString(6);
 HashMap<String, Integer> map = new HashMap<>();
 
@@ -218,22 +246,32 @@ for (int i = 0; i < collisionString.size(); i++) {
     map.put(collisionString.get(i), i);
 }
 
-String graph = new LJV().drawGraph(map);
+String graph = new LJV()
+        .setTreatAsPrimitive(String.class)
+        .setTreatAsPrimitive(Integer.class)
+        .drawGraph(map);
 ----
-
-image::hashmap2.svg[]
-
-=== Collision with 13 elements and tree map
 
 image::hashmap3.svg[]
 
 === Hash collision for god of hash collision
 
+[source, java]
+----
+List<String> collisionString = new HashCodeCollision().genCollisionString(8);
+HashMap<String, Integer> map = new HashMap<>();
+
+for (int i = 0; i < collisionString.size(); i++) {
+    map.put(collisionString.get(i), i);
+}
+
+String graph = new LJV()
+        .setTreatAsPrimitive(String.class)
+        .setTreatAsPrimitive(Integer.class)
+        .drawGraph(map);
+----
+
 image::hashmap4.svg[]
-
-== LinkedHashMap
-
-image::linkedhashmap.svg[]
 
 == Treemap
 [source, java]
@@ -243,7 +281,10 @@ TreeMap<String, Integer> map = new TreeMap<>();
 map.put("one", 1);
 map.put("two", 2);
 
-String actualGraph = new LJV().drawGraph(map);
+String actualGraph = new LJV()
+        .setTreatAsPrimitive(Integer.class)
+        .setTreatAsPrimitive(String.class)
+        .drawGraph(map);
 ----
 
 image::treemap.svg[]
@@ -258,7 +299,10 @@ map.put("two", 2);
 map.put("three", 3);
 map.put("four", 4);
 
-String actualGraph = new LJV().drawGraph(map);
+String actualGraph = new LJV()
+        .setTreatAsPrimitive(Integer.class)
+        .setTreatAsPrimitive(String.class)
+        .drawGraph(map);
 ----
 
 === First start
