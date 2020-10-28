@@ -611,10 +611,10 @@ public class LJVTest {
                 "\t\t\t\t<td>comparator: null</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>size: 2</td>\n" +
+                "\t\t\t\t<td>size: 4</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>modCount: 2</td>\n" +
+                "\t\t\t\t<td>modCount: 4</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>entrySet: null</td>\n" +
@@ -630,16 +630,13 @@ public class LJVTest {
                 "\tn2[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='6'>java.util.TreeMap$Entry</td>\n" +
+                "\t\t\t\t<td rowspan='5'>java.util.TreeMap$Entry</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>key: one</td>\n" +
+                "\t\t\t\t<td>key: three</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>value: 1</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>left: null</td>\n" +
+                "\t\t\t\t<td>value: 3</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>parent: null</td>\n" +
@@ -650,6 +647,51 @@ public class LJVTest {
                 "\t\t</table>\n" +
                 "\t>];\n" +
                 "\tn3[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td rowspan='5'>java.util.TreeMap$Entry</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>key: one</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>value: 1</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>right: null</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>color: true</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn4[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td rowspan='6'>java.util.TreeMap$Entry</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>key: four</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>value: 4</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>left: null</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>right: null</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>color: false</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn4 -> n3[label=\"parent\",fontsize=12];\n" +
+                "\tn3 -> n4[label=\"left\",fontsize=12];\n" +
+                "\tn3 -> n2[label=\"parent\",fontsize=12];\n" +
+                "\tn2 -> n3[label=\"left\",fontsize=12];\n" +
+                "\tn5[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td rowspan='6'>java.util.TreeMap$Entry</td>\n" +
@@ -667,12 +709,12 @@ public class LJVTest {
                 "\t\t\t\t<td>right: null</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>color: false</td>\n" +
+                "\t\t\t\t<td>color: true</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t</table>\n" +
                 "\t>];\n" +
-                "\tn3 -> n2[label=\"parent\",fontsize=12];\n" +
-                "\tn2 -> n3[label=\"right\",fontsize=12];\n" +
+                "\tn5 -> n2[label=\"parent\",fontsize=12];\n" +
+                "\tn2 -> n5[label=\"right\",fontsize=12];\n" +
                 "\tn1 -> n2[label=\"root\",fontsize=12];\n" +
                 "}\n", actualGraph);
     }
