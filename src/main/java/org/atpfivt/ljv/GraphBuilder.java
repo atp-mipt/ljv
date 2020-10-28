@@ -3,7 +3,7 @@ package org.atpfivt.ljv;
 import java.lang.reflect.*;
 import java.util.*;
 
-public class GraphBuilder {
+final class GraphBuilder {
     private final IdentityHashMap<Object, String> objectsId = new IdentityHashMap<>();
     private final ObjSettings oSettings;
     private final StringBuilder out = new StringBuilder();
