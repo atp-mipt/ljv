@@ -345,88 +345,27 @@ public class LJVTest {
     }
 
     @Test
-    void cyclicalStructuresClassesWithAndWithoutAToString() {
-        Node n = new Node("top", 2);
-        n.left = new Node("left", 1);
-        n.right = new Node("right", 1);
-        n.right.left = n;
-        n.right.right = n;
-
-        String actual_graph = new LJV()
-                .addFieldAttribute("left", "color=red,fontcolor=red")
-                .addFieldAttribute("right", "color=blue,fontcolor=blue")
-                .addClassAttribute(Node.class, "color=pink,style=filled")
-                .addIgnoreField("level")
-                .addIgnoreField("ok")
-                .setTreatAsPrimitive(String.class)
-                .setShowFieldNamesInLabels(false)
-                .drawGraph(n);
-
-        String expected_graph = "digraph Java {\n" +
-                "\trankdir=\"TB\";\n" +
-                "\tnode[shape=plaintext]\n" +
-                "\tn1[label=<\n" +
-                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>Node</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>top</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t</table>\n" +
-                "\t>,color=pink,style=filled];\n" +
-                "\tn2[label=<\n" +
-                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>Node</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>left</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>null</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>null</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t</table>\n" +
-                "\t>,color=pink,style=filled];\n" +
-                "\tn1 -> n2[label=\"left\",fontsize=12,color=red,fontcolor=red];\n" +
-                "\tn3[label=<\n" +
-                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>Node</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>right</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t</table>\n" +
-                "\t>,color=pink,style=filled];\n" +
-                "\tn3 -> n1[label=\"left\",fontsize=12,color=red,fontcolor=red];\n" +
-                "\tn3 -> n1[label=\"right\",fontsize=12,color=blue,fontcolor=blue];\n" +
-                "\tn1 -> n3[label=\"right\",fontsize=12,color=blue,fontcolor=blue];\n" +
-                "}\n";
-
-        assertEquals(expected_graph, actual_graph, "Nodes case with context failed");
-    }
-
-    @Test
     void cyclicalStructuresClassesWithAndWithoutAToStringAndWithoutContext() {
-        Node n = new Node("top", 2);
-        n.left = new Node("left", 1);
-        n.right = new Node("right", 1);
-        n.right.left = n;
-        n.right.right = n;
+        Node n1 = new Node("A");
+        n1.level = 1;
+        AnotherNode n2 = new AnotherNode("B");
+        n2.level = 2;
+        AnotherNode n3 = new AnotherNode("C");
+        n3.level = 2;
+
+        n1.left = n2;
+        n1.right = n3;
+        n1.right.left = n1;
+        n1.right.right = n1;
 
         String actual_graph = new LJV()
                 .addFieldAttribute("left", "color=red,fontcolor=red")
                 .addFieldAttribute("right", "color=blue,fontcolor=blue")
                 .addClassAttribute(Node.class, "color=pink,style=filled")
                 .addIgnoreField("level")
-                .addIgnoreField("ok")
                 .setTreatAsPrimitive(String.class)
                 .setShowFieldNamesInLabels(false)
-                .drawGraph(n);
+                .drawGraph(n1);
 
         String expected_graph = "digraph Java {\n" +
                 "\trankdir=\"TB\";\n" +
@@ -437,17 +376,17 @@ public class LJVTest {
                 "\t\t\t\t<td rowspan='2'>Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>top</td>\n" +
+                "\t\t\t\t<td>A</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t</table>\n" +
                 "\t>,color=pink,style=filled];\n" +
                 "\tn2[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>Node</td>\n" +
+                "\t\t\t\t<td rowspan='4'>AnotherNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>left</td>\n" +
+                "\t\t\t\t<td>B</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>null</td>\n" +
@@ -456,18 +395,18 @@ public class LJVTest {
                 "\t\t\t\t<td>null</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t</table>\n" +
-                "\t>,color=pink,style=filled];\n" +
+                "\t>];\n" +
                 "\tn1 -> n2[label=\"left\",fontsize=12,color=red,fontcolor=red];\n" +
                 "\tn3[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>Node</td>\n" +
+                "\t\t\t\t<td rowspan='2'>AnotherNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>right</td>\n" +
+                "\t\t\t\t<td>C</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t</table>\n" +
-                "\t>,color=pink,style=filled];\n" +
+                "\t>];\n" +
                 "\tn3 -> n1[label=\"left\",fontsize=12,color=red,fontcolor=red];\n" +
                 "\tn3 -> n1[label=\"right\",fontsize=12,color=blue,fontcolor=blue];\n" +
                 "\tn1 -> n3[label=\"right\",fontsize=12,color=blue,fontcolor=blue];\n" +
