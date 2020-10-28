@@ -591,6 +591,8 @@ public class LJVTest {
 
         map.put("one", 1);
         map.put("two", 2);
+        map.put("three", 3);
+        map.put("four", 4);
 
         String actualGraph = new LJV()
                 .setTreatAsPrimitive(Integer.class)
