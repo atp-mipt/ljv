@@ -1,4 +1,4 @@
-package ljv;
+package org.atpfivt.ljv;
 
 public class Example {
     private Integer i1 = 42;
