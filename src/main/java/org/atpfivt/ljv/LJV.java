@@ -1,4 +1,4 @@
-package ljv;
+package org.atpfivt.ljv;
 
 //- Author:     John Hamer <J.Hamer@cs.auckland.ac.nz>
 //- Created:    Sat May 10 15:27:48 2003
@@ -23,7 +23,10 @@ package ljv;
 import java.lang.reflect.*;
 import java.util.*;
 
-class LJV {
+/**
+ * Lightweight Java Visualizer.
+ */
+public final class LJV {
     private final Map<Object, String> classAttributeMap = new HashMap<>();
     private final Map<Object, String> fieldAttributeMap = new HashMap<>();
     private final Set<Object> pretendPrimitiveSet = new HashSet<>();
@@ -68,6 +71,7 @@ class LJV {
          */
         SHOWFIELDNAMESINLABELS,
     }
+
     private final EnumSet<Options> oSet = EnumSet.of(Options.SHOWPACKAGENAMESINCLASSES, Options.SHOWFIELDNAMESINLABELS);
 
     /**
@@ -75,6 +79,9 @@ class LJV {
      * appearance of certain nodes in the output, but requires that you
      * know something about dot attributes.  Simple attributes are, e.g.,
      * "color=red".
+     *
+     * @param cz     class to set attribute for.
+     * @param attrib DOT attributes for a class.
      */
     public void setClassAttribute(Class<?> cz, String attrib) {
         classAttributeMap.put(cz, attrib);
@@ -94,6 +101,10 @@ class LJV {
      * change the appearance of certain edges in the output, but requires
      * that you know something about dot attributes.  Simple attributes
      * are, e.g., "color=blue".
+     *
+     * @param field  field to set attributes to
+     * @param attrib field attributes
+     * @return this
      */
     public LJV addFieldAttribute(Field field, String attrib) {
         this.fieldAttributeMap.put(field, attrib);
@@ -106,6 +117,9 @@ class LJV {
 
     /**
      * Set the DOT attributes for all fields with this name.
+     *
+     * @param field field name to set attributes to
+     * @return attributes
      */
     public String getFieldAttribute(String field) {
         return fieldAttributeMap.get(field);
@@ -118,6 +132,9 @@ class LJV {
 
     /**
      * Do not display this field.
+     *
+     * @param field field to ignore
+     * @return this
      */
     public LJV addIgnoreField(Field field) {
         this.ignoreSet.add(field);
@@ -126,6 +143,9 @@ class LJV {
 
     /**
      * Do not display any fields with this name.
+     *
+     * @param field field name to ignore
+     * @return this
      */
     public LJV addIgnoreField(String field) {
         this.ignoreSet.add(field);
@@ -134,6 +154,9 @@ class LJV {
 
     /**
      * Do not display any fields from this class.
+     *
+     * @param cz class to ignore fields
+     * @return this
      */
     public LJV addIgnoreFields(Class<?> cz) {
         Field[] fs = cz.getDeclaredFields();
@@ -143,6 +166,9 @@ class LJV {
 
     /**
      * Do not display any fields with this type.
+     *
+     * @param cz type of fields to ignore
+     * @return this
      */
     public LJV addIgnoreClass(Class<?> cz) {
         this.ignoreSet.add(cz);
@@ -151,6 +177,9 @@ class LJV {
 
     /**
      * Do not display any fields that have a type from this package.
+     *
+     * @param pk package that contains classes of fields that will not be displayed
+     * @return this
      */
     public LJV addIgnorePackage(Package pk) {
         this.ignoreSet.add(pk);
@@ -171,6 +200,9 @@ class LJV {
      * Treat objects of this class as primitives; i.e., <code>toString</code>
      * is called on the object, and the result displayed in the label like
      * a primitive field.
+     *
+     * @param cz Class of objects to be treated as primitives
+     * @return this
      */
     public LJV setTreatAsPrimitive(Class<?> cz) {
         this.pretendPrimitiveSet.add(cz);
@@ -185,6 +217,9 @@ class LJV {
      * Treat objects from this package as primitives; i.e.,
      * <code>toString</code> is called on the object, and the result displayed
      * in the label like a primitive field.
+     *
+     * @param pk Package with classes to treated as primitive
+     * @return this
      */
     public LJV setTreatAsPrimitive(Package pk) {
         this.pretendPrimitiveSet.add(pk);
@@ -198,8 +233,7 @@ class LJV {
     private void setOption(boolean flag, Options option) {
         if (flag) {
             oSet.add(option);
-        }
-        else {
+        } else {
             oSet.remove(option);
         }
     }
@@ -242,7 +276,10 @@ class LJV {
     }
 
     /**
-     * Create a graph of the object rooted at <tt>obj</tt>.
+     * Create a graph of the object rooted at @code{obj}.
+     *
+     * @param obj object to be visualized
+     * @return String representation containing DOT commands to build the graph
      */
     public String drawGraph(Object obj) {
         return new GraphBuilder(this).generateDOT(obj);

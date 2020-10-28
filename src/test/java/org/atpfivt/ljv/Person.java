@@ -1,4 +1,4 @@
-package ljv;
+package org.atpfivt.ljv;
 
 enum Gender {
     MALE,
