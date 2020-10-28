@@ -1,7 +1,10 @@
 package org.atpfivt.ljv;
 
-import java.util.*;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,11 +27,9 @@ public class HashCodeCollision {
         Stream<String> permuatation = alphabet_list.stream();
 
         for (int i = 0; i < len - 1; i++) {
-            permuatation = permuatation.flatMap(permuatatin_el -> {
-                return alphabet_list.stream().map(alphabet_x -> {
-                    return permuatatin_el + alphabet_x;
-                });
-            });
+            permuatation = permuatation
+                    .flatMap(permuatatin_el -> alphabet_list.stream()
+                            .map(alphabet_x -> permuatatin_el + alphabet_x));
         }
 
         permuatation.forEach(permuatation_el -> {
