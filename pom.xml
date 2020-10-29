@@ -7,7 +7,8 @@
     <groupId>org.atp-fivt</groupId>
     <artifactId>ljv-parent</artifactId>
     <version>${revision}</version>
-
+    <packaging>pom</packaging>
+    
     <name>ljv parent pom</name>
     <description>Lightweight Java Visualizer</description>
     <url>https://github.com/ljviz/ljv</url>
