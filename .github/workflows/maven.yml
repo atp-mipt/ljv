@@ -17,6 +17,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11.0.x
+    - name: Set up dot
+      run: sudo apt-get install -y graphviz
     - uses: actions/cache@v1
       with:
         path: ~/.m2/repository
