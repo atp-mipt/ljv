@@ -1,5 +1,5 @@
-= Kafka Streams Testing: A Deep Dive
-Ivan Ponomarev, John Roesler
+= The Lightweight Java Visualizer (LJV)
+Ivan Ponomarev, John Roesler, Nuras Nogayev, Ilya Selivanov
 :revealjs_theme: black
 :revealjs_customtheme: white_course.css
 :revealjs_slideNumber:
@@ -22,42 +22,110 @@ include::_doc_general_attributes.adoc[]
 :revealjs_width: 1600
 :revealjs_height: 900
 :stem: latexmath
+:hardbreaks:
 
 
 //== Часть 1. Введение
 :!figure-caption:
 
-
-== Who Are We
+== Кто мы
 
 [cols="20a,80a"]
 |===
-|asdfasdfsa
+| Фоточка
 |
 Ivan Ponomarev:
 
 * Software Engineer at KURS, tutor at MIPT
-* Apache Kafka Contributor
 |===
-
-[.notes]
---
-John introduces Ivan
---
-
-== Who Are We
 
 [cols="20a,80a"]
 |===
-| asdfasdfas
+| Фоточка
 |
-John Roesler:
+Илья Селиванов:
 
-* Software Engineer at Confluent
-* Apache Kafka Committer and PMC member
+* Студент МФТИ
 |===
 
 
-== Blah-blah
+[cols="20a,80a"]
+|===
+| Фоточка
+|
+Нурас Ногаев:
 
-aasadf asdfasdfas
+* Студент МФТИ
+|===
+
+
+== Идея
+
+С помощью Reflection API в режиме runtime построить внутреннее представление графа объектов памяти.
+
+картиночка графа
+
+== До нас
+
+Инструмент был разработан Джоном Роэслером в 2004 году на java 1.4
+
+https://www.cs.auckland.ac.nz/~j-hamer/ACE04-paper.pdf
+Hamer, J.. “Visualising Java Data Structures as Graphs.” ACE (2004). /поправить/
+
+// Спросить у ОЛега как правильно указать ссылку
+
+== Проблемы
+
+[%step]
+* Неудобство пользования
+* Отсутствие поддержки инструмента
+* Изменение графвиза
+* Отсутствие ряда возможностей
+
+[.notes]
+--
+1) Код теперь выглядит правильнее и удобнее
+2) АПИ был старым и неудобным
+3) Теперь каждый может легко получить доступ к инструменту и вносить вклад
+4) теперь пакетные менеджеры могут легко скачать инструмент
+5) Теперь используем новые фичи графвиза, html like labels
+--
+
+== Решения
+
+[%step]
+* Обновление до Java 11
+* Изменение API инструмента (method chaining)
+* Выложили на github
+* Выложили на maven central
+* Полностью изменена генерация графа
+
+[.notes]
+--
+1) Код теперь выглядит правильнее и удобнее
+2) АПИ был старым и неудобным
+3) Теперь каждый может легко получить доступ к инструменту и вносить вклад
+4) теперь пакетные менеджеры могут легко скачать инструмент
+5) Теперь используем новые фичи графвиза, html like labels
+--
+
+== Зачем он нужен
+
+* Реверс инжиниринг кода
+* В преподавании
+
+[.notes]
+--
+1) Код теперь выглядит правильнее и удобнее
+2) АПИ был старым и неудобным
+--
+
+== Как использовать
+
+пример хелло
+
+== Настройки графа
+
+* стрелки
+* цвета
+* шрифты
