@@ -19,7 +19,7 @@
 :revealjs_width: 1600
 :revealjs_height: 900
 :stem: latexmath
-:hardbreaks:
+:hardbreaks: true
 :source-highlighter: highlightjs
 :highlightjs-languages: java, kotlin, scala, groovy, graphviz
 :customcss: slides.css
@@ -35,16 +35,19 @@ include::_doc_general_attributes.adoc[]
 
 [cols="20a,80a"]
 |===
-| image::ponomarev.jpg[Иван,180,180]
-| Иван Пономарев:
+.^| image::ponomarev.jpg[Иван,180,180]
+.^|
+Иван Пономарев:
 - Software Engineer at KURS, tutor at MIPT
 
-| image::selivanov.png[Илья,180,180]
-|Илья Селиванов:
+.^| image::selivanov.png[Илья,180,180]
+.^|
+Илья Селиванов:
 - Студент МФТИ
 
-| image::nogaev.png[Нурас,180,180]
-| Нурас Ногаев:
+.^| image::nogaev.png[Нурас,180,180]
+.^|
+Нурас Ногаев:
 - Студент МФТИ
 |===
 
@@ -708,12 +711,18 @@ digraph Java {
 [.notes]
 --
 reflection api
+На рисунке визуализирован хэшмап
+с огромной коллизией,
+и как он смог его переделать в тримап
 --
 
 == До нас
 
 Инструмент был разработан Джоном Роэслером в 2004 году на java 1.4
 
+[%hardbreaks]
+[%hardbreaks]
+[%hardbreaks]
 https://www.cs.auckland.ac.nz/~j-hamer/ACE04-paper.pdf
 Hamer, J.. “Visualising Java Data Structures as Graphs.” ACE (2004). /поправить/
 
@@ -769,12 +778,12 @@ Hamer, J.. “Visualising Java Data Structures as Graphs.” ACE (2004). /поп
 
 [cols="40a, 60a"]
 |===
-|
+.^|
 [source,java]
 ----
 String graph = new LJV().drawGraph("Hello");
 ----
-|
+.^|
 [graphviz]
 ----
 digraph Java {
@@ -850,7 +859,7 @@ digraph Java {
 
 [cols="a,a"]
 |===
-|
+.^|
 [source,java]
 ----
 String graph = new LJV()
@@ -859,7 +868,7 @@ String graph = new LJV()
                 new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
         );
 ----
-|
+.^|
 [graphviz]
 ----
 digraph Java {
@@ -904,7 +913,7 @@ digraph Java {
 
 [cols="a"]
 |===
-| [source,java]
+.^| [source,java]
 ----
 ArrayList<Object> a = new ArrayList<>();
         a.add(new Person("Albert", true, 35));
@@ -1007,19 +1016,13 @@ digraph Java {
 === Цвета
 
 Можно разукрасить отдельные части графа
-
+[cols="a,a"]
+|===
+.^|
 [source,java]
 ----
 Node n1 = new Node("A");
-n1.level = 1;
-AnotherNode n2 = new AnotherNode("B");
-n2.level = 2;
-AnotherNode n3 = new AnotherNode("C");
-n3.level = 2;
-
-n1.left = n2;
-n1.right = n3;
-n1.right.left = n1;
+...
 n1.right.right = n1;
 
 String graph = new LJV()
@@ -1027,12 +1030,11 @@ String graph = new LJV()
     .addFieldAttribute("right", "color=blue,fontcolor=blue")
     .addClassAttribute(Node.class, "color=pink,style=filled")
     .addIgnoreField("level")
-    .addIgnoreField("ok")
     .setTreatAsPrimitive(String.class)
     .setShowFieldNamesInLabels(false)
     .drawGraph(n1);
 ----
-
+.^|
 [graphviz]
 ----
 digraph Java {
@@ -1079,8 +1081,8 @@ digraph Java {
 	n3 -> n1[label="right",fontsize=12,color=blue,fontcolor=blue];
 	n1 -> n3[label="right",fontsize=12,color=blue,fontcolor=blue];
 }
-
 ----
+|===
 
 == String interning
 
