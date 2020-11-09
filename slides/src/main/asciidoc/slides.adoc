@@ -37,17 +37,17 @@ include::_doc_general_attributes.adoc[]
 
 [cols="20a,80a"]
 |===
-.^| image::ponomarev.jpg[Иван,180,180]
+.^| image::ponomarev.jpg[Иван,width=180]
 .^|
 Иван Пономарев:
 - Software Engineer at KURS, tutor at MIPT
 
-.^| image::selivanov.png[Илья,180,180]
+.^| image::selivanov.png[Илья,width=180]
 .^|
 Илья Селиванов:
 - Студент МФТИ
 
-.^| image::nogaev.png[Нурас,180,180]
+.^| image::nogaev.png[Нурас,width=180]
 .^|
 Нурас Ногаев:
 - Студент МФТИ
