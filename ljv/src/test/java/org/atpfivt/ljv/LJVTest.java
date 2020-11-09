@@ -669,6 +669,7 @@ public class LJVTest {
         map.put("four", 4);
 
         String actual_graph = new LJV()
+                .addFieldAttribute("node", "height=1.0")
                 .setTreatAsPrimitive(Integer.class)
                 .setTreatAsPrimitive(String.class)
                 .drawGraph(map);
