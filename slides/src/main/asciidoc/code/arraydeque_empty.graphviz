@@ -10,7 +10,7 @@ digraph Java {
 				<td>head: 0</td>
 			</tr>
 			<tr>
-				<td>tail: 2</td>
+				<td>tail: 0</td>
 			</tr>
 		</table>
 	>];
