@@ -205,6 +205,69 @@ public class LJVTest {
     }
 
     @Test
+    void stringIntern() {
+        String x = "Hello";
+        String y = "Hello";
+        String actual_graph = new LJV().drawGraph(new Object[]{x, y.intern()});
+
+        String expected_graph = "digraph Java {\n" +
+                "\trankdir=\"TB\";\n" +
+                "\tnode[shape=plaintext]\n" +
+                "\tn1[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0' cellpadding='9'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td port=\"f0\"></td>\n" +
+                "\t\t\t\t<td port=\"f1\"></td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn2[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td rowspan='3'>java.lang.String</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>coder: 0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>hash: 0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn3[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>72</td>\n" +
+                "\t\t\t\t<td>101</td>\n" +
+                "\t\t\t\t<td>108</td>\n" +
+                "\t\t\t\t<td>108</td>\n" +
+                "\t\t\t\t<td>111</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn2 -> n3[label=\"value\",fontsize=12];\n" +
+                "\tn1:f0 -> n2[label=\"0\",fontsize=12];\n" +
+                "\tn4[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td rowspan='3'>java.lang.String</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>coder: 0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>hash: 0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn4 -> n3[label=\"value\",fontsize=12];\n" +
+                "\tn1:f1 -> n4[label=\"1\",fontsize=12];\n" +
+                "}\n";
+
+        assertEquals(expected_graph, actual_graph, "Without duplicate hello case failed");
+    }
+
+    @Test
     void multiDimensionalArrays() {
         String actual_graph = new LJV().drawGraph(new int[4][5]);
 
