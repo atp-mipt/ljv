@@ -65,12 +65,13 @@ include::code/hashmap_many_collissions.graphviz[]
 
 [.notes]
 --
+Идея заключается в том, что с помощью ReflectionAPI показывать внутренности объектов и строить граф в GraphViz'e
 reflection api На рисунке визуализирован хэшмап с огромной коллизией, и как он смог его переделать в тримап
 --
 
 == До нас
 
-Инструмент был разработан Джоном Xамером в 2004 году на java 1.4
+Инструмент был разработан Джоном Хамером в 2004 году на java 1.4
 
 [%hardbreaks]
 [%hardbreaks]
@@ -82,7 +83,7 @@ John Hamer “Visualising Java Data Structures as Graphs”
 
 == Проблемы
 
-//[%step]
+[%step]
 * Неудобство пользования
 * Отсутствие поддержки инструмента
 * Изменение графвиза
@@ -95,7 +96,7 @@ John Hamer “Visualising Java Data Structures as Graphs”
 
 == Решения
 
-//[%step]
+[%step]
 * Обновление до Java 11
 * Изменение API инструмента (method chaining)
 * Выложили на github
@@ -132,6 +133,12 @@ String graph = new LJV().drawGraph("Hello");
 ----
 include::code/string_java_8.graphviz[]
 ----
+
+[.notes]
+--
+упомянуть подключение через pom.xml
+--
+
 |===
 
 [%notitle]
