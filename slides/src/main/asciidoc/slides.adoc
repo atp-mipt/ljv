@@ -1,7 +1,5 @@
-:revealjs_theme: white
-//:revealjs_customtheme: white_course.css
-// путник, пожалуйста, не добавляй это обратно, весь код поедет(
-// меняй лучше slides.css по примеру из white_course.css
+//:revealjs_theme: white
+:revealjs_customtheme: white_course.css
 :revealjs_slideNumber:
 :revealjs_history:
 :revealjs_progress:
@@ -64,13 +62,13 @@ include::_doc_general_attributes.adoc[]
 
 == Идея
 
-В режиме runtime построить внутреннее представление графа объектов памяти.
+* В режиме runtime построить внутреннее представление графа объектов памяти.
 
-Инструмент в глубину проходит граф объектов с помощью Reflection API и генерирует DOT код c необходимыми полями и классами.
+* Инструмент в глубину проходит граф объектов с помощью Reflection API и генерирует DOT код c необходимыми полями и классами.
 
-Полученный DOT код можно загрузить в https://dreampuf.github.io/[онлайн-сервисы]
+* Полученный DOT код можно загрузить в https://dreampuf.github.io/[онлайн-сервисы]
 
-DOT - язык описания графов.
+* DOT - язык описания графов.
 
 [.notes]
 --
@@ -98,10 +96,10 @@ reflection api На рисунке визуализирован хэшмап с 
 [%hardbreaks]
 [%hardbreaks]
 [%hardbreaks]
-//https://www.cs.auckland.ac.nz/~j-hamer/ACE04-paper.pdf
-John Hamer “Visualising Java Data Structures as Graphs”
 
-// Спросить у Олега как правильно указать ссылку
+*John Hamer.* “Visualising Java Data Structures as Graphs”
+
+https://www.cs.auckland.ac.nz/~j-hamer/ACE04-paper.pdf
 
 == Проблемы
 
@@ -121,8 +119,8 @@ John Hamer “Visualising Java Data Structures as Graphs”
 [%step]
 * Обновление до Java 11
 * Изменение API инструмента (method chaining)
-* Выложили на https://github.com/atp-mipt/ljv[github]
-* Выложили на https://search.maven.org/artifact/org.atp-fivt/ljv[maven central]
+* Выложили на https://github.com/atp-mipt/ljv[GitHub]
+* Выложили на https://search.maven.org/artifact/org.atp-fivt/ljv[Maven Central]
 * Полностью изменена генерация графа
 
 [.notes]
@@ -163,11 +161,10 @@ include::code/string_java_8.graphviz[]
 
 |===
 
-[%notitle]
-=== Hello graph
+=== Исходный код на языке DOT
 
-[.stretch]
-[source,graphviz]
+[.small]
+[source]
 ----
 include::code/string_java_8.graphviz[]
 ----
@@ -182,10 +179,10 @@ include::code/string_java_8.graphviz[]
 [source,java]
 ----
 String graph = new LJV()
-        .setTreatAsPrimitive(String.class)
-        .drawGraph(
-                new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
-        );
+  .setTreatAsPrimitive(String.class)
+  .drawGraph(
+     new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
+  );
 ----
 ^|
 [graphviz]
@@ -241,8 +238,7 @@ String graph = new LJV()
     .addClassAttribute(Node.class, "color=pink,style=filled")
     .addIgnoreField("level")
     .setTreatAsPrimitive(String.class)
-    .setShowFieldNamesInLabels(false)
-    .drawGraph(n1);
+    .setShowFieldNamesInLabels(false).drawGraph(n1);
 ----
 ^|
 [graphviz]
@@ -316,13 +312,11 @@ include::code/string_interning_new_intern.graphviz[]
 [source,java]
 ----
 public class Example {
-    private Integer i1 = 42;
-    private Integer i2 = 42;
-    private Integer i3 = 2020;
-    private Integer i4 = 2020;
-    private String s1 = "HelloWorld";
-    private String s2 = "HELL O";
-    private String s3 = "HelloWorld";
+  private Integer i1 = 42;     private Integer i2 = 42;
+  private Integer i3 = 2020;   private Integer i4 = 2020;
+  private String s1 = "HelloWorld";
+  private String s2 = "HELL O";
+  private String s3 = "HelloWorld";
 }
 //...
 String graph = new LJV().drawGraph(new Example());
@@ -484,12 +478,8 @@ include::code/linkedlist.graphviz[]
 [source,java]
 ----
 TreeMap<String, Integer> map = new TreeMap<>();
-
-map.put("one", 1);
-map.put("two", 2);
-map.put("three", 3);
-map.put("four", 4);
-
+map.put("one", 1);    map.put("two", 2);
+map.put("three", 3);  map.put("four", 4);
 String actualGraph = new LJV()
         .setTreatAsPrimitive(Integer.class)
         .setTreatAsPrimitive(String.class)
@@ -511,11 +501,8 @@ include::code/treemap.graphviz[]
 [source,java]
 ----
 HashMap<String, Integer> map = new HashMap<>();
-map.put("one", 1);
-map.put("two", 2);
-map.put("three", 3);
-map.put("four", 4);
-
+map.put("one", 1);   map.put("two", 2);
+map.put("three", 3); map.put("four", 4);
 String graph = new LJV()
         .setTreatAsPrimitive(Integer.class)
         .setTreatAsPrimitive(String.class)

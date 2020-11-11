@@ -4,7 +4,7 @@ digraph Java {
 	n1[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>java.util.LinkedList</td>
+				<td rowspan='2'>LinkedList</td>
 			</tr>
 			<tr>
 				<td>size: 3</td>
@@ -14,7 +14,7 @@ digraph Java {
 	n2[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='3'>java.util.LinkedList$Node</td>
+				<td rowspan='3'>LinkedList$Node</td>
 			</tr>
 			<tr>
 				<td>item: 1</td>
@@ -27,7 +27,7 @@ digraph Java {
 	n3[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>java.util.LinkedList$Node</td>
+				<td rowspan='2'>LinkedList$Node</td>
 			</tr>
 			<tr>
 				<td>item: 42</td>
@@ -37,7 +37,7 @@ digraph Java {
 	n4[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='3'>java.util.LinkedList$Node</td>
+				<td rowspan='3'>LinkedList$Node</td>
 			</tr>
 			<tr>
 				<td>item: 21</td>

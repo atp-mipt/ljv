@@ -4,7 +4,7 @@ digraph Java {
 	n1[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='6'>java.util.HashMap</td>
+				<td rowspan='6'>HashMap</td>
 			</tr>
 			<tr>
 				<td>entrySet: null</td>
@@ -48,7 +48,7 @@ digraph Java {
 	n3[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='5'>java.util.HashMap$Node</td>
+				<td rowspan='5'>HashMap$Node</td>
 			</tr>
 			<tr>
 				<td>hash: 3149078</td>
@@ -68,7 +68,7 @@ digraph Java {
 	n4[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='5'>java.util.HashMap$Node</td>
+				<td rowspan='5'>HashMap$Node</td>
 			</tr>
 			<tr>
 				<td>hash: 110183</td>
@@ -88,7 +88,7 @@ digraph Java {
 	n5[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='4'>java.util.HashMap$Node</td>
+				<td rowspan='4'>HashMap$Node</td>
 			</tr>
 			<tr>
 				<td>hash: 115277</td>
@@ -104,7 +104,7 @@ digraph Java {
 	n6[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='5'>java.util.HashMap$Node</td>
+				<td rowspan='5'>HashMap$Node</td>
 			</tr>
 			<tr>
 				<td>hash: 110338829</td>

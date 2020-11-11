@@ -5,7 +5,7 @@ digraph Java {
 	n1[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='6'>java.util.concurrent.ConcurrentSkipListMap</td>
+				<td rowspan='6'>ConcurrentSkipListMap</td>
 			</tr>
 			<tr>
 				<td>comparator: null</td>
@@ -27,14 +27,14 @@ digraph Java {
 	n2[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td>java.util.concurrent.ConcurrentSkipListMap$Index</td>
+				<td>Index</td>
 			</tr>
 		</table>
 	>];
 	n3[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='3'>java.util.concurrent.ConcurrentSkipListMap$Node</td>
+				<td rowspan='3'>Node</td>
 			</tr>
 			<tr>
 				<td>key: null</td>
@@ -47,7 +47,7 @@ digraph Java {
 	n4[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='3'>java.util.concurrent.ConcurrentSkipListMap$Node</td>
+				<td rowspan='3'>Node</td>
 			</tr>
 			<tr>
 				<td>key: four</td>
@@ -60,7 +60,7 @@ digraph Java {
 	n5[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='3'>java.util.concurrent.ConcurrentSkipListMap$Node</td>
+				<td rowspan='3'>Node</td>
 			</tr>
 			<tr>
 				<td>key: one</td>
@@ -73,7 +73,7 @@ digraph Java {
 	n6[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='3'>java.util.concurrent.ConcurrentSkipListMap$Node</td>
+				<td rowspan='3'>Node</td>
 			</tr>
 			<tr>
 				<td>key: three</td>
@@ -86,7 +86,7 @@ digraph Java {
 	n7[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='4'>java.util.concurrent.ConcurrentSkipListMap$Node</td>
+				<td rowspan='4'>Node</td>
 			</tr>
 			<tr>
 				<td>key: two</td>
@@ -107,7 +107,7 @@ digraph Java {
 	n8[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>java.util.concurrent.ConcurrentSkipListMap$Index</td>
+				<td rowspan='2'>Index</td>
 			</tr>
 			<tr>
 				<td>down: null</td>
@@ -118,7 +118,7 @@ digraph Java {
 	n9[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='3'>java.util.concurrent.ConcurrentSkipListMap$Index</td>
+				<td rowspan='3'>Index</td>
 			</tr>
 			<tr>
 				<td>down: null</td>
@@ -134,7 +134,7 @@ digraph Java {
 	n10[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>java.util.concurrent.ConcurrentSkipListMap$Index</td>
+				<td rowspan='2'>Index</td>
 			</tr>
 			<tr>
 				<td>right: null</td>

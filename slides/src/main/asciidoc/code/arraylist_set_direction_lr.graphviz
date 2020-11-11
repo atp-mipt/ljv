@@ -4,7 +4,7 @@ digraph Java {
 	n1[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>java.util.ArrayList</td>
+				<td rowspan='2'>ArrayList</td>
 			</tr>
 			<tr>
 				<td>size: 3</td>

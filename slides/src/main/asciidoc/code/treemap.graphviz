@@ -4,7 +4,7 @@ digraph Java {
 	n1[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='7'>java.util.TreeMap</td>
+				<td rowspan='7'>TreeMap</td>
 			</tr>
 			<tr>
 				<td>comparator: null</td>
@@ -29,7 +29,7 @@ digraph Java {
 	n2[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='5'>java.util.TreeMap$Entry</td>
+				<td rowspan='5'>TreeMap$Entry</td>
 			</tr>
 			<tr>
 				<td>key: three</td>
@@ -48,7 +48,7 @@ digraph Java {
 	n3[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='5'>java.util.TreeMap$Entry</td>
+				<td rowspan='5'>TreeMap$Entry</td>
 			</tr>
 			<tr>
 				<td>key: one</td>
@@ -67,7 +67,7 @@ digraph Java {
 	n4[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='6'>java.util.TreeMap$Entry</td>
+				<td rowspan='6'>TreeMap$Entry</td>
 			</tr>
 			<tr>
 				<td>key: four</td>
@@ -93,7 +93,7 @@ digraph Java {
 	n5[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='6'>java.util.TreeMap$Entry</td>
+				<td rowspan='6'>TreeMap$Entry</td>
 			</tr>
 			<tr>
 				<td>key: two</td>

@@ -11,7 +11,7 @@ digraph Java {
 	n2[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>java.lang.Integer</td>
+				<td rowspan='2'>Integer</td>
 			</tr>
 			<tr>
 				<td>value: 42</td>
@@ -23,7 +23,7 @@ digraph Java {
 	n3[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>java.lang.Integer</td>
+				<td rowspan='2'>Integer</td>
 			</tr>
 			<tr>
 				<td>value: 2020</td>
@@ -34,7 +34,7 @@ digraph Java {
 	n4[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>java.lang.Integer</td>
+				<td rowspan='2'>Integer</td>
 			</tr>
 			<tr>
 				<td>value: 2020</td>
@@ -45,7 +45,7 @@ digraph Java {
 	n5[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='3'>java.lang.String</td>
+				<td rowspan='3'>String</td>
 			</tr>
 			<tr>
 				<td>coder: 0</td>
@@ -76,7 +76,7 @@ digraph Java {
 	n7[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='3'>java.lang.String</td>
+				<td rowspan='3'>String</td>
 			</tr>
 			<tr>
 				<td>coder: 0</td>
