@@ -68,6 +68,8 @@ include::_doc_general_attributes.adoc[]
 
 Инструмент в глубину проходит граф объектов с помощью Reflection API и генерирует DOT код c необходимыми полями и классами.
 
+Полученный DOT код можно загрузить в https://dreampuf.github.io/[онлайн-сервисы]
+
 DOT - язык описания графов.
 
 [.notes]
@@ -119,8 +121,8 @@ John Hamer “Visualising Java Data Structures as Graphs”
 [%step]
 * Обновление до Java 11
 * Изменение API инструмента (method chaining)
-* Выложили на github
-* Выложили на maven central
+* Выложили на https://github.com/atp-mipt/ljv[github]
+* Выложили на https://search.maven.org/artifact/org.atp-fivt/ljv[maven central]
 * Полностью изменена генерация графа
 
 [.notes]
