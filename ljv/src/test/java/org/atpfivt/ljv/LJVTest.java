@@ -20,7 +20,7 @@ public class LJVTest {
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.lang.String</td>\n" +
+                "\t\t\t\t<td rowspan='3'>String</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>coder: 0</td>\n" +
@@ -112,7 +112,7 @@ public class LJVTest {
                 "\tn2[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.lang.String</td>\n" +
+                "\t\t\t\t<td rowspan='3'>String</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>coder: 0</td>\n" +
@@ -161,7 +161,7 @@ public class LJVTest {
                 "\tn2[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.lang.String</td>\n" +
+                "\t\t\t\t<td rowspan='3'>String</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>coder: 0</td>\n" +
@@ -187,7 +187,7 @@ public class LJVTest {
                 "\tn4[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.lang.String</td>\n" +
+                "\t\t\t\t<td rowspan='3'>String</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>coder: 0</td>\n" +
@@ -224,7 +224,7 @@ public class LJVTest {
                 "\tn2[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.lang.String</td>\n" +
+                "\t\t\t\t<td rowspan='3'>String</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>coder: 0</td>\n" +
@@ -247,21 +247,7 @@ public class LJVTest {
                 "\t>];\n" +
                 "\tn2 -> n3[label=\"value\",fontsize=12];\n" +
                 "\tn1:f0 -> n2[label=\"0\",fontsize=12];\n" +
-                "\tn4[label=<\n" +
-                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.lang.String</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>coder: 0</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>hash: 0</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t</table>\n" +
-                "\t>];\n" +
-                "\tn4 -> n3[label=\"value\",fontsize=12];\n" +
-                "\tn1:f1 -> n4[label=\"1\",fontsize=12];\n" +
+                "\tn1:f1 -> n2[label=\"1\",fontsize=12];\n" +
                 "}\n";
 
         assertEquals(expected_graph, actual_graph, "Without duplicate hello case failed");
@@ -499,7 +485,7 @@ public class LJVTest {
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.ArrayList</td>\n" +
+                "\t\t\t\t<td rowspan='2'>ArrayList</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>size: 3</td>\n" +
@@ -559,7 +545,7 @@ public class LJVTest {
                 "\tn5[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.awt.Point</td>\n" +
+                "\t\t\t\t<td rowspan='3'>Point</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>x: 100</td>\n" +
@@ -607,7 +593,7 @@ public class LJVTest {
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='7'>java.util.TreeMap</td>\n" +
+                "\t\t\t\t<td rowspan='7'>TreeMap</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>comparator: null</td>\n" +
@@ -632,7 +618,7 @@ public class LJVTest {
                 "\tn2[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='5'>java.util.TreeMap$Entry</td>\n" +
+                "\t\t\t\t<td rowspan='5'>Entry</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>key: three</td>\n" +
@@ -651,7 +637,7 @@ public class LJVTest {
                 "\tn3[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='5'>java.util.TreeMap$Entry</td>\n" +
+                "\t\t\t\t<td rowspan='5'>Entry</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>key: one</td>\n" +
@@ -670,7 +656,7 @@ public class LJVTest {
                 "\tn4[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='6'>java.util.TreeMap$Entry</td>\n" +
+                "\t\t\t\t<td rowspan='6'>Entry</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>key: four</td>\n" +
@@ -696,7 +682,7 @@ public class LJVTest {
                 "\tn5[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='6'>java.util.TreeMap$Entry</td>\n" +
+                "\t\t\t\t<td rowspan='6'>Entry</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>key: two</td>\n" +
@@ -743,7 +729,7 @@ public class LJVTest {
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='6'>java.util.concurrent.ConcurrentSkipListMap</td>\n" +
+                "\t\t\t\t<td rowspan='6'>.concurrent.ConcurrentSkipListMap</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>comparator: null</td>\n" +
@@ -765,14 +751,14 @@ public class LJVTest {
                 "\tn2[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>java.util.concurrent.ConcurrentSkipListMap$Index</td>\n" +
+                "\t\t\t\t<td>.concurrent.ConcurrentSkipListMap$Index</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t</table>\n" +
                 "\t>];\n" +
                 "\tn3[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.util.concurrent.ConcurrentSkipListMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='3'>concurrent.ConcurrentSkipListMap$Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>key: null</td>\n" +
@@ -785,7 +771,7 @@ public class LJVTest {
                 "\tn4[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.util.concurrent.ConcurrentSkipListMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='3'>concurrent.ConcurrentSkipListMap$Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>key: four</td>\n" +
@@ -798,7 +784,7 @@ public class LJVTest {
                 "\tn5[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.util.concurrent.ConcurrentSkipListMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='3'>concurrent.ConcurrentSkipListMap$Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>key: one</td>\n" +
@@ -811,7 +797,7 @@ public class LJVTest {
                 "\tn6[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.util.concurrent.ConcurrentSkipListMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='3'>concurrent.ConcurrentSkipListMap$Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>key: three</td>\n" +
@@ -824,7 +810,7 @@ public class LJVTest {
                 "\tn7[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.concurrent.ConcurrentSkipListMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='4'>concurrent.ConcurrentSkipListMap$Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>key: two</td>\n" +
@@ -845,7 +831,7 @@ public class LJVTest {
                 "\tn8[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.concurrent.ConcurrentSkipListMap$Index</td>\n" +
+                "\t\t\t\t<td rowspan='2'>concurrent.ConcurrentSkipListMap$Index</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>down: null</td>\n" +
@@ -856,7 +842,7 @@ public class LJVTest {
                 "\tn9[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.util.concurrent.ConcurrentSkipListMap$Index</td>\n" +
+                "\t\t\t\t<td rowspan='3'>concurrent.ConcurrentSkipListMap$Index</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>down: null</td>\n" +
@@ -872,7 +858,7 @@ public class LJVTest {
                 "\tn10[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.concurrent.ConcurrentSkipListMap$Index</td>\n" +
+                "\t\t\t\t<td rowspan='2'>concurrent.ConcurrentSkipListMap$Index</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>right: null</td>\n" +
@@ -916,7 +902,7 @@ public class LJVTest {
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.LinkedHashMap</td>\n" +
+                "\t\t\t\t<td rowspan='2'>LinkedHashMap</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>accessOrder: false</td>\n" +
@@ -926,7 +912,7 @@ public class LJVTest {
                 "\tn2[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.LinkedHashMap$Entry</td>\n" +
+                "\t\t\t\t<td rowspan='2'>LinkedHashMap$Entry</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>before: null</td>\n" +
@@ -952,7 +938,7 @@ public class LJVTest {
                 "\tn5[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.LinkedHashMap$Entry</td>\n" +
+                "\t\t\t\t<td rowspan='2'>LinkedHashMap$Entry</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>after: null</td>\n" +
@@ -989,7 +975,7 @@ public class LJVTest {
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='6'>java.util.HashMap</td>\n" +
+                "\t\t\t\t<td rowspan='6'>HashMap</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>entrySet: null</td>\n" +
@@ -1033,7 +1019,7 @@ public class LJVTest {
                 "\tn3[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='5'>java.util.HashMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='5'>Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>hash: 3149078</td>\n" +
@@ -1053,7 +1039,7 @@ public class LJVTest {
                 "\tn4[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='5'>java.util.HashMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='5'>Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>hash: 110183</td>\n" +
@@ -1073,7 +1059,7 @@ public class LJVTest {
                 "\tn5[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='4'>Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>hash: 115277</td>\n" +
@@ -1089,7 +1075,7 @@ public class LJVTest {
                 "\tn6[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='5'>java.util.HashMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='5'>Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>hash: 110338829</td>\n" +
@@ -1133,7 +1119,7 @@ public class LJVTest {
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='6'>java.util.HashMap</td>\n" +
+                "\t\t\t\t<td rowspan='6'>HashMap</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>entrySet: null</td>\n" +
@@ -1177,7 +1163,7 @@ public class LJVTest {
                 "\tn3[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='4'>Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>hash: 96320</td>\n" +
@@ -1193,7 +1179,7 @@ public class LJVTest {
                 "\tn4[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='4'>Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>hash: 96320</td>\n" +
@@ -1209,7 +1195,7 @@ public class LJVTest {
                 "\tn5[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='5'>java.util.HashMap$Node</td>\n" +
+                "\t\t\t\t<td rowspan='5'>Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>hash: 96320</td>\n" +
@@ -1255,7 +1241,7 @@ public class LJVTest {
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='6'>java.util.HashMap</td>\n" +
+                "\t\t\t\t<td rowspan='6'>HashMap</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>entrySet: null</td>\n" +
@@ -1347,7 +1333,7 @@ public class LJVTest {
                 "\tn3[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>parent: null</td>\n" +
@@ -1363,7 +1349,7 @@ public class LJVTest {
                 "\tn4[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -1374,7 +1360,7 @@ public class LJVTest {
                 "\tn5[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1393,7 +1379,7 @@ public class LJVTest {
                 "\tn6[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1414,7 +1400,7 @@ public class LJVTest {
                 "\tn7[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -1425,7 +1411,7 @@ public class LJVTest {
                 "\tn8[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: true</td>\n" +
@@ -1436,7 +1422,7 @@ public class LJVTest {
                 "\tn9[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1455,7 +1441,7 @@ public class LJVTest {
                 "\tn10[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1476,7 +1462,7 @@ public class LJVTest {
                 "\tn11[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: true</td>\n" +
@@ -1487,7 +1473,7 @@ public class LJVTest {
                 "\tn12[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1506,7 +1492,7 @@ public class LJVTest {
                 "\tn13[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -1517,7 +1503,7 @@ public class LJVTest {
                 "\tn14[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1536,7 +1522,7 @@ public class LJVTest {
                 "\tn15[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1585,7 +1571,7 @@ public class LJVTest {
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='6'>java.util.HashMap</td>\n" +
+                "\t\t\t\t<td rowspan='6'>HashMap</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>entrySet: null</td>\n" +
@@ -1677,7 +1663,7 @@ public class LJVTest {
                 "\tn3[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>parent: null</td>\n" +
@@ -1693,7 +1679,7 @@ public class LJVTest {
                 "\tn4[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -1704,7 +1690,7 @@ public class LJVTest {
                 "\tn5[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -1715,7 +1701,7 @@ public class LJVTest {
                 "\tn6[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1734,7 +1720,7 @@ public class LJVTest {
                 "\tn7[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1755,7 +1741,7 @@ public class LJVTest {
                 "\tn8[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -1766,7 +1752,7 @@ public class LJVTest {
                 "\tn9[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1785,7 +1771,7 @@ public class LJVTest {
                 "\tn10[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1808,7 +1794,7 @@ public class LJVTest {
                 "\tn11[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: true</td>\n" +
@@ -1819,7 +1805,7 @@ public class LJVTest {
                 "\tn12[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -1830,7 +1816,7 @@ public class LJVTest {
                 "\tn13[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -1841,7 +1827,7 @@ public class LJVTest {
                 "\tn14[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1860,7 +1846,7 @@ public class LJVTest {
                 "\tn15[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1881,7 +1867,7 @@ public class LJVTest {
                 "\tn16[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -1892,7 +1878,7 @@ public class LJVTest {
                 "\tn17[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1911,7 +1897,7 @@ public class LJVTest {
                 "\tn18[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1934,7 +1920,7 @@ public class LJVTest {
                 "\tn19[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -1945,7 +1931,7 @@ public class LJVTest {
                 "\tn20[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: true</td>\n" +
@@ -1956,7 +1942,7 @@ public class LJVTest {
                 "\tn21[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -1967,7 +1953,7 @@ public class LJVTest {
                 "\tn22[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -1986,7 +1972,7 @@ public class LJVTest {
                 "\tn23[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -2007,7 +1993,7 @@ public class LJVTest {
                 "\tn24[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -2018,7 +2004,7 @@ public class LJVTest {
                 "\tn25[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -2037,7 +2023,7 @@ public class LJVTest {
                 "\tn26[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -2060,7 +2046,7 @@ public class LJVTest {
                 "\tn27[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: true</td>\n" +
@@ -2071,7 +2057,7 @@ public class LJVTest {
                 "\tn28[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -2082,7 +2068,7 @@ public class LJVTest {
                 "\tn29[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -2101,7 +2087,7 @@ public class LJVTest {
                 "\tn30[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -2122,7 +2108,7 @@ public class LJVTest {
                 "\tn31[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: false</td>\n" +
@@ -2133,7 +2119,7 @@ public class LJVTest {
                 "\tn32[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -2152,7 +2138,7 @@ public class LJVTest {
                 "\tn33[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='2'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>red: true</td>\n" +
@@ -2163,7 +2149,7 @@ public class LJVTest {
                 "\tn34[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -2182,7 +2168,7 @@ public class LJVTest {
                 "\tn35[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='3'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -2196,7 +2182,7 @@ public class LJVTest {
                 "\tn36[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='4'>java.util.HashMap$TreeNode</td>\n" +
+                "\t\t\t\t<td rowspan='4'>TreeNode</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>left: null</td>\n" +
@@ -2248,7 +2234,7 @@ public class LJVTest {
                 "\tn2[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.lang.Integer</td>\n" +
+                "\t\t\t\t<td rowspan='2'>Integer</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>value: 42</td>\n" +
@@ -2260,7 +2246,7 @@ public class LJVTest {
                 "\tn3[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.lang.Integer</td>\n" +
+                "\t\t\t\t<td rowspan='2'>Integer</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>value: 2020</td>\n" +
@@ -2271,7 +2257,7 @@ public class LJVTest {
                 "\tn4[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.lang.Integer</td>\n" +
+                "\t\t\t\t<td rowspan='2'>Integer</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>value: 2020</td>\n" +
@@ -2279,6 +2265,65 @@ public class LJVTest {
                 "\t\t</table>\n" +
                 "\t>];\n" +
                 "\tn1 -> n4[label=\"i4\",fontsize=12];\n" +
+                "\tn5[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td rowspan='3'>String</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>coder: 0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>hash: 0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn6[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>72</td>\n" +
+                "\t\t\t\t<td>101</td>\n" +
+                "\t\t\t\t<td>108</td>\n" +
+                "\t\t\t\t<td>108</td>\n" +
+                "\t\t\t\t<td>111</td>\n" +
+                "\t\t\t\t<td>87</td>\n" +
+                "\t\t\t\t<td>111</td>\n" +
+                "\t\t\t\t<td>114</td>\n" +
+                "\t\t\t\t<td>108</td>\n" +
+                "\t\t\t\t<td>100</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn5 -> n6[label=\"value\",fontsize=12];\n" +
+                "\tn1 -> n5[label=\"s1\",fontsize=12];\n" +
+                "\tn7[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td rowspan='3'>String</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>coder: 0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>hash: 0</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn8[label=<\n" +
+                "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
+                "\t\t\t<tr>\n" +
+                "\t\t\t\t<td>72</td>\n" +
+                "\t\t\t\t<td>69</td>\n" +
+                "\t\t\t\t<td>76</td>\n" +
+                "\t\t\t\t<td>76</td>\n" +
+                "\t\t\t\t<td>32</td>\n" +
+                "\t\t\t\t<td>79</td>\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t</table>\n" +
+                "\t>];\n" +
+                "\tn7 -> n8[label=\"value\",fontsize=12];\n" +
+                "\tn1 -> n7[label=\"s2\",fontsize=12];\n" +
+                "\tn1 -> n5[label=\"s3\",fontsize=12];\n" +
                 "}\n";
 
         assertEquals(expected_graph, actual_graph, "Case with wrapped objects was failed");
@@ -2305,7 +2350,7 @@ public class LJVTest {
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.LinkedList</td>\n" +
+                "\t\t\t\t<td rowspan='2'>LinkedList</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>size: 3</td>\n" +
@@ -2315,7 +2360,7 @@ public class LJVTest {
                 "\tn2[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.util.LinkedList$Node</td>\n" +
+                "\t\t\t\t<td rowspan='3'>Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>item: 1</td>\n" +
@@ -2328,7 +2373,7 @@ public class LJVTest {
                 "\tn3[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='2'>java.util.LinkedList$Node</td>\n" +
+                "\t\t\t\t<td rowspan='2'>Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>item: 42</td>\n" +
@@ -2338,7 +2383,7 @@ public class LJVTest {
                 "\tn4[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.util.LinkedList$Node</td>\n" +
+                "\t\t\t\t<td rowspan='3'>Node</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>item: 21</td>\n" +
@@ -2378,7 +2423,7 @@ public class LJVTest {
                 "\tn1[label=<\n" +
                 "\t\t<table border='0' cellborder='1' cellspacing='0'>\n" +
                 "\t\t\t<tr>\n" +
-                "\t\t\t\t<td rowspan='3'>java.util.ArrayDeque</td>\n" +
+                "\t\t\t\t<td rowspan='3'>ArrayDeque</td>\n" +
                 "\t\t\t</tr>\n" +
                 "\t\t\t<tr>\n" +
                 "\t\t\t\t<td>head: 2</td>\n" +
