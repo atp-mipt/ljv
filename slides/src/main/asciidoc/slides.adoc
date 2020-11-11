@@ -23,6 +23,7 @@
 :source-highlighter: highlightjs
 :highlightjs-languages: java, kotlin, scala, groovy, graphviz
 :customcss: slides.css
+:graphviz_code: ../../../../ljv/src/test/resources/graphviz
 
 include::_doc_general_attributes.adoc[]
 
@@ -394,7 +395,7 @@ String graph = new LJV()
 
 [graphviz]
 ----
-include::code/arraydeque_many_elements.graphviz[]
+include::{graphviz_code}/wrappedObjects[]
 ----
 
 [.notes]
@@ -617,11 +618,32 @@ include::code/concurrentskiplistmap_first_start.graphviz[]
 include::code/concurrentskiplistmap_second_start.graphviz[]
 ----
 
-== Благодарности
+== Итоги
 
-Отдельные благодарности Джону Хамеру и Олегу Ивченко
 
-== Github
+[cols="20a,60a,20a"]
+|===
+.^|image::github.png[]
+.^a|
 
+* Переписали на Java 11
+* Изменили генерацию graphviz DOT кода
+* Обновили API
+* Выложили на Maven Central
 * Документация: https://atp-mipt.github.io/ljv[atp-mipt.github.io/ljv]
 * Исходники: https://github.com/atp-mipt/ljv[github.com/atp-mipt/ljv]
+
+.^|image::github.png[]
+|===
+
+
+[.notes]
+--
+Мы планируем продолжить развивать этот проект
+* Добавить фильтры для Kotlin и Scala
+* Выпустить статью на Dzone[ДиЗон] и Habr
+* [И] Добавить конфигурацию на уровне отдельных классов
+Призываем вас использовать и давать обратную связь
+Документацию с примерами вы сможете найти на github pages
+Спасибо
+--
