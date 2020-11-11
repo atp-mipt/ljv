@@ -30,24 +30,33 @@ include::_doc_general_attributes.adoc[]
 
 = The Lightweight Java Visualizer (LJV)
 
-//== Часть 1. Введение
 :!figure-caption:
 
 == Кто мы
 
 [cols="20a,80a"]
 |===
-.^| image::ponomarev.jpg[Иван,width=180]
+.^| image::ponomarev.jpg[Иван,width=220]
 .^|
 Иван Пономарев:
 - Software Engineer at KURS, tutor at MIPT
 
-.^| image::selivanov.png[Илья,width=180]
+.^| image::ivchenko.jpg[Олег,width=220]
+.^|
+Олег Ивченко:
+- Tutor at MIPT
+|===
+
+== Кто мы
+
+[cols="20a,80a"]
+|===
+.^| image::selivanov.png[Илья,width=220]
 .^|
 Илья Селиванов:
 - Студент МФТИ
 
-.^| image::nogaev.png[Нурас,width=180]
+.^| image::nogaev.png[Нурас,width=220]
 .^|
 Нурас Ногаев:
 - Студент МФТИ
@@ -55,7 +64,19 @@ include::_doc_general_attributes.adoc[]
 
 == Идея
 
-С помощью Reflection API в режиме runtime построить внутреннее представление графа объектов памяти.
+В режиме runtime построить внутреннее представление графа объектов памяти.
+
+Инструмент в глубину проходит граф объектов с помощью Reflection API и генерирует DOT код c необходимыми полями и классами.
+
+DOT - язык описания графов.
+
+[.notes]
+--
+Идея заключается в том, что с помощью ReflectionAPI показывать внутренности объектов и строить граф в GraphViz'e
+reflection api На рисунке визуализирован хэшмап с огромной коллизией, и как он смог его переделать в тримап
+--
+
+== Идея
 
 [.stetch]
 [graphviz]
@@ -65,7 +86,6 @@ include::code/hashmap_many_collissions.graphviz[]
 
 [.notes]
 --
-Идея заключается в том, что с помощью ReflectionAPI показывать внутренности объектов и строить граф в GraphViz'e
 reflection api На рисунке визуализирован хэшмап с огромной коллизией, и как он смог его переделать в тримап
 --
 
