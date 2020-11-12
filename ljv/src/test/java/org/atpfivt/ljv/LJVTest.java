@@ -93,10 +93,23 @@ public class LJVTest {
     }
 
     @Test
+    void assignmentWithConcatenation(TestInfo testInfo) {
+        String x = "Hello";
+        String y = x + "";
+        String actualGraph = new LJV().drawGraph(new Object[]{x, y});
+
+        String expectedGraph = expected(testInfo, actualGraph);
+
+        assertEquals(expectedGraph, actualGraph);
+    }
+
+    @Test
     void stringIntern(TestInfo testInfo) {
         String x = "Hello";
-        String y = "Hello";
-        String actualGraph = new LJV().drawGraph(new Object[]{x, y.intern()});
+        String actualGraph = new LJV().drawGraph(new String[]{
+                x, new String(x).intern(),
+                new String(x.toCharArray()).intern(),
+                (x + "").intern()});
 
         String expectedGraph = expected(testInfo, actualGraph);
 
@@ -192,6 +205,7 @@ public class LJVTest {
         String actualGraph = new LJV()
                 .setTreatAsPrimitive(Integer.class)
                 .setTreatAsPrimitive(String.class)
+                .setDirection(Direction.LR)
                 .drawGraph(map);
 
         String expectedGraph = expected(testInfo, actualGraph);
@@ -250,6 +264,7 @@ public class LJVTest {
         String actualGraph = new LJV()
                 .setTreatAsPrimitive(String.class)
                 .setTreatAsPrimitive(Integer.class)
+                .setDirection(Direction.LR)
                 .drawGraph(map);
 
         String expectedGraph = expected(testInfo, actualGraph);
@@ -269,6 +284,7 @@ public class LJVTest {
         String actualGraph = new LJV()
                 .setTreatAsPrimitive(String.class)
                 .setTreatAsPrimitive(Integer.class)
+                .setDirection(Direction.LR)
                 .drawGraph(map);
 
         String expectedGraph = expected(testInfo, actualGraph);
@@ -315,6 +331,16 @@ public class LJVTest {
         assertEquals(expectedGraph, actualGraph, "Case with hashMapCollision was failed");
     }
 
+    public static class Example {
+        private Integer i1 = 42;
+        private Integer i2 = 42;
+        private Integer i3 = 2020;
+        private Integer i4 = 2020;
+        private String s1 = "HelloWorld";
+        private String s2 = "HELL O";
+        private String s3 = "HelloWorld";
+    }
+
     @Test
     void wrappedObjects(TestInfo testInfo) {
         String actualGraph = new LJV().drawGraph(new Example());
@@ -345,8 +371,50 @@ public class LJVTest {
     }
 
     @Test
-    void arrayDeque(TestInfo testInfo) {
-        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+    void arrayDequeEmpty(TestInfo testInfo) {
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>(2);
+
+        String actualGraph = new LJV()
+                .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
+
+        String expectedGraph = expected(testInfo, actualGraph);
+
+        assertEquals(expectedGraph, actualGraph, "Case with arrayDeque was failed");
+    }
+
+    @Test
+    void arrayDequeAddFewElements(TestInfo testInfo) {
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>(2);
+        for (int i = 0; i < 4; i++) {
+            arrayDeque.addLast(i);
+        }
+
+        String actualGraph = new LJV()
+                .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
+
+        String expectedGraph = expected(testInfo, actualGraph);
+
+        assertEquals(expectedGraph, actualGraph, "Case with arrayDeque was failed");
+    }
+
+    @Test
+    void arrayDequeAddManyElements(TestInfo testInfo) {
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>(2);
+        for (int i = 0; i < 20; i++) {
+            arrayDeque.addLast(i);
+        }
+
+        String actualGraph = new LJV()
+                .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
+
+        String expectedGraph = expected(testInfo, actualGraph);
+
+        assertEquals(expectedGraph, actualGraph, "Case with arrayDeque was failed");
+    }
+
+    @Test
+    void arrayDequeAddManyDeleteManyElements(TestInfo testInfo) {
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>(2);
         for (int i = 0; i < 20; i++) {
             arrayDeque.addLast(i);
         }

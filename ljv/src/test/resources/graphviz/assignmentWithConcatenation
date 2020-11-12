@@ -6,8 +6,6 @@ digraph Java {
 			<tr>
 				<td port="f0"></td>
 				<td port="f1"></td>
-				<td port="f2"></td>
-				<td port="f3"></td>
 			</tr>
 		</table>
 	>];
@@ -37,7 +35,30 @@ digraph Java {
 	>];
 	n2 -> n3[label="value",fontsize=12];
 	n1:f0 -> n2[label="0",fontsize=12];
-	n1:f1 -> n2[label="1",fontsize=12];
-	n1:f2 -> n2[label="2",fontsize=12];
-	n1:f3 -> n2[label="3",fontsize=12];
+	n4[label=<
+		<table border='0' cellborder='1' cellspacing='0'>
+			<tr>
+				<td rowspan='3'>String</td>
+			</tr>
+			<tr>
+				<td>coder: 0</td>
+			</tr>
+			<tr>
+				<td>hash: 0</td>
+			</tr>
+		</table>
+	>];
+	n5[label=<
+		<table border='0' cellborder='1' cellspacing='0'>
+			<tr>
+				<td>72</td>
+				<td>101</td>
+				<td>108</td>
+				<td>108</td>
+				<td>111</td>
+			</tr>
+		</table>
+	>];
+	n4 -> n5[label="value",fontsize=12];
+	n1:f1 -> n4[label="1",fontsize=12];
 }
