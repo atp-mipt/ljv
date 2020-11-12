@@ -30,6 +30,13 @@
 
     <build>
         <defaultGoal>process-resources</defaultGoal>
+        <extensions>
+            <extension> <!-- this allows us to download gems -->
+                <groupId>org.torquebox.mojo</groupId>
+                <artifactId>mavengem-wagon</artifactId>
+                <version>1.0.3</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                     <groupId>com.googlecode.maven-download-plugin</groupId>

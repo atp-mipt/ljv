@@ -7,18 +7,36 @@ digraph Java {
 				<td rowspan='3'>ArrayDeque</td>
 			</tr>
 			<tr>
-				<td>head: 0</td>
+				<td>head: 2</td>
 			</tr>
 			<tr>
-				<td>tail: 2</td>
+				<td>tail: 4</td>
 			</tr>
 		</table>
 	>];
 	n2[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td>1</td>
-				<td>2</td>
+				<td>null</td>
+				<td>null</td>
+				<td>18</td>
+				<td>19</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
 				<td>null</td>
 				<td>null</td>
 				<td>null</td>

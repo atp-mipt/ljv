@@ -96,7 +96,7 @@ digraph Java {
 	n3[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='4'>HashMap$TreeNode</td>
+				<td rowspan='4'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>parent: null</td>
@@ -112,7 +112,7 @@ digraph Java {
 	n4[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>HashMap$TreeNode</td>
+				<td rowspan='2'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>red: false</td>
@@ -123,7 +123,7 @@ digraph Java {
 	n5[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='4'>HashMap$TreeNode</td>
+				<td rowspan='4'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>left: null</td>
@@ -142,7 +142,7 @@ digraph Java {
 	n6[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='4'>HashMap$TreeNode</td>
+				<td rowspan='4'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>left: null</td>
@@ -163,7 +163,7 @@ digraph Java {
 	n7[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>HashMap$TreeNode</td>
+				<td rowspan='2'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>red: false</td>
@@ -174,7 +174,7 @@ digraph Java {
 	n8[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>HashMap$TreeNode</td>
+				<td rowspan='2'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>red: true</td>
@@ -185,7 +185,7 @@ digraph Java {
 	n9[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='4'>HashMap$TreeNode</td>
+				<td rowspan='4'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>left: null</td>
@@ -204,7 +204,7 @@ digraph Java {
 	n10[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='4'>HashMap$TreeNode</td>
+				<td rowspan='4'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>left: null</td>
@@ -225,7 +225,7 @@ digraph Java {
 	n11[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>HashMap$TreeNode</td>
+				<td rowspan='2'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>red: true</td>
@@ -236,7 +236,7 @@ digraph Java {
 	n12[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='4'>HashMap$TreeNode</td>
+				<td rowspan='4'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>left: null</td>
@@ -255,7 +255,7 @@ digraph Java {
 	n13[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='2'>HashMap$TreeNode</td>
+				<td rowspan='2'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>red: false</td>
@@ -266,7 +266,7 @@ digraph Java {
 	n14[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='4'>HashMap$TreeNode</td>
+				<td rowspan='4'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>left: null</td>
@@ -285,7 +285,7 @@ digraph Java {
 	n15[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
-				<td rowspan='4'>HashMap$TreeNode</td>
+				<td rowspan='4'>TreeNode</td>
 			</tr>
 			<tr>
 				<td>left: null</td>
