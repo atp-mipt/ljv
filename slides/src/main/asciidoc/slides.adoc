@@ -132,7 +132,7 @@ https://www.cs.auckland.ac.nz/~j-hamer/ACE04-paper.pdf
 
 == Зачем он нужен
 
-[%steps]
+[%step]
 * Реверс инжиниринг кода
 * Преподавание
 
