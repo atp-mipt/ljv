@@ -3,8 +3,6 @@ package org.atpfivt.ljv;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,7 +39,7 @@ public class LJVTest {
         if (!file.exists()) {
             try {
                 if (file.createNewFile()) {
-                    var out = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
+                    var out = new FileWriter(file.getAbsoluteFile());
                     out.write(actualGraph);
                     out.close();
                 } else {
