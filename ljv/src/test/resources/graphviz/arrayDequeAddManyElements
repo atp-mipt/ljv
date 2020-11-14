@@ -7,16 +7,17 @@ digraph Java {
 				<td rowspan='3'>ArrayDeque</td>
 			</tr>
 			<tr>
-				<td>head: 18</td>
+				<td>head: 35</td>
 			</tr>
 			<tr>
-				<td>tail: 16</td>
+				<td>tail: 17</td>
 			</tr>
 		</table>
 	>];
 	n2[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
+				<td>3</td>
 				<td>4</td>
 				<td>5</td>
 				<td>6</td>
@@ -35,10 +36,25 @@ digraph Java {
 				<td>19</td>
 				<td>null</td>
 				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
 				<td>0</td>
 				<td>1</td>
 				<td>2</td>
-				<td>3</td>
 			</tr>
 		</table>
 	>];

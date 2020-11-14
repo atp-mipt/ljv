@@ -3,7 +3,11 @@ package org.atpfivt.ljv;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -21,7 +25,19 @@ public class LJVTest {
 
         var name = method.get().getName();
 
-        var file = new File(getClass().getResource("/").getPath() + "graphviz/" + name);
+        var path = Path.of(getClass().getResource("/").getPath(), "graphviz");
+
+        try {
+            if (!path.toFile().exists()) {
+                Files.createDirectory(path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        var file = path.resolve(name).toFile();
+
         if (!file.exists()) {
             try {
                 if (file.createNewFile()) {
