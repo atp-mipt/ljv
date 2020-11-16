@@ -1,155 +1,72 @@
 package org.atpfivt.ljv;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
-import java.util.concurrent.ConcurrentSkipListMap;
-
-import org.junit.jupiter.api.Disabled;
+import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TreeMap;
 
 public class LJVTest {
 
-    String expected(TestInfo testInfo, String actualGraph) {
-        var method = testInfo.getTestMethod();
-        if (method.isEmpty()) {
-            return null;
-        }
-
-        var name = method.get().getName();
-
-        var path = Path.of(getClass().getResource("/").getPath(), "graphviz");
-
-        try {
-            if (!path.toFile().exists()) {
-                Files.createDirectory(path);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        var file = path.resolve(name).toFile();
-
-        if (!file.exists()) {
-            try {
-                if (file.createNewFile()) {
-                    var out = new FileWriter(file.getAbsoluteFile());
-                    out.write(actualGraph);
-                    out.close();
-                } else {
-                    return null;
-                }
-            } catch (IOException e) {
-                return null;
-            }
-        }
-
-        InputStream input = getClass().getResourceAsStream("/graphviz/" + name);
-        if (input == null) {
-            return null;
-        }
-        try {
-            return new String(input.readAllBytes(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
     @Test
-    void stringIsNotAPrimitiveType(TestInfo testInfo) {
+    void stringIsNotAPrimitiveType() {
         String actualGraph = new LJV().drawGraph("Hello");
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Hello case failed");
+        Approvals.verify(actualGraph);
     }
 
     @Test
-    void objectArraysHoldReferencesPrimitiveArraysHoldValues(TestInfo testInfo) {
-        String actualGraph = new LJV()
+    void objectArraysHoldReferencesPrimitiveArraysHoldValues() {
+        String actual_graph = new LJV()
                 .setTreatAsPrimitive(String.class)
                 .setIgnorePrivateFields(false)
                 .drawGraph(
                         new Object[]{new String[]{"a", "b", "c"}, new int[]{1, 2, 3}}
                 );
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Primitive array case failed");
+        Approvals.verify(actual_graph);
     }
 
     @Test
-    void assignmentDoesNotCreateANewObject(TestInfo testInfo) {
+    void assignmentDoesNotCreateANewObject() {
         String x = "Hello";
         String y = x;
-        String actualGraph = new LJV().drawGraph(new Object[]{x, y});
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "One link Hello case failed");
+        String actual_graph = new LJV().drawGraph(new Object[]{x, y});
+        Approvals.verify(actual_graph);
     }
 
     @Test
-    void assignmentWithNewCreateANewObject(TestInfo testInfo) {
+    void assignmentWithNewCreateANewObject() {
         String x = "Hello";
         String y = new String(x);
-        String actualGraph = new LJV().drawGraph(new Object[]{x, y});
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Without duplicate hello case failed");
+        String actual_graph = new LJV().drawGraph(new Object[]{x, y});
+        Approvals.verify(actual_graph);
     }
 
     @Test
-    void assignmentWithConcatenation(TestInfo testInfo) {
+    void stringIntern() {
         String x = "Hello";
-        String y = x + "";
-        String actualGraph = new LJV().drawGraph(new Object[]{x, y});
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph);
+        String y = "Hello";
+        String actual_graph = new LJV().drawGraph(new Object[]{x, y.intern()});
+        Approvals.verify(actual_graph);
     }
 
     @Test
-    void stringIntern(TestInfo testInfo) {
-        String x = "Hello";
-        String actualGraph = new LJV().drawGraph(new String[]{
-                x, new String(x).intern(),
-                new String(x.toCharArray()).intern(),
-                (x + "").intern()});
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Without duplicate hello case failed");
+    void multiDimensionalArrays() {
+        String actual_graph = new LJV().drawGraph(new int[4][5]);
+        Approvals.verify(actual_graph);
     }
 
     @Test
-    void multiDimensionalArrays(TestInfo testInfo) {
-        String actualGraph = new LJV().drawGraph(new int[4][5]);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Multiarray case failed");
+    void reversedMultiDimensionalArrays() {
+        String actual_graph = new LJV().setDirection(Direction.LR).drawGraph(new int[4][5]);
+        Approvals.verify(actual_graph);
     }
 
     @Test
-    void reversedMultiDimensionalArrays(TestInfo testInfo) {
-        String actualGraph = new LJV().setDirection(Direction.LR).drawGraph(new int[4][5]);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Multiarray case failed");
-    }
-
-    @Test
-    void cyclicalStructuresClassesWithAndWithoutAToStringAndWithoutContext(TestInfo testInfo) {
+    void cyclicalStructuresClassesWithAndWithoutAToStringAndWithoutContext() {
         Node n1 = new Node("A");
         n1.level = 1;
         AnotherNode n2 = new AnotherNode("B");
@@ -161,8 +78,7 @@ public class LJVTest {
         n1.right = n3;
         n1.right.left = n1;
         n1.right.right = n1;
-
-        String actualGraph = new LJV()
+        String actual_graph = new LJV()
                 .addFieldAttribute("left", "color=red,fontcolor=red")
                 .addFieldAttribute("right", "color=blue,fontcolor=blue")
                 .addClassAttribute(Node.class, "color=pink,style=filled")
@@ -170,45 +86,34 @@ public class LJVTest {
                 .setTreatAsPrimitive(String.class)
                 .setShowFieldNamesInLabels(false)
                 .drawGraph(n1);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Nodes case without context failed");
+        Approvals.verify(actual_graph);
     }
 
     @Test
-    void paulsExample(TestInfo testInfo) {
+    void paulsExample() {
         ArrayList<Object> a = new ArrayList<>();
         a.add(new Person("Albert", Gender.MALE, 35));
         a.add(new Person("Betty", Gender.FEMALE, 20));
         a.add(new java.awt.Point(100, -100));
 
-        String actualGraph = new LJV()
+        String actual_graph = new LJV()
                 .setTreatAsPrimitive(String.class)
                 .setTreatAsPrimitive(Gender.class)
                 .addIgnoreField("hash")
                 .addIgnoreField("count")
                 .addIgnoreField("offset")
                 .drawGraph(a);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Multiarray case failed");
+        Approvals.verify(actual_graph);
     }
 
     @Test
-    void testNull(TestInfo testInfo) {
+    void testNull() {
         String actualGraph = new LJV().drawGraph(null);
-
-        assertEquals("digraph Java {\n" +
-                "\trankdir=\"TB\";\n" +
-                "\tnode[shape=plaintext]\n" +
-                "\tNULL[label=\"null\", shape=plaintext];\n" +
-                "}\n", actualGraph);
+        Approvals.verify(actualGraph);
     }
 
     @Test
-    void treeMap(TestInfo testInfo) {
+    void treeMap() {
         TreeMap<String, Integer> map = new TreeMap<>();
 
         map.put("one", 1);
@@ -219,75 +124,45 @@ public class LJVTest {
         String actualGraph = new LJV()
                 .setTreatAsPrimitive(Integer.class)
                 .setTreatAsPrimitive(String.class)
-                .setDirection(Direction.LR)
                 .drawGraph(map);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph);
+        Approvals.verify(actualGraph);
     }
 
     @Test
-    @Disabled
-    void concurrentSkipListMap(TestInfo testInfo) {
-        ConcurrentSkipListMap<String, Integer> map = new ConcurrentSkipListMap<>();
-
-        map.put("one", 1);
-        map.put("two", 2);
-        map.put("three", 3);
-        map.put("four", 4);
-
-        String actualGraph = new LJV()
-                .addFieldAttribute("node", "height=1.0")
-                .setTreatAsPrimitive(Integer.class)
-                .setTreatAsPrimitive(String.class)
-                .drawGraph(map);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Case with concurrentskiplistmap was failed");
-    }
-
-    // TODO FIX
-    @Test
-    void linkedHashMap(TestInfo testInfo) {
+    void linkedHashMap() {
         LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
         map.put("one", 1);
         map.put("two", 2);
         map.put("three", 3);
         map.put("four", 4);
 
-        String actualGraph = new LJV()
-//                .setTreatAsPrimitive(String.class)
-//                .setTreatAsPrimitive(Integer.class)
+        String actual_graph = new LJV()
+                .setTreatAsPrimitive(String.class)
+                .setTreatAsPrimitive(Integer.class)
+                .setIgnoreNullValuedFields(true)
                 .drawGraph(map);
 
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Case with linkedHashMap was failed");
+        Approvals.verify(actual_graph);
     }
 
     @Test
-    void hashMap(TestInfo testInfo) {
+    void hashMap() {
         HashMap<String, Integer> map = new HashMap<>();
         map.put("one", 1);
         map.put("two", 2);
         map.put("three", 3);
         map.put("four", 4);
 
-        String actualGraph = new LJV()
+        String actual_graph = new LJV()
                 .setTreatAsPrimitive(String.class)
                 .setTreatAsPrimitive(Integer.class)
-                .setDirection(Direction.LR)
+                .setIgnoreNullValuedFields(true)
                 .drawGraph(map);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Case with HashMap was failed");
+        Approvals.verify(actual_graph);
     }
 
     @Test
-    void hashMapCollision2(TestInfo testInfo) {
+    void hashMapCollision2() {
         List<String> collisionString = new HashCodeCollision().genCollisionString(3);
         HashMap<String, Integer> map = new HashMap<>();
 
@@ -295,152 +170,36 @@ public class LJVTest {
             map.put(collisionString.get(i), i);
         }
 
-        String actualGraph = new LJV()
-                .setTreatAsPrimitive(String.class)
-                .setTreatAsPrimitive(Integer.class)
-                .setDirection(Direction.LR)
-                .drawGraph(map);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Case with hashMapCollision was failed");
-    }
-
-
-    @Test
-    void hashMapCollision3(TestInfo testInfo) {
-        List<String> collisionString = new HashCodeCollision().genCollisionString(6);
-        HashMap<String, Integer> map = new HashMap<>();
-
-        for (int i = 0; i < collisionString.size(); i++) {
-            map.put(collisionString.get(i), i);
-        }
-
-        String actualGraph = new LJV()
+        String actual_graph = new LJV()
                 .setTreatAsPrimitive(String.class)
                 .setTreatAsPrimitive(Integer.class)
                 .drawGraph(map);
 
-        String expectedGraph = expected(testInfo, actualGraph);
+        Approvals.verify(actual_graph);
+    }
 
-        assertEquals(expectedGraph, actualGraph, "Case with hashMapCollision was failed");
+
+    @Test
+    void wrappedObjects() {
+        String actual_graph = new LJV().drawGraph(new Example());
+        Approvals.verify(actual_graph);
     }
 
     @Test
-    void hashMapCollision4(TestInfo testInfo) {
-        List<String> collisionString = new HashCodeCollision().genCollisionString(8);
-        HashMap<String, Integer> map = new HashMap<>();
-
-        for (int i = 0; i < collisionString.size(); i++) {
-            map.put(collisionString.get(i), i);
-        }
-
-        String actualGraph = new LJV()
-                .setTreatAsPrimitive(String.class)
-                .setTreatAsPrimitive(Integer.class)
-                .drawGraph(map);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Case with hashMapCollision was failed");
-    }
-
-    public static class Example {
-        private Integer i1 = 42;
-        private Integer i2 = 42;
-        private Integer i3 = 2020;
-        private Integer i4 = 2020;
-        private String s1 = "HelloWorld";
-        private String s2 = "HELL O";
-        private String s3 = "HelloWorld";
-    }
-
-    @Test
-    void wrappedObjects(TestInfo testInfo) {
-        String actualGraph = new LJV().drawGraph(new Example());
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Case with wrapped objects was failed");
-    }
-
-    @Test
-    void linkedList(TestInfo testInfo) {
+    void linkedList() {
         LinkedList<Integer> linkedList = new LinkedList<>();
         linkedList.add(1);
         linkedList.add(42);
         linkedList.add(21);
 
-        String actualGraph = new LJV()
+        String actual_graph = new LJV()
                 .setTreatAsPrimitive(Integer.class)
                 .addFieldAttribute("next", "color=red,fontcolor=red")
                 .addFieldAttribute("prev", "color=blue,fontcolor=blue")
                 .addFieldAttribute("first", "color=red,fontcolor=red")
                 .addFieldAttribute("last", "color=red,fontcolor=red")
                 .drawGraph(linkedList);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Case with linked list was failed");
+        Approvals.verify(actual_graph);
     }
 
-    @Test
-    void arrayDequeEmpty(TestInfo testInfo) {
-        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>(2);
-
-        String actualGraph = new LJV()
-                .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Case with arrayDeque was failed");
-    }
-
-    @Test
-    void arrayDequeAddFewElements(TestInfo testInfo) {
-        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>(2);
-        for (int i = 0; i < 4; i++) {
-            arrayDeque.addLast(i);
-        }
-
-        String actualGraph = new LJV()
-                .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Case with arrayDeque was failed");
-    }
-
-    @Test
-    void arrayDequeAddManyElements(TestInfo testInfo) {
-        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>(2);
-        for (int i = 0; i < 20; i++) {
-            arrayDeque.addLast(i);
-        }
-
-        String actualGraph = new LJV()
-                .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Case with arrayDeque was failed");
-    }
-
-    @Test
-    void arrayDequeAddManyDeleteManyElements(TestInfo testInfo) {
-        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>(2);
-        for (int i = 0; i < 20; i++) {
-            arrayDeque.addLast(i);
-        }
-        for (int i = 0; i < 18; i++) {
-            arrayDeque.removeFirst();
-        }
-
-        String actualGraph = new LJV()
-                .setTreatAsPrimitive(Integer.class).drawGraph(arrayDeque);
-
-        String expectedGraph = expected(testInfo, actualGraph);
-
-        assertEquals(expectedGraph, actualGraph, "Case with arrayDeque was failed");
-    }
 }
