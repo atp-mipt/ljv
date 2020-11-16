@@ -23,7 +23,7 @@
 :source-highlighter: highlightjs
 :highlightjs-languages: java, kotlin, scala, groovy, graphviz
 :customcss: slides.css
-:graphviz_code: ../../../../ljv/src/test/resources/graphviz
+:graphviz_code: graphviz
 
 include::_doc_general_attributes.adoc[]
 
