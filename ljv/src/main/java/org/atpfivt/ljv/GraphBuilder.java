@@ -5,7 +5,11 @@ import org.reflections.ReflectionUtils;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.AbstractMap;
 import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 final class GraphBuilder {
     private final IdentityHashMap<Object, String> objectsId = new IdentityHashMap<>();
@@ -232,4 +236,80 @@ final class GraphBuilder {
                 .append("}\n")
                 .toString();
     }
+
+    private void generateHeader() {
+        out.append("digraph Java {\n")
+                .append("\trankdir=\"")
+                .append(ljv.getDirection())
+                .append("\";\n")
+                .append("\tnode[shape=plaintext]\n");
+    }
+
+    String generateDOT() {
+        List<Object> roots = this.ljv.getRoots();
+        IdentityHashMap<Object, List<Object>> sameObjectMap = new IdentityHashMap<>();
+        List<AbstractMap.SimpleEntry<Object, Boolean>> pairs = roots.stream()
+                .map(root -> new AbstractMap.SimpleEntry<>(root, false))
+                .collect(Collectors.toList());
+        // create a map of object to its references
+       while(true) {
+           Optional<AbstractMap.SimpleEntry<Object, Boolean>> notProcessedPairOptional = findNotProcessedPair(pairs);
+           if (notProcessedPairOptional.isPresent()) {
+               AbstractMap.SimpleEntry<Object, Boolean> objectBooleanSimpleEntry = notProcessedPairOptional.get();
+               objectBooleanSimpleEntry.setValue(Boolean.TRUE);
+               List<AbstractMap.SimpleEntry<Object, Boolean>> references = findReferences(objectBooleanSimpleEntry, pairs);
+               List<Object> refList = references.stream()
+                       .map(AbstractMap.SimpleEntry::getKey)
+                       .collect(Collectors.toList());
+               // may be count is sufficient here check
+               sameObjectMap.put(objectBooleanSimpleEntry.getKey(), refList);
+           }
+           else{
+               break;
+           }
+       }
+       // create the diagram first
+       generateHeader();
+       for(var entry : sameObjectMap.entrySet()){
+            this.generateDotInternal(entry.getKey());
+       }
+       // link number of references
+        for (var entry : sameObjectMap.entrySet()) {
+            out.append("\t")
+                    .append(entry.getValue().size()+1) // including itself
+                    .append(" -> ")
+                    .append(dotName(entry.getKey()))
+                    .append("[label=\"")
+                    .append("\",fontsize=12];\n");
+        }
+        // may be clear roots?
+        this.ljv.getRoots().clear();
+        return out
+                .append("}\n")
+                .toString();
+
+    }
+
+    /**
+     *
+     * @param pair
+     * @param pairs
+     * @return all references of a object in th pair and set the values to processed
+     */
+    private List<AbstractMap.SimpleEntry<Object, Boolean>> findReferences(AbstractMap.SimpleEntry<Object, Boolean> pair, List<AbstractMap.SimpleEntry<Object, Boolean>> pairs) {
+        return pairs.stream()
+                .filter(p -> p.getValue() == Boolean.FALSE)
+                .filter(p -> p.getKey() == pair.getKey())
+                .peek(p -> p.setValue(Boolean.TRUE)
+                )
+                .collect(Collectors.toList());
+    }
+
+    private Optional<AbstractMap.SimpleEntry<Object, Boolean>> findNotProcessedPair(List<AbstractMap.SimpleEntry<Object, Boolean>> pairs) {
+        return pairs.stream()
+                .filter(p -> p.getValue()
+                        .equals(Boolean.FALSE))
+                .findFirst();
+    }
+
 }

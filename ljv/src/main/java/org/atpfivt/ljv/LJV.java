@@ -24,7 +24,8 @@ import org.atpfivt.ljv.provider.FieldAttributesProvider;
 import org.atpfivt.ljv.provider.ObjectAttributesProvider;
 import org.atpfivt.ljv.provider.impl.*;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,7 @@ public final class LJV {
     private final List<ArrayElementAttributeProvider> arrayElementAttributeProviders = new ArrayList<>();
     private final Set<Object> pretendPrimitiveSet = new HashSet<>();
     private final Set<Object> ignoreSet = new HashSet<>();
+    private final List<Object> roots = new ArrayList<>();
     private Direction direction = Direction.TB;
 
     public LJV setDirection(Direction direction) {
@@ -252,6 +254,10 @@ public final class LJV {
         }
     }
 
+    public List<Object> getRoots() {
+        return roots;
+    }
+
     /**
      * Treat objects of this class as primitives; i.e., {@code toString}
      * is called on the object, and the result displayed in the label like
@@ -355,4 +361,26 @@ public final class LJV {
     public String drawGraph(Object obj) {
         return new GraphBuilder(this).generateDOT(obj);
     }
+
+    /**
+     *add an Object to {@code roots}
+     * @param  root
+     * @return this
+     */
+    public LJV addRoot(Object root){
+        if(root != null) {
+            this.roots.add(root);
+        }
+        return this;
+    }
+
+    /**
+     * roots {@code roots} references counts can be visualized
+     * @return String representation containing DOT commands to build the graph
+     */
+    public String drawGraph() {
+        return new GraphBuilder(this).generateDOT();
+    }
+
+
 }

@@ -1,13 +1,10 @@
 package org.atpfivt.ljv;
 
 import org.approvaltests.Approvals;
-import org.atpfivt.ljv.provider.impl.NewObjectHighlighter;
 import org.junit.jupiter.api.Test;
 import org.reflections.ReflectionUtils;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
-import java.net.URISyntaxException;
 import java.util.*;
 
 public class LJVTest {
@@ -103,6 +100,17 @@ public class LJVTest {
                 .addIgnoreField("count")
                 .addIgnoreField("offset")
                 .drawGraph(a);
+        Approvals.verify(actual_graph);
+    }
+
+    @Test
+    void multipleRoots() {
+        ArrayList<Object> a = new ArrayList<>();
+        Person p = new Person("Albert", Gender.MALE, 35);
+        Person p1 = p;
+        Person p2 = p;
+        Person p4 = new Person("Albert", Gender.MALE, 35);
+        String actual_graph = new LJV().addRoot(p).addRoot(p1).addRoot(p2).addRoot(p4).drawGraph();
         Approvals.verify(actual_graph);
     }
 
