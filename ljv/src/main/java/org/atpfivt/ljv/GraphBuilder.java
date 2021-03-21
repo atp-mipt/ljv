@@ -298,7 +298,7 @@ final class GraphBuilder {
      */
     private List<AbstractMap.SimpleEntry<Object, Boolean>> findReferences(AbstractMap.SimpleEntry<Object, Boolean> pair, List<AbstractMap.SimpleEntry<Object, Boolean>> pairs) {
         return pairs.stream()
-                .filter(p -> p.getValue() == Boolean.FALSE)
+                .filter(p -> p.getValue().equals(Boolean.FALSE))
                 .filter(p -> p.getKey() == pair.getKey())
                 .peek(p -> p.setValue(Boolean.TRUE)
                 )
