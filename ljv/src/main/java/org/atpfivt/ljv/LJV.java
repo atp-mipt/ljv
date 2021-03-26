@@ -226,6 +226,7 @@ public final class LJV {
 
     /**
      * Enable highlighting array elements that was changed since previous run of ljv.
+     *
      * @return current ljv object
      */
     public LJV highlightChangingArrayElements() {
@@ -235,6 +236,7 @@ public final class LJV {
 
     /**
      * Enable highlighting of new objects that appeared since previous run of ljv.
+     *
      * @return current ljv object
      */
     public LJV highlightNewObjects() {
@@ -254,7 +256,7 @@ public final class LJV {
         }
     }
 
-    public List<Object> getRoots() {
+    List<Object> getRoots() {
         return roots;
     }
 
@@ -352,6 +354,18 @@ public final class LJV {
         return oSet.contains(Options.IGNORENULLVALUEDFIELDS);
     }
 
+
+    /**
+     * add an Object to {@code roots}
+     *
+     * @param root
+     * @return this
+     */
+    public LJV addRoot(Object root) {
+        this.roots.add(root);
+        return this;
+    }
+
     /**
      * Create a graph of the object rooted at {@code obj}.
      *
@@ -359,23 +373,13 @@ public final class LJV {
      * @return String representation containing DOT commands to build the graph
      */
     public String drawGraph(Object obj) {
-        return new GraphBuilder(this).generateDOT(obj);
-    }
-
-    /**
-     *add an Object to {@code roots}
-     * @param  root
-     * @return this
-     */
-    public LJV addRoot(Object root){
-        if(root != null) {
-            this.roots.add(root);
-        }
-        return this;
+        addRoot(obj);
+        return drawGraph();
     }
 
     /**
      * roots {@code roots} references counts can be visualized
+     *
      * @return String representation containing DOT commands to build the graph
      */
     public String drawGraph() {

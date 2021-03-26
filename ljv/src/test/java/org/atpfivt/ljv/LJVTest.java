@@ -107,16 +107,27 @@ public class LJVTest {
     void multipleRoots() {
         ArrayList<Object> a = new ArrayList<>();
         Person p = new Person("Albert", Gender.MALE, 35);
-        Person p1 = p;
-        Person p2 = p;
-        Person p4 = new Person("Albert", Gender.MALE, 35);
-        String actual_graph = new LJV().addRoot(p).addRoot(p1).addRoot(p2).addRoot(p4).drawGraph();
+        Person p2 = new Person("Albert", Gender.MALE, 35);
+        String actual_graph = new LJV().addRoot(p).addRoot(p).addRoot(p).addRoot(p2).drawGraph();
         Approvals.verify(actual_graph);
     }
 
     @Test
     void testNull() {
         String actualGraph = new LJV().drawGraph(null);
+        Approvals.verify(actualGraph);
+    }
+
+    @Test
+    void testMultiNull() {
+        String actualGraph = new LJV().addRoot(null).addRoot(null).drawGraph();
+        Approvals.verify(actualGraph);
+    }
+
+    @Test
+    void testMixedNullsAndNotNulls() {
+        String actualGraph = new LJV().addRoot(null)
+                .addRoot(new Object()).addRoot(new Object()).addRoot(null).drawGraph();
         Approvals.verify(actualGraph);
     }
 
