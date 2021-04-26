@@ -4,6 +4,8 @@ public interface Introspection {
 
     public String getObjClassName(Object obj, boolean useToStringAsClassName);
 
+    public boolean canBeConvertedToString(Object obj);
+
     public boolean canTreatObjAsPrimitive(Object obj);
 
     public boolean catTreatObjAsArrayOfPrimitives(Object obj);
