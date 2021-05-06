@@ -13,6 +13,25 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
         super(ljv);
     }
 
+    @Override
+    public int getObjFieldsNum(Object obj) {
+        int size = 0;
+        Field[] fs = getObjFields(obj);
+
+        for (Field field : fs) {
+            if (!ljv.canIgnoreField(field))
+                try {
+                    Object ref = field.get(obj);
+                    if (field.getType().isPrimitive() || canTreatObjAsPrimitive(ref))
+                        size++;
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+        }
+        return size;
+    }
+
+    @Override
     public boolean canBeConvertedToString(Object obj) {
         Method[] ms = obj.getClass().getMethods();
         for (Method m : ms) {
@@ -24,6 +43,7 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
         return false;
     }
 
+    @Override
     public boolean catTreatObjAsArrayOfPrimitives(Object obj) {
         Class<?> c = obj.getClass();
         if (c.getComponentType().isPrimitive()) {
@@ -39,7 +59,7 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
         return true;
     }
 
-
+    @Override
     public boolean hasPrimitiveFields(Object obj) {
         Field[] fs = getObjFields(obj);
         for (Field f : fs) {
@@ -51,6 +71,7 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
         return false;
     }
 
+    @Override
     private boolean fieldExistsAndIsPrimitive(Field field, Object obj) {
         if (!ljv.canIgnoreField(field)) {
             try {
