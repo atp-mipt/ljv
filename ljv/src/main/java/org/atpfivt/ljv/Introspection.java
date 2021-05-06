@@ -1,10 +1,16 @@
 package org.atpfivt.ljv;
 
+import java.lang.reflect.Field;
+
 public interface Introspection {
 
     public String getObjClassName(Object obj, boolean useToStringAsClassName);
 
-    public int getObjFieldsNum(Object obj);
+    public Field[] getObjFields(Object obj);
+
+    public int countObjectPrimitiveFields(Object obj);
+
+    public boolean hasPrimitiveFields(Object obj);
 
     public boolean canBeConvertedToString(Object obj);
 
@@ -14,6 +20,5 @@ public interface Introspection {
 
     public boolean canTreatClassAsPrimitive(Class<?> cz);
 
-    public boolean hasPrimitiveFields(Object obj);
 
 }

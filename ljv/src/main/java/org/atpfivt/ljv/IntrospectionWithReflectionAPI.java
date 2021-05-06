@@ -2,6 +2,7 @@ package org.atpfivt.ljv;
 
 import org.reflections.ReflectionUtils;
 
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
 import java.lang.reflect.Array;
@@ -14,21 +15,34 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
     }
 
     @Override
-    public int getObjFieldsNum(Object obj) {
-        int size = 0;
-        Field[] fs = getObjFields(obj);
+    public Field[] getObjFields(Object obj) {
+        Class<?> cls = obj.getClass();
 
-        for (Field field : fs) {
-            if (!ljv.canIgnoreField(field))
-                try {
-                    Object ref = field.get(obj);
-                    if (field.getType().isPrimitive() || canTreatObjAsPrimitive(ref))
-                        size++;
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+        Field[] fs = ReflectionUtils.getAllFields(cls, getObjFieldsIgnoreNullValuedPredicate(obj))
+                                    .toArray(new Field[0]);
+        normalizeFieldsOrder(fs);
+        if (!ljv.isIgnorePrivateFields()) {
+            AccessibleObject.setAccessible(fs, true);
+        }
+
+        return fs;
+    }
+
+    @Override
+    public int countObjectPrimitiveFields(Object obj) {
+        int size = 0;
+        Field[] fields = getObjFields(obj);
+        for (Field field : fields) {
+            if (fieldExistsAndIsPrimitive(field, obj)) {
+                size++;
+            }
         }
         return size;
+    }
+
+    @Override
+    public boolean hasPrimitiveFields(Object obj) {
+        return countObjectPrimitiveFields(obj) > 0;
     }
 
     @Override
@@ -59,19 +73,6 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
         return true;
     }
 
-    @Override
-    public boolean hasPrimitiveFields(Object obj) {
-        Field[] fs = getObjFields(obj);
-        for (Field f : fs) {
-            if (fieldExistsAndIsPrimitive(f, obj)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    @Override
     private boolean fieldExistsAndIsPrimitive(Field field, Object obj) {
         if (!ljv.canIgnoreField(field)) {
             try {
@@ -93,16 +94,6 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
         return false;
     }
 
-    private Field[] getObjFields(Object obj) {
-        Class<?> cls = obj.getClass();
-
-        Field[] fs = ReflectionUtils.getAllFields(cls, getObjFieldsIgnoreNullValuedPredicate(obj))
-                                    .toArray(new Field[0]);
-        normalizeFieldsOrder(fs);
-
-        return fs;
-    }
-
     private Predicate<Field> getObjFieldsIgnoreNullValuedPredicate(Object obj) {
         return (Field f) -> {
             if (ljv.isIgnoreNullValuedFields()) {
@@ -115,7 +106,7 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
             }
             return true;
         };
-    } 
+    }
 
     private static void normalizeFieldsOrder(Field[] fs) {
         /*Ensure that 'left' field is always processed before 'right'.
