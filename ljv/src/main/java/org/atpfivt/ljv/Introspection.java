@@ -12,6 +12,6 @@ public interface Introspection {
 
     public boolean canTreatClassAsPrimitive(Class<?> cz);
 
-    public boolean hasPrimitiveObjectFields(Object obj);
+    public boolean hasPrimitiveFields(Object obj);
 
 }

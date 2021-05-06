@@ -1,7 +1,7 @@
 package org.atpfivt.ljv;
 
 public abstract class IntrospectionBase implements Introspection {
-    private final LJV ljv;
+    protected final LJV ljv;
 
     public IntrospectionBase(LJV ljv) {
         this.ljv = ljv;
