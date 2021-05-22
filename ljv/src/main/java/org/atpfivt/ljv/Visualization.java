@@ -5,6 +5,8 @@ public interface Visualization {
     public void beginDOT();
     public void finishDOT();
 
+    public boolean alreadyVisualized(Object obj);
+
     public void visitNull();
 
     public void visitArrayBegin(Object array, boolean hasPrimitiveValues);

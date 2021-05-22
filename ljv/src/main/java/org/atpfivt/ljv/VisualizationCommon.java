@@ -13,14 +13,24 @@ public class VisualizationCommon implements Visualization {
     }
 
     @Override
+    public boolean alreadyVisualized(Object obj) {
+        if (obj == null) {
+            return alreadyDrawnNull;
+        }
+
+        return alreadyDrawnObjectsIds.containsKey(obj);
+    }
+
+    @Override
     public void beginDOT() {
+        out.setLength(0); // Clearing String Builder before starting new DOT
         out.append("digraph Java {\n")
                 .append("\trankdir=\"")
                 .append(ljv.getDirection())
                 .append("\";\n")
                 .append("\tnode[shape=plaintext]\n");
     }
-    
+
     @Override
     public void finishDOT() {
         out.append("}\n");
@@ -51,8 +61,11 @@ public class VisualizationCommon implements Visualization {
 
     @Override
     public void visitArrayElement(Object array, Object element, int elementIndex, boolean isPrimitive) {        
-        out.append("\t\t\t\t<td")
-           .append(ljv.getArrayElementAttributes(array, elementIndex))
+        out.append("\t\t\t\t<td");
+        if (!isPrimitive) {
+            out.append(" port=\"f").append(elementIndex).append("\"");
+        }
+        out.append(ljv.getArrayElementAttributes(array, elementIndex))
            .append(">");
 
         // If array element is treated as primitive - than filling array cell with value
