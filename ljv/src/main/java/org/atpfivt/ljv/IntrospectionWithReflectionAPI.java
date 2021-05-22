@@ -33,7 +33,7 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
         int size = 0;
         Field[] fields = getObjFields(obj);
         for (Field field : fields) {
-            if (fieldExistsAndIsPrimitive(field, obj)) {
+            if (objectFieldIsPrimitive(field, obj)) {
                 size++;
             }
         }
@@ -43,6 +43,29 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
     @Override
     public boolean hasPrimitiveFields(Object obj) {
         return countObjectPrimitiveFields(obj) > 0;
+    }
+
+
+    @Override
+    public boolean objectFieldIsPrimitive(Field field, Object obj) {
+        if (!ljv.canIgnoreField(field)) {
+            try {
+                //- The order of these statements matters.  If field is not
+                //- accessible, we want an IllegalAccessException to be raised
+                //- (and caught).  It is not correct to return true if
+                //- field.getType( ).isPrimitive( )
+                Object val = field.get(obj);
+                if (field.getType().isPrimitive() || canTreatObjAsPrimitive(val))
+                    //- Just calling ljv.canTreatAsPrimitive is not adequate --
+                    //- val will be wrapped as a Boolean or Character, etc. if we
+                    //- are dealing with a truly primitive type.
+                    return true;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -71,27 +94,6 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
         }
 
         return true;
-    }
-
-    private boolean fieldExistsAndIsPrimitive(Field field, Object obj) {
-        if (!ljv.canIgnoreField(field)) {
-            try {
-                //- The order of these statements matters.  If field is not
-                //- accessible, we want an IllegalAccessException to be raised
-                //- (and caught).  It is not correct to return true if
-                //- field.getType( ).isPrimitive( )
-                Object val = field.get(obj);
-                if (field.getType().isPrimitive() || canTreatObjAsPrimitive(val))
-                    //- Just calling ljv.canTreatAsPrimitive is not adequate --
-                    //- val will be wrapped as a Boolean or Character, etc. if we
-                    //- are dealing with a truly primitive type.
-                    return true;
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return false;
     }
 
     private Predicate<Field> getObjFieldsIgnoreNullValuedPredicate(Object obj) {
