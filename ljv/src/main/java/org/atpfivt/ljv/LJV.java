@@ -383,7 +383,7 @@ public final class LJV {
      * @return String representation containing DOT commands to build the graph
      */
     public String drawGraph() {
-        return new GraphBuilder(this).generateDOT();
+        return new GraphBuilder(this).generateDOTNextEdition();
     }
 
 
