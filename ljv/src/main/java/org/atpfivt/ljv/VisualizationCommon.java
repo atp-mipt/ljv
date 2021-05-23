@@ -32,8 +32,9 @@ public class VisualizationCommon implements Visualization {
     }
 
     @Override
-    public void finishDOT() {
+    public String finishDOT() {
         out.append("}\n");
+        return out.toString();
     }
 
     @Override
@@ -148,11 +149,6 @@ public class VisualizationCommon implements Visualization {
             out.append(",").append(cabs);
         }
         out.append("];\n");
-    }
-
-    @Override
-    public String generateResult() {
-        return out.toString();
     }
 
     private String dotName(Object obj) {

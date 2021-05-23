@@ -2,22 +2,20 @@ package org.atpfivt.ljv;
 
 
 public interface Visualization {
-    public void beginDOT();
-    public void finishDOT();
+    void beginDOT();
+    String finishDOT();
 
-    public boolean alreadyVisualized(Object obj);
+    boolean alreadyVisualized(Object obj);
 
-    public void visitNull();
+    void visitNull();
 
-    public void visitArrayBegin(Object array, boolean hasPrimitiveValues);
-    public void visitArrayElement(Object array, Object element, int elementIndex, boolean isPrimitive);
-    public void visitArrayElementObjectConnection(Object array, int elementIndex, Object obj);
-    public void visitArrayEnd(Object array);
+    void visitArrayBegin(Object array, boolean hasPrimitiveValues);
+    void visitArrayElement(Object array, Object element, int elementIndex, boolean isPrimitive);
+    void visitArrayElementObjectConnection(Object array, int elementIndex, Object obj);
+    void visitArrayEnd(Object array);
 
-    public void visitObjectBegin(Object obj, String className, int primitiveFieldsNum);
-    public void visitObjectPrimitiveField(Object obj, String fieldName, String fieldValueStr);
-    public void visitObjectEnd(Object obj);
-    public void visitObjectFieldRelationWithNonPrimitiveObject(Object obj, String fieldName, String ljvFieldAttributes, Object relatedObject);
-
-    public String generateResult();
+    void visitObjectBegin(Object obj, String className, int primitiveFieldsNum);
+    void visitObjectPrimitiveField(Object obj, String fieldName, String fieldValueStr);
+    void visitObjectEnd(Object obj);
+    void visitObjectFieldRelationWithNonPrimitiveObject(Object obj, String fieldName, String ljvFieldAttributes, Object relatedObject);
 }

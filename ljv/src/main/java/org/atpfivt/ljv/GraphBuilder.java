@@ -17,10 +17,9 @@ final class GraphBuilder {
     public String generateDOT() {
         visualization.beginDOT();
         for (Object obj : ljv.getRoots()) {
-            processObject(obj);
+            processNode(obj);
         }
-        visualization.finishDOT();
-        return visualization.generateResult();
+        return visualization.finishDOT();
     }
 
     private void processArray(Object obj) {
@@ -41,37 +40,23 @@ final class GraphBuilder {
                 if (ref == null)
                     continue;
 
-                processObject(ref);
+                processNode(ref);
                 visualization.visitArrayElementObjectConnection(obj, i, ref);
             }
         }
     }
 
+
+
     private void processObject(Object obj) {
-        if (visualization.alreadyVisualized(obj)) {
-            return;
-        }
-
-        if (obj == null) {
-            visualization.visitNull();
-            return;
-        }
-
-        Class<?> c = obj.getClass();
-        if (c.isArray()) {
-            processArray(obj);
-            return;
-        }
-
-
         String className = introspection.getObjClassName(obj, false);
-        Field fields[] = introspection.getObjFields(obj);
+        Field[] fields = introspection.getObjFields(obj);
         int primitiveFieldsNum = introspection.countObjectPrimitiveFields(obj);
 
         visualization.visitObjectBegin(obj, className, primitiveFieldsNum);
 
         // First processing only primitive fields
-        for (Field field: fields) {
+        for (Field field : fields) {
             if (!introspection.objectFieldIsPrimitive(field, obj)) {
                 continue;
             }
@@ -100,11 +85,26 @@ final class GraphBuilder {
                 String name = field.getName();
                 String fabs = ljv.getFieldAttributes(field, ref);
 
-                processObject(ref);
+                processNode(ref);
                 visualization.visitObjectFieldRelationWithNonPrimitiveObject(obj, name, fabs, ref);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void processNode(Object obj) {
+        //TODO: кажется здесь должна быть логика "хотим ли мы скипать этот объект"
+        //и получать NodeType
+        //тогда этот if превращается в switch.
+        if (visualization.alreadyVisualized(obj)) {
+            //do nothing
+        } else if (obj == null) {
+            visualization.visitNull();
+        } else if (obj.getClass().isArray()) {
+            processArray(obj);
+        } else {
+            processObject(obj);
         }
     }
 }
