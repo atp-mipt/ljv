@@ -2,6 +2,7 @@ package org.atpfivt.ljv;
 
 import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Test;
+import org.openjdk.jol.util.ObjectUtils;
 import org.reflections.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -156,13 +157,8 @@ public class LJVTest {
             return "";
         } else {
             Field colorField = colorFields.iterator().next();
-            colorField.setAccessible(true);
-            try {
-                boolean b = colorField.getBoolean(o);
-                return b ? "color=black" : "color=red";
-            } catch (IllegalAccessException e) {
-                throw new IllegalStateException(e);
-            }
+            boolean b = (boolean)ObjectUtils.value(o, colorField);
+            return b ? "color=black" : "color=red";
         }
     }
 
