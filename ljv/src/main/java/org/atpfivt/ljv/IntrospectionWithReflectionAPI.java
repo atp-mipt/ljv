@@ -1,9 +1,9 @@
 package org.atpfivt.ljv;
 
-import org.openjdk.jol.info.ClassLayout;
-import org.openjdk.jol.info.FieldLayout;
+import org.atpfivt.ljv.JOLObjUtilsImported.ClassLayout;
+import org.atpfivt.ljv.JOLObjUtilsImported.FieldLayout;
+import org.openjdk.jol.info.FieldData;
 import org.openjdk.jol.util.ObjectUtils;
-import org.reflections.ReflectionUtils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
@@ -11,6 +11,7 @@ import java.lang.reflect.Array;
 
 import java.util.SortedSet;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class IntrospectionWithReflectionAPI extends IntrospectionBase {
     public IntrospectionWithReflectionAPI(LJV ljv) {
@@ -21,14 +22,12 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
     public Field[] getObjFields(Object obj) {
         Class<?> cls = obj.getClass();
 
-        SortedSet<FieldLayout> fields = ClassLayout.parseClass(cls).fields();
+        SortedSet<FieldLayout> fieldLayouts = ClassLayout.parseClass(cls).fields();
 
-        Field[] fs = ReflectionUtils
-                .getAllFields(cls, getObjFieldsIgnoreNullValuedPredicate(obj))
-                .toArray(new Field[0]);
-        normalizeFieldsOrder(fs);
+        Stream<Field> fieldStream = fieldLayouts.stream()
+                .map(FieldLayout::data).map(FieldData::refField).filter(getObjFieldsIgnoreNullValuedPredicate(obj));
 
-        return fs;
+        return fieldStream.toArray(Field[]::new);
     }
 
     @Override
@@ -47,7 +46,6 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
     public boolean hasPrimitiveFields(Object obj) {
         return countObjectPrimitiveFields(obj) > 0;
     }
-
 
     @Override
     public boolean objectFieldIsPrimitive(Field field, Object obj) {
@@ -99,30 +97,5 @@ public class IntrospectionWithReflectionAPI extends IntrospectionBase {
             }
             return true;
         };
-    }
-
-    private static void normalizeFieldsOrder(Field[] fs) {
-        /*Ensure that 'left' field is always processed before 'right'.
-        The problem is that ReflectionUtils.getAllFields uses HashSet, not LinkedHashSet,
-        and loses information about fields order.
-
-        This is a hard-coded logic and should be removed in the future.
-         */
-        int i = 0, left = -1, right = -1;
-        for (Field f : fs) {
-            if ("left".equals(f.getName())) {
-                left = i;
-                break;
-            } else if ("right".equals(f.getName())) {
-                right = i;
-            }
-            i++;
-        }
-        if (right > -1 && left > right) {
-            //swap left & right
-            Field f = fs[left];
-            fs[left] = fs[right];
-            fs[right] = f;
-        }
     }
 }
