@@ -1,12 +1,16 @@
 package org.atpfivt.ljv;
 
 import org.approvaltests.Approvals;
+import org.atpfivt.ljv.JOLObjUtilsImported.ClassLayout;
+import org.atpfivt.ljv.JOLObjUtilsImported.FieldLayout;
 import org.junit.jupiter.api.Test;
+import org.openjdk.jol.info.FieldData;
 import org.openjdk.jol.util.ObjectUtils;
-import org.reflections.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class LJVTest {
 
@@ -150,9 +154,13 @@ public class LJVTest {
     }
 
     private String redBlack(Object o) {
-        Set<Field> colorFields = ReflectionUtils.getAllFields(o.getClass(),
-                f -> "color".equals(f.getName())
-                        && f.getType().equals(boolean.class));
+        Stream<Field> fieldStream = ClassLayout.parseClass(o.getClass()).fields().stream()
+                .map(FieldLayout::data)
+                .map(FieldData::refField)
+                .filter(f -> "color".equals(f.getName()) && f.getType().equals(boolean.class));
+
+        Set<Field> colorFields = fieldStream.collect(Collectors.toSet());
+
         if (colorFields.isEmpty()) {
             return "";
         } else {
