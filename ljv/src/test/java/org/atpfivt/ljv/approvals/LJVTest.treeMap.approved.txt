@@ -7,28 +7,28 @@ digraph Java {
 				<td rowspan='9'>TreeMap</td>
 			</tr>
 			<tr>
-				<td>size: 4</td>
-			</tr>
-			<tr>
-				<td>comparator: null</td>
-			</tr>
-			<tr>
-				<td>modCount: 4</td>
-			</tr>
-			<tr>
 				<td>keySet: null</td>
-			</tr>
-			<tr>
-				<td>entrySet: null</td>
-			</tr>
-			<tr>
-				<td>descendingMap: null</td>
 			</tr>
 			<tr>
 				<td>values: null</td>
 			</tr>
 			<tr>
+				<td>size: 4</td>
+			</tr>
+			<tr>
+				<td>modCount: 4</td>
+			</tr>
+			<tr>
+				<td>comparator: null</td>
+			</tr>
+			<tr>
+				<td>entrySet: null</td>
+			</tr>
+			<tr>
 				<td>navigableKeySet: null</td>
+			</tr>
+			<tr>
+				<td>descendingMap: null</td>
 			</tr>
 		</table>
 	>];
@@ -36,6 +36,9 @@ digraph Java {
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
 				<td rowspan='5'>Entry</td>
+			</tr>
+			<tr>
+				<td>color: true</td>
 			</tr>
 			<tr>
 				<td>key: three</td>
@@ -46,15 +49,15 @@ digraph Java {
 			<tr>
 				<td>parent: null</td>
 			</tr>
-			<tr>
-				<td>color: true</td>
-			</tr>
 		</table>
 	>,color=black];
 	n3[label=<
 		<table border='0' cellborder='1' cellspacing='0'>
 			<tr>
 				<td rowspan='5'>Entry</td>
+			</tr>
+			<tr>
+				<td>color: true</td>
 			</tr>
 			<tr>
 				<td>key: one</td>
@@ -65,9 +68,6 @@ digraph Java {
 			<tr>
 				<td>right: null</td>
 			</tr>
-			<tr>
-				<td>color: true</td>
-			</tr>
 		</table>
 	>,color=black];
 	n4[label=<
@@ -76,7 +76,7 @@ digraph Java {
 				<td rowspan='6'>Entry</td>
 			</tr>
 			<tr>
-				<td>left: null</td>
+				<td>color: false</td>
 			</tr>
 			<tr>
 				<td>key: four</td>
@@ -85,10 +85,10 @@ digraph Java {
 				<td>value: 4</td>
 			</tr>
 			<tr>
-				<td>right: null</td>
+				<td>left: null</td>
 			</tr>
 			<tr>
-				<td>color: false</td>
+				<td>right: null</td>
 			</tr>
 		</table>
 	>,color=red];
@@ -102,7 +102,7 @@ digraph Java {
 				<td rowspan='6'>Entry</td>
 			</tr>
 			<tr>
-				<td>left: null</td>
+				<td>color: true</td>
 			</tr>
 			<tr>
 				<td>key: two</td>
@@ -111,10 +111,10 @@ digraph Java {
 				<td>value: 2</td>
 			</tr>
 			<tr>
-				<td>right: null</td>
+				<td>left: null</td>
 			</tr>
 			<tr>
-				<td>color: true</td>
+				<td>right: null</td>
 			</tr>
 		</table>
 	>,color=black];
