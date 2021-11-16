@@ -77,35 +77,12 @@ public class FieldLayout implements Comparable<FieldLayout> {
     }
 
     /**
-     * Answers the class for the field holder.
-     *
-     * @return string representation of holder class
-     */
-    public String hostClass() {
-        return f.hostClass();
-    }
-
-    /**
      * Answers the field name.
      *
      * @return field name
      */
     public String name() {
         return f.name();
-    }
-
-    public String shortFieldName() {
-        return classShortName() +  "." + name();
-    }
-
-    public String classShortName() {
-        String cl = hostClass();
-        int idx = cl.lastIndexOf(".");
-        if (idx != -1) {
-            return cl.substring(idx + 1);
-        } else {
-            return cl;
-        }
     }
 
     public FieldData data() {

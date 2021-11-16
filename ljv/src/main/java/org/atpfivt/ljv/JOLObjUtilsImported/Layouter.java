@@ -24,7 +24,6 @@
  */
 package org.atpfivt.ljv.JOLObjUtilsImported;
 
-import org.atpfivt.ljv.JOLObjUtilsImported.ClassLayout;
 import org.openjdk.jol.info.ClassData;
 
 /**

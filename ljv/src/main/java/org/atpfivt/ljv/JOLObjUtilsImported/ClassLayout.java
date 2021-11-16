@@ -51,8 +51,7 @@ public class ClassLayout {
     /**
      * Produce the class layout for the given class, and given layouter.
      *
-     * Note: this method is usable as the "caching" shortcut for {@link #parseInstance(Object)}.
-     * You can use it to cache the introspection results for a constant-sized
+     * Note: You can use this method to cache the introspection results for a constant-sized
      * objects, e.g. plain Java objects. It is not recommended to use this method
      * on arrays, since their lengths differ from instance to instance.
      *
