@@ -1,7 +1,7 @@
 package org.atpfivt.ljv;
 
-import org.atpfivt.ljv.JOLObjUtilsImported.ClassLayout;
-import org.atpfivt.ljv.JOLObjUtilsImported.FieldLayout;
+import org.atpfivt.ljv.jol.ClassLayout;
+import org.atpfivt.ljv.jol.FieldLayout;
 import org.openjdk.jol.info.FieldData;
 import org.openjdk.jol.util.ObjectUtils;
 

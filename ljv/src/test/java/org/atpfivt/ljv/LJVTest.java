@@ -1,8 +1,8 @@
 package org.atpfivt.ljv;
 
 import org.approvaltests.Approvals;
-import org.atpfivt.ljv.JOLObjUtilsImported.ClassLayout;
-import org.atpfivt.ljv.JOLObjUtilsImported.FieldLayout;
+import org.atpfivt.ljv.jol.ClassLayout;
+import org.atpfivt.ljv.jol.FieldLayout;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jol.info.FieldData;
 import org.openjdk.jol.util.ObjectUtils;
@@ -144,8 +144,14 @@ public class LJVTest {
         map.put("two", 2);
         map.put("three", 3);
         map.put("four", 4);
+        map.put("F", 4);
+        map.put("G", 4);
+        map.put("H", 4);
+        map.put("J", 4);
+
 
         String actualGraph = new LJV()
+                .setIgnoreNullValuedFields(true)
                 .setTreatAsPrimitive(Integer.class)
                 .setTreatAsPrimitive(String.class)
                 .addObjectAttributesProvider(this::redBlack)

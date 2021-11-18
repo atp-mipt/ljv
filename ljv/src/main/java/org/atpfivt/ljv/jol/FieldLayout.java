@@ -22,7 +22,7 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package org.atpfivt.ljv.JOLObjUtilsImported;
+package org.atpfivt.ljv.jol;
 
 import org.openjdk.jol.info.FieldData;
 
