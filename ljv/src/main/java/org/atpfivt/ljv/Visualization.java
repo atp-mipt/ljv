@@ -1,6 +1,5 @@
 package org.atpfivt.ljv;
 
-
 public interface Visualization {
     void beginDOT();
     String finishDOT();
@@ -15,7 +14,7 @@ public interface Visualization {
     void visitArrayEnd(Object array);
 
     void visitObjectBegin(Object obj, String className, int primitiveFieldsNum);
-    void visitObjectPrimitiveField(Object obj, String fieldName, String fieldValueStr);
+    void visitObjectPrimitiveField(String fieldName, String fieldValueStr);
     void visitObjectEnd(Object obj);
     void visitObjectFieldRelationWithNonPrimitiveObject(Object obj, String fieldName, String ljvFieldAttributes, Object relatedObject);
 }

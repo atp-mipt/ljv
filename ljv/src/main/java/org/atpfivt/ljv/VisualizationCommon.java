@@ -61,7 +61,7 @@ public class VisualizationCommon implements Visualization {
     }
 
     @Override
-    public void visitArrayElement(Object array, Object element, int elementIndex, boolean isPrimitive) {        
+    public void visitArrayElement(Object array, Object element, int elementIndex, boolean isPrimitive) { // String element
         out.append("\t\t\t\t<td");
         if (!isPrimitive) {
             out.append(" port=\"f").append(elementIndex).append("\"");
@@ -118,7 +118,7 @@ public class VisualizationCommon implements Visualization {
     }
     
     @Override
-    public void visitObjectPrimitiveField(Object obj, String fieldName, String fieldValueStr) {
+    public void visitObjectPrimitiveField(String fieldName, String fieldValueStr) {
         out.append("\t\t\t<tr>\n\t\t\t\t<td>");
         if (ljv.isShowFieldNamesInLabels()) {
             out.append(fieldName).append(": ");
