@@ -7,8 +7,8 @@ import java.util.List;
 
 public class ArrayNode extends Node {
 
-    boolean valuesArePrimitive;
-    public List<Node> content;
+    private final boolean valuesArePrimitive;
+    private final List<Node> content;
 
     public ArrayNode(Object obj, String name, boolean valuesArePrimitive, List<Node> content) {
         super(obj, name);
@@ -29,17 +29,17 @@ public class ArrayNode extends Node {
             v.visitArrayElement(this, String.valueOf(element), i);
         }
         v.visitArrayEnd(value);
+        if (valuesArePrimitive) return;
         // Generating DOTs for array object elements and creating connection
-        if (!valuesArePrimitive) {
-            for (int i = 0; i < len; ++i) {
-                Node node = content.get(i);
-                if (!(node instanceof NullNode)) {
-                    if (!v.alreadyVisualized(node.getValue())) {
-                        node.visit(v);
-                    }
-                    v.visitArrayElementObjectConnection(value, i, node.getValue());
-                }
+        for (int i = 0; i < len; ++i) {
+            Node node = content.get(i);
+            if (node instanceof NullNode) {
+                continue;
             }
+            if (!v.alreadyVisualized(node.getValue())) {
+                node.visit(v);
+            }
+            v.visitArrayElementObjectConnection(value, i, node.getValue());
         }
     }
 }

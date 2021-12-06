@@ -1,18 +1,46 @@
 package org.atpfivt.ljv.nodes;
 
 import org.atpfivt.ljv.Visualization;
+
 import java.util.HashMap;
 import java.util.List;
 
 public class ObjectNode extends Node {
 
-    public String className;
-    public int primitiveFieldsNum;
-    public List<Node> children;
+    private final String className;
+    private final int primitiveFieldsNum;
+    private List<Node> children;
 
-    public ObjectNode(Object obj, String name, int primitiveFieldsNum, List<Node> children) {
+    public ObjectNode(Object obj, String name, String className, int primitiveFieldsNum, List<Node> children,
+                      HashMap<String, String> fabs) {
         super(obj, name);
+        this.className = className;
         this.primitiveFieldsNum = primitiveFieldsNum;
+        this.children = children;
+        this.fabs = fabs;
+    }
+
+    public ObjectNode(ObjectNode node) {
+        super(node.getValue(), node.getName());
+        this.className = node.getClassName();
+        this.primitiveFieldsNum = node.getPrimitiveFieldsNum();
+        this.children = node.getChildren();
+        this.fabs = node.getFabs();
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public int getPrimitiveFieldsNum() {
+        return primitiveFieldsNum;
+    }
+
+    public List<Node> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Node> children) {
         this.children = children;
     }
 
@@ -28,16 +56,15 @@ public class ObjectNode extends Node {
         v.visitObjectEnd(value);
         // Next, processing non-primitive objects and making relations with them
         for (Node node: children) {
-            if (!(node instanceof PrimitiveNode)) {
-                if (!v.alreadyVisualized(node.getValue())) {
-                    node.visit(v);
-                }
-                String currentFabs = null;
-                currentFabs = node.fabs.get(node.getName());
-
-                if (currentFabs == null) currentFabs = "";
-                v.visitObjectFieldRelationWithNonPrimitiveObject(value, node, currentFabs);
+            if (node instanceof PrimitiveNode) {
+                continue;
             }
+            if (!v.alreadyVisualized(node.getValue())) {
+                node.visit(v);
+            }
+            String currentFabs = node.fabs.get(node.getName());
+            if (currentFabs == null) currentFabs = "";
+            v.visitObjectFieldRelationWithNonPrimitiveObject(value, node, currentFabs);
         }
     }
 }

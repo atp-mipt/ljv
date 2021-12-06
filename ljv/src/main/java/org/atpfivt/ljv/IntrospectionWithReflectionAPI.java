@@ -7,15 +7,12 @@ import org.openjdk.jol.info.FieldData;
 import org.openjdk.jol.util.ObjectUtils;
 
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.SortedSet;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class IntrospectionWithReflectionAPI implements Introspection {
-    private final IdentityHashMap<Object, Node> alreadyVisitedObjects = new IdentityHashMap<>();
+    private final IdentityHashMap<Object, ObjectNode> alreadyVisitedObjects = new IdentityHashMap<>();
     protected final LJV ljv;
 
     public IntrospectionWithReflectionAPI(LJV ljv) {
@@ -24,20 +21,19 @@ public class IntrospectionWithReflectionAPI implements Introspection {
 
     @Override
     public Node parseGraph(Object obj, String name, boolean isPrimitive, Field field) {
-
         if (isPrimitive) {
             return new PrimitiveNode(obj, name);
         }
 
-        Node node = alreadyVisitedObjects.get(obj);
-        if (node != null) {
-            ObjectNode objectNode = new ObjectNode(obj, name, ((ObjectNode)node).primitiveFieldsNum, ((ObjectNode) node).children);
-            objectNode.fabs = node.fabs;
+        // Не зацикливаемся, смотрим обошли мы этот объект уже или ещё нет.
+        ObjectNode oldNode = alreadyVisitedObjects.get(obj);
+        if (oldNode != null) {
+            ObjectNode objectNode = new ObjectNode(oldNode);
+            objectNode.setName(name);
             if (field != null) {
-                objectNode.fabs.put(name, ljv.getFieldAttributes(field, obj));
+                objectNode.putFab(name, ljv.getFieldAttributes(field, obj));
             }
             return objectNode;
-//            return new ObjectNode(obj, name, countObjectPrimitiveFields(obj), new ArrayList<>());
         }
 
         if (obj == null) {
@@ -47,21 +43,20 @@ public class IntrospectionWithReflectionAPI implements Introspection {
         if (obj.getClass().isArray()) {
             ArrayNode arrayNode = new ArrayNode(obj, name, catTreatObjAsArrayOfPrimitives(obj), getArrayContent(obj));
             if (field != null) {
-                arrayNode.fabs.put(name, ljv.getFieldAttributes(field, obj));
+                arrayNode.putFab(name, ljv.getFieldAttributes(field, obj));
             }
             return arrayNode;
         }
 
-        // Не зацикливаемся, смотрим обошли мы этот объект уже или ещё нет.
-
-        ObjectNode objectNode = new ObjectNode(obj, name, countObjectPrimitiveFields(obj), null);
+        ObjectNode objectNode = new ObjectNode(obj, name,
+                getObjClassName(obj, false),
+                countObjectPrimitiveFields(obj), null,
+                new HashMap<>());
         alreadyVisitedObjects.put(obj, objectNode);
-        objectNode.className = getObjClassName(obj, false);
         if (field != null) {
-            objectNode.fabs.put(name, ljv.getFieldAttributes(field, obj));
+            objectNode.putFab(name, ljv.getFieldAttributes(field, obj));
         }
-        objectNode.children = getChildren(obj);
-
+        objectNode.setChildren(getChildren(obj));
         return objectNode;
     }
 

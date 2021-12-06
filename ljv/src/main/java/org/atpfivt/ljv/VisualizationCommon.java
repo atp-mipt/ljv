@@ -110,14 +110,14 @@ public class VisualizationCommon implements Visualization {
 
         // Adding header row with object class name
         out.append("\t\t\t<tr>\n");
-        if (objectNode.primitiveFieldsNum > 0) {
+        if (objectNode.getPrimitiveFieldsNum() > 0) {
             out.append("\t\t\t\t<td rowspan='")
-               .append(objectNode.primitiveFieldsNum + 1)
+               .append(objectNode.getPrimitiveFieldsNum() + 1)
                .append("'>");
         } else {
             out.append("\t\t\t\t<td>");
         }
-        out.append(objectNode.className)
+        out.append(objectNode.getClassName())
            .append("</td>\n\t\t\t</tr>\n");
     }
     
