@@ -291,4 +291,17 @@ public class LJVTest {
                 .drawGraph("Hello");
         Approvals.verify(actualGraph);
     }
+
+    @Test
+    void twoObjectsLinksToOneArray() {
+        int[] arr = {1,2,3};
+        A x = new A(arr);
+        B y = new B(arr);
+        String actualGraph = new LJV()
+                .addFieldAttribute("a", "color=blue,fontcolor=red")
+                .addFieldAttribute("b", "color=yellow,fontcolor=green")
+                .addRoot(x).addRoot(y)
+                .drawGraph();
+        Approvals.verify(actualGraph);
+    }
 }
