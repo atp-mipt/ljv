@@ -19,7 +19,7 @@ public class ObjectNode extends Node {
 
     @Override
     public void visit(Visualization v) {
-        v.visitObjectBegin(value, className, primitiveFieldsNum);
+        v.visitObjectBegin(this);
         // First processing only primitive fields
         for (Node node: children) {
             if (node instanceof PrimitiveNode) {
@@ -38,7 +38,7 @@ public class ObjectNode extends Node {
                     currentFabs = ((ObjectNode) node).fabs.get(node.getName());
                 }
                 if (currentFabs == null) currentFabs = "";
-                v.visitObjectFieldRelationWithNonPrimitiveObject(this.value, node.getName(), currentFabs, node.getValue());
+                v.visitObjectFieldRelationWithNonPrimitiveObject(value, node, currentFabs);
             }
         }
     }

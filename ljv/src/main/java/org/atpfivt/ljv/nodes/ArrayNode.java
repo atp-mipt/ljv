@@ -16,15 +16,19 @@ public class ArrayNode extends Node {
         this.content = content;
     }
 
+    public boolean areValuesPrimitive() {
+        return valuesArePrimitive;
+    }
+
     @Override
     public void visit(Visualization v) {
-        int len = Array.getLength(this.value);
-        v.visitArrayBegin(this.value, this.valuesArePrimitive);
+        int len = Array.getLength(value);
+        v.visitArrayBegin(this);
         for (int i = 0; i < len; ++i) {
-            Object element = Array.get(this.value, i);
-            v.visitArrayElement(this.value, element, i, valuesArePrimitive);
+            Object element = Array.get(value, i);
+            v.visitArrayElement(this, String.valueOf(element), i);
         }
-        v.visitArrayEnd(this.value);
+        v.visitArrayEnd(value);
         // Generating DOTs for array object elements and creating connection
         if (!valuesArePrimitive) {
             for (int i = 0; i < len; ++i) {
@@ -33,7 +37,7 @@ public class ArrayNode extends Node {
                     if (!v.alreadyVisualized(node.getValue())) {
                         node.visit(v);
                     }
-                    v.visitArrayElementObjectConnection(this.value, i, node.getValue());
+                    v.visitArrayElementObjectConnection(value, i, node.getValue());
                 }
             }
         }
