@@ -2,10 +2,13 @@ package org.atpfivt.ljv.nodes;
 
 import org.atpfivt.ljv.Visualization;
 
-public abstract class Node {
-    Object value;
+import java.util.HashMap;
 
+public abstract class Node {
+
+    Object value;
     String name;
+    public HashMap<String, String> fabs = new HashMap<>();
 
     public Node(Object obj, String name) {
         this.value = obj;

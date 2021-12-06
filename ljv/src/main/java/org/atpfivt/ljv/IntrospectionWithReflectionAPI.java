@@ -32,7 +32,7 @@ public class IntrospectionWithReflectionAPI implements Introspection {
         Node node = alreadyVisitedObjects.get(obj);
         if (node != null) {
             ObjectNode objectNode = new ObjectNode(obj, name, ((ObjectNode)node).primitiveFieldsNum, ((ObjectNode) node).children);
-            objectNode.fabs = ((ObjectNode) node).fabs;
+            objectNode.fabs = node.fabs;
             if (field != null) {
                 objectNode.fabs.put(name, ljv.getFieldAttributes(field, obj));
             }
@@ -45,7 +45,11 @@ public class IntrospectionWithReflectionAPI implements Introspection {
         }
 
         if (obj.getClass().isArray()) {
-            return new ArrayNode(obj, name, catTreatObjAsArrayOfPrimitives(obj), getArrayContent(obj));
+            ArrayNode arrayNode = new ArrayNode(obj, name, catTreatObjAsArrayOfPrimitives(obj), getArrayContent(obj));
+            if (field != null) {
+                arrayNode.fabs.put(name, ljv.getFieldAttributes(field, obj));
+            }
+            return arrayNode;
         }
 
         // Не зацикливаемся, смотрим обошли мы этот объект уже или ещё нет.

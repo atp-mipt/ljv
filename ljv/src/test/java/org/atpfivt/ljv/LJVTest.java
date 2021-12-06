@@ -283,4 +283,12 @@ public class LJVTest {
         map.put("four", 4);
         Approvals.verify(ljv.drawGraph(map));
     }
+
+    @Test
+    void arrayWithFieldAttribute() {
+        String actualGraph = new LJV()
+                .addFieldAttribute("value", "color=red,fontcolor=red")
+                .drawGraph("Hello");
+        Approvals.verify(actualGraph);
+    }
 }

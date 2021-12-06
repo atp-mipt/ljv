@@ -9,7 +9,6 @@ public class ObjectNode extends Node {
     public String className;
     public int primitiveFieldsNum;
     public List<Node> children;
-    public HashMap<String, String> fabs = new HashMap<>();
 
     public ObjectNode(Object obj, String name, int primitiveFieldsNum, List<Node> children) {
         super(obj, name);
@@ -34,9 +33,8 @@ public class ObjectNode extends Node {
                     node.visit(v);
                 }
                 String currentFabs = null;
-                if (node instanceof ObjectNode) {
-                    currentFabs = ((ObjectNode) node).fabs.get(node.getName());
-                }
+                currentFabs = node.fabs.get(node.getName());
+
                 if (currentFabs == null) currentFabs = "";
                 v.visitObjectFieldRelationWithNonPrimitiveObject(value, node, currentFabs);
             }
