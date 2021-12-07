@@ -25,6 +25,10 @@ public class IntrospectionWithReflectionAPI implements Introspection {
             return new PrimitiveNode(obj, name);
         }
 
+        if (obj == null) {
+            return new NullNode(null, name);
+        }
+
         // Не зацикливаемся, смотрим обошли мы этот объект уже или ещё нет.
         ObjectNode oldNode = alreadyVisitedObjects.get(obj);
         if (oldNode != null) {
@@ -34,10 +38,6 @@ public class IntrospectionWithReflectionAPI implements Introspection {
                 objectNode.putFab(name, ljv.getFieldAttributes(field, obj));
             }
             return objectNode;
-        }
-
-        if (obj == null) {
-            return new NullNode(null, name);
         }
 
         if (obj.getClass().isArray()) {

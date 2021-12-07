@@ -304,4 +304,13 @@ public class LJVTest {
                 .drawGraph();
         Approvals.verify(actualGraph);
     }
+
+    @Test
+    void arrayItemLinksToArray() {
+        ArrayItem child = new ArrayItem();
+        ArrayItem[] array = { child };
+        child.prev = array;
+        String actualGraph = new LJV().drawGraph(array);
+        Approvals.verify(actualGraph);
+    }
 }
