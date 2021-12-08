@@ -22,13 +22,13 @@ public class ArrayNode extends Node {
 
     @Override
     public void visit(Visualization v) {
-        int len = Array.getLength(value);
+        int len = Array.getLength(getValue());
         v.visitArrayBegin(this);
         for (int i = 0; i < len; ++i) {
-            Object element = Array.get(value, i);
+            Object element = Array.get(getValue(), i);
             v.visitArrayElement(this, String.valueOf(element), i);
         }
-        v.visitArrayEnd(value);
+        v.visitArrayEnd(getValue());
         if (valuesArePrimitive) return;
         // Generating DOTs for array object elements and creating connection
         for (int i = 0; i < len; ++i) {
@@ -39,7 +39,7 @@ public class ArrayNode extends Node {
             if (!v.alreadyVisualized(node.getValue())) {
                 node.visit(v);
             }
-            v.visitArrayElementObjectConnection(value, i, node.getValue());
+            v.visitArrayElementObjectConnection(getValue(), i, node.getValue());
         }
     }
 }

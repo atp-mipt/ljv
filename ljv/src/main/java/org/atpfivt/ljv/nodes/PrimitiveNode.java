@@ -10,7 +10,7 @@ public class PrimitiveNode extends Node {
 
     @Override
     public void visit(Visualization v) {
-        v.visitObjectPrimitiveField(name, String.valueOf(value));
+        v.visitObjectPrimitiveField(getName(), String.valueOf(getValue()));
     }
 
 }

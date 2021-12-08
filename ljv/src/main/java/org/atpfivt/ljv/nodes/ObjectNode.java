@@ -12,20 +12,20 @@ public class ObjectNode extends Node {
     private List<Node> children;
 
     public ObjectNode(Object obj, String name, String className, int primitiveFieldsNum, List<Node> children,
-                      HashMap<String, String> fabs) {
+                      String attributes) {
         super(obj, name);
         this.className = className;
         this.primitiveFieldsNum = primitiveFieldsNum;
         this.children = children;
-        this.fabs = fabs;
+        this.setAttributes(attributes);
     }
 
     public ObjectNode(ObjectNode node) {
         super(node.getValue(), node.getName());
+        this.setAttributes(node.getAttributes());
         this.className = node.getClassName();
         this.primitiveFieldsNum = node.getPrimitiveFieldsNum();
         this.children = node.getChildren();
-        this.fabs = node.getFabs();
     }
 
     public String getClassName() {
@@ -53,7 +53,7 @@ public class ObjectNode extends Node {
                 node.visit(v);
             }
         }
-        v.visitObjectEnd(value);
+        v.visitObjectEnd(getValue());
         // Next, processing non-primitive objects and making relations with them
         for (Node node: children) {
             if (node instanceof PrimitiveNode) {
@@ -62,9 +62,9 @@ public class ObjectNode extends Node {
             if (!v.alreadyVisualized(node.getValue())) {
                 node.visit(v);
             }
-            String currentFabs = node.fabs.get(node.getName());
-            if (currentFabs == null) currentFabs = "";
-            v.visitObjectFieldRelationWithNonPrimitiveObject(value, node, currentFabs);
+            String attributes = node.getAttributes();
+            if (attributes == null) attributes = "";
+            v.visitObjectFieldRelationWithNonPrimitiveObject(getValue(), node, attributes);
         }
     }
 }

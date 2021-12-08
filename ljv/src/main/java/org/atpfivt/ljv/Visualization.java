@@ -5,8 +5,8 @@ import org.atpfivt.ljv.nodes.Node;
 import org.atpfivt.ljv.nodes.ObjectNode;
 
 public interface Visualization {
-    void beginDOT();
-    String finishDOT();
+    void diagramBegin();
+    String diagramEnd();
 
     boolean alreadyVisualized(Object obj);
 

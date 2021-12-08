@@ -358,7 +358,7 @@ public final class LJV {
     /**
      * add an Object to {@code roots}
      *
-     * @param root
+     * @param root New root object to visialize
      * @return this
      */
     public LJV addRoot(Object root) {
@@ -383,16 +383,16 @@ public final class LJV {
      * @return String representation containing DOT commands to build the graph
      */
     public String drawGraph() {
-        Visualization visualizer = new VisualizationCommon(this);
-        visualizer.beginDOT();
+        Visualization visualizer = new GraphvizVisualization(this);
+        visualizer.diagramBegin();
 
         for (Object obj : getRoots()) {
             if (visualizer.alreadyVisualized(obj)) continue;
             Node root = parseGraph(obj);
-            root.visit(visualizer); // visualizer == visitor
+            root.visit(visualizer);
         }
 
-        return visualizer.finishDOT();
+        return visualizer.diagramEnd();
     }
 
     private Node parseGraph(Object obj) {

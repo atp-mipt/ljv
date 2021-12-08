@@ -6,13 +6,13 @@ import org.atpfivt.ljv.nodes.ObjectNode;
 
 import java.util.IdentityHashMap;
 
-public class VisualizationCommon implements Visualization {
+public class GraphvizVisualization implements Visualization {
     private final StringBuilder out = new StringBuilder();
     private final LJV ljv;
     private final IdentityHashMap<Object, String> alreadyDrawnObjectsIds = new IdentityHashMap<>();
     private boolean alreadyDrawnNull = false;
 
-    public VisualizationCommon(LJV ljv) {
+    public GraphvizVisualization(LJV ljv) {
         this.ljv = ljv;
     }
 
@@ -26,7 +26,7 @@ public class VisualizationCommon implements Visualization {
     }
 
     @Override
-    public void beginDOT() {
+    public void diagramBegin() {
         out.setLength(0); // Clearing String Builder before starting new DOT
         out.append("digraph Java {\n")
                 .append("\trankdir=\"")
@@ -36,7 +36,7 @@ public class VisualizationCommon implements Visualization {
     }
 
     @Override
-    public String finishDOT() {
+    public String diagramEnd() {
         out.append("}\n");
         return out.toString();
     }

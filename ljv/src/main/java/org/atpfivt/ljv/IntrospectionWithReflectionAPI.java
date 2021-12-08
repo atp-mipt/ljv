@@ -35,7 +35,7 @@ public class IntrospectionWithReflectionAPI implements Introspection {
             ObjectNode objectNode = new ObjectNode(oldNode);
             objectNode.setName(name);
             if (field != null) {
-                objectNode.putFab(name, ljv.getFieldAttributes(field, obj));
+                objectNode.setAttributes(ljv.getFieldAttributes(field, obj));
             }
             return objectNode;
         }
@@ -43,7 +43,7 @@ public class IntrospectionWithReflectionAPI implements Introspection {
         if (obj.getClass().isArray()) {
             ArrayNode arrayNode = new ArrayNode(obj, name, catTreatObjAsArrayOfPrimitives(obj), getArrayContent(obj));
             if (field != null) {
-                arrayNode.putFab(name, ljv.getFieldAttributes(field, obj));
+                arrayNode.setAttributes(ljv.getFieldAttributes(field, obj));
             }
             return arrayNode;
         }
@@ -51,10 +51,10 @@ public class IntrospectionWithReflectionAPI implements Introspection {
         ObjectNode objectNode = new ObjectNode(obj, name,
                 getObjClassName(obj, false),
                 countObjectPrimitiveFields(obj), null,
-                new HashMap<>());
+                "");
         alreadyVisitedObjects.put(obj, objectNode);
         if (field != null) {
-            objectNode.putFab(name, ljv.getFieldAttributes(field, obj));
+            objectNode.setAttributes(ljv.getFieldAttributes(field, obj));
         }
         objectNode.setChildren(getChildren(obj));
         return objectNode;
@@ -67,9 +67,7 @@ public class IntrospectionWithReflectionAPI implements Introspection {
         Field[] fields = getObjFields(obj);
 
         for (Field field : fields) {
-            if (!(Modifier.isStatic(field.getModifiers())
-            )
-                    //Здесь логика сокрытия нод
+            if (!(Modifier.isStatic(field.getModifiers()))
                     && !ljv.canIgnoreField(field)
             ) {
                 Node node = parseGraph(ObjectUtils.value(obj, field), field.getName(), objectFieldIsPrimitive(field, obj), field);
@@ -79,7 +77,7 @@ public class IntrospectionWithReflectionAPI implements Introspection {
         return result;
     }
 
-    public List<Node> getArrayContent(Object obj) {
+    private List<Node> getArrayContent(Object obj) {
         List<Node> result = new ArrayList<>();
         int len = Array.getLength(obj);
         for (int i = 0; i < len; i++) {

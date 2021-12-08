@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 public abstract class Node {
 
-    protected Object value;
-    protected String name;
-    protected HashMap<String, String> fabs = new HashMap<>();
+    private final Object value;
+    private String name;
+    private String attributes;
 
     public Node(Object obj, String name) {
         this.value = obj;
@@ -27,12 +27,12 @@ public abstract class Node {
         this.name = name;
     }
 
-    public HashMap<String, String> getFabs() {
-        return fabs;
+    public void setAttributes(String attributes) {
+        this.attributes = attributes;
     }
 
-    public void putFab(String key, String value) {
-        fabs.put(key, value);
+    public String getAttributes(){
+        return attributes;
     }
 
     abstract public void visit(Visualization v);
