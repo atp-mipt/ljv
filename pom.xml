@@ -13,8 +13,8 @@
     <description>Lightweight Java Visualizer</description>
 
     <properties>
-        <revision>1.03</revision>
-        <asciidoctor.maven.plugin.version>2.2.2</asciidoctor.maven.plugin.version>
+        <revision>1.04</revision>
+        <asciidoctor.maven.plugin.version>2.1.0</asciidoctor.maven.plugin.version>
         <asciidoctorj-diagram.version>2.2.1</asciidoctorj-diagram.version>
     </properties>
 

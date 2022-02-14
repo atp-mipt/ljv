@@ -8,7 +8,7 @@
     <artifactId>ljv</artifactId>
     <packaging>jar</packaging>
     <name>ljv</name>
-    <version>1.03-test</version>
+    <version>1.04</version>
 
     <description>Lightweight Java Visualizer</description>
     <url>https://github.com/atp-mipt/ljv</url>
@@ -155,7 +155,7 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.10</version>
+                <version>1.6.8</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
